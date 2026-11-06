@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gridiron Parent Dashboard</title>
+<meta name="theme-color" content="#16214a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gridiron Parent">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Baloo+2:wght@500;600;700;800&display=swap">
+<script src="firebase-config.js"></script>
+<style>
+/* Read-only parent view: summary first, then accuracy, missed questions and recent games. */
+:root{--ink:#16203f;--ink-2:#4b5578;--paper:#fff;--paper-2:#edf1f9;--line:#d3daec;--accent:#ff6a1f;--navy:#16214a;--good:#1f9d55;--bad:#e0413a;--blue:#2f6fe0;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;--body:"Baloo 2","Trebuchet MS",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#e9eef8;color:var(--ink);font-family:var(--body);font-size:16px;padding:max(12px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 32px max(16px,env(safe-area-inset-left))}
+[hidden]{display:none!important}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:18px;padding:12px 16px}
+header h1{font-size:24px;margin-right:auto}
+header .who{font-size:13px;font-weight:700;opacity:.85}
+.panel{background:var(--paper);border-radius:18px;padding:16px;box-shadow:0 3px 0 rgba(22,32,63,.12)}
+.btn{font-family:var(--display);font-size:17px;padding:9px 16px;border-radius:12px;border:0;background:var(--paper-2);color:var(--ink);cursor:pointer}
+.btn.go{background:var(--accent);color:#fff}
+.field{font:inherit;font-size:17px;width:100%;padding:10px;border-radius:12px;border:2px solid var(--line);margin-top:8px}
+.note{color:var(--ink-2);font-weight:600;font-size:15px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.kpi{background:var(--paper-2);border-radius:14px;padding:10px 14px;min-width:0}
+.kpi span{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.kpi b{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.05;font-variant-numeric:tabular-nums}
+.kpi em{display:block;font-style:normal;font-size:13px;font-weight:700;color:var(--ink-2)}
+.meters{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 22px;margin-top:8px}
+.meter{display:grid;gap:3px;margin-bottom:10px}
+.ml{display:flex;justify-content:space-between;font-weight:800;font-size:15px;gap:8px}
+.mt{height:12px;border-radius:6px;background:var(--paper-2);overflow:hidden}
+.mt i{display:block;height:100%;background:var(--blue);border-radius:0 4px 4px 0}
+.meter small{font-size:12px;font-weight:700;color:var(--ink-2)}
+.mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:10px}
+.mi{border:2px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0}
+.mtop{font-size:12px;font-weight:700;color:var(--ink-2);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.mq{font-weight:800;font-size:17px;line-height:1.25;margin:4px 0}
+.mans{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;font-weight:700}
+.gave{color:var(--bad)}.right{color:var(--good)}
+.pill{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:1px 9px;color:#fff}
+.pill.ok{background:var(--good)}.pill.need{background:var(--accent)}.pill.lost{background:#8d97b3}
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1;vertical-align:middle;margin:0 .1em}
+.frac span:first-child{border-bottom:2px solid currentColor;padding:0 .15em}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:6px 8px;border-bottom:2px solid var(--line)}
+td{padding:7px 8px;border-bottom:1px solid var(--paper-2);font-weight:600;white-space:nowrap}
+.r{text-align:right}
+.seg{display:inline-flex;background:var(--paper-2);border-radius:12px;padding:3px;flex-wrap:wrap}
+.seg button{font:inherit;font-weight:800;font-size:14px;padding:6px 12px;border-radius:9px;border:0;background:none;color:var(--ink-2);cursor:pointer}
+.seg button.on{background:var(--paper);color:var(--ink)}
+.head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Gridiron Parent Dashboard</h1><span class="who" id="who"></span><button class="btn" id="out" hidden>Sign out</button></header>
+  <div class="panel" id="login" hidden>
+    <h2>Sign in</h2>
+    <p class="note">Use the same parent email and password you entered in the game's grown-ups menu on the iPad.</p>
+    <input class="field" id="email" type="email" autocomplete="username" placeholder="Parent email">
+    <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Password">
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn go" id="in">Sign in</button></div>
+    <p class="note" id="msg"></p>
+  </div>
+  <div id="dash" hidden></div>
+  <div class="panel" id="status"><p class="note">Loading…</p></div>
+</div>
+<script type="module">
+const $=s=>document.querySelector(s);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TEAMS=['Miami Riptide','New England Gales','New York Jetstream','Baltimore Night Owls','Cincinnati Stripes','Cleveland Hounds','Pittsburgh Forge','Houston Orbit','Indianapolis Speedsters','Jacksonville Tidewater','Tennessee Thunder','Denver Summits','Kansas City Blaze','Las Vegas Shadows','Los Angeles Surf','Dallas Rodeo','New York Empire','Philadelphia Liberty','Washington Monuments','Chicago Hoppers','Detroit Motors','Green Bay Tundra','Minnesota Loons','Atlanta Firebirds','Carolina Stingers','New Orleans Brass','Tampa Bay Cannons','Arizona Saguaros','Los Angeles Stars','San Francisco Gold Rush','Seattle Downpour'];
+const ROUNDS=['Wild Card','Divisional Round','AFC Championship','Numon Bowl'];
+const LEVELS=['','Grade 3 · Warm-up','Grade 3','Grade 3 · Challenge','Grade 4','Grade 4 · Tough','Grade 4 · All-Pro'];
+const CARD_TOTAL=122;
+let RF='need',last=null;
+const cfg=window.FIREBASE_CONFIG;
+if(!cfg){$('#status').innerHTML='<p class="note">Cloud sync is not set up yet. Add your Firebase settings to firebase-config.js.</p>'}
+else{
+  const V='10.12.2';
+  const [{initializeApp},A,F]=await Promise.all([import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`),import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`),import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`)]);
+  const app=initializeApp(cfg),auth=A.getAuth(app),db=F.getFirestore(app);let unsub=null;
+  $('#in').onclick=async()=>{$('#msg').textContent='Signing in…';try{await A.signInWithEmailAndPassword(auth,$('#email').value.trim(),$('#pw').value)}catch(e){$('#msg').textContent='That email and password do not match an account.'}};
+  $('#out').onclick=()=>A.signOut(auth);
+  A.onAuthStateChanged(auth,u=>{if(unsub){unsub();unsub=null}
+    $('#login').hidden=!!u;$('#out').hidden=!u;$('#who').textContent=u?u.email:'';$('#dash').hidden=!u;
+    if(!u){$('#status').hidden=true;return}
+    $('#status').hidden=false;$('#status').innerHTML='<p class="note">Loading his progress…</p>';
+    const t=setTimeout(()=>{$('#status').innerHTML='<p class="note">Still waiting for data. Check the internet connection.</p>'},10000);
+    unsub=F.onSnapshot(F.doc(db,'families',u.uid,'kids','main'),s=>{clearTimeout(t);const d=s.exists()?s.data():null;
+      if(!d||!d.json){$('#status').innerHTML='<p class="note">No progress saved yet. On the iPad, open the grown-ups menu (lock icon) and sign in with this account.</p>';$('#dash').innerHTML='';return}
+      $('#status').hidden=true;last={S:JSON.parse(d.json),at:d.updatedAt};render()},e=>{clearTimeout(t);$('#status').innerHTML='<p class="note">Could not load progress. Check the Firestore rules in the Firebase console.</p>'})})}
+function meter(l,c,n){const p=n?Math.round(c/n*100):null;return`<div class="meter"><div class="ml"><span>${l}</span><b>${p===null?'—':p+'%'}</b></div><div class="mt"><i style="width:${p||0}%"></i></div><small>${n?`${c} of ${n} right`:'Not tried yet'}</small></div>`}
+const when=t=>new Date(t).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+function streak(days){const set=new Set(days||[]);let n=0;const d=new Date();const key=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;if(!set.has(key(d)))d.setDate(d.getDate()-1);while(set.has(key(d))){n++;d.setDate(d.getDate()-1)}return n}
+function render(){const S=last.S,st=S.stats||{n:[],c:[]},sum=a=>(a||[]).reduce((x,y)=>x+y,0);
+  const n=sum(st.n),c=sum(st.c),g3n=sum((st.n||[]).slice(1,4)),g3c=sum((st.c||[]).slice(1,4)),g4n=sum((st.n||[]).slice(4)),g4c=sum((st.c||[]).slice(4));
+  const missed=S.missed||[],need=missed.filter(m=>!m.mastered),learned=missed.filter(m=>m.mastered),list=RF==='need'?need:RF==='learned'?learned:missed;
+  const cards=Object.keys(S.cards||{}).length+Object.keys(S.pcards||{}).length+(S.champ?1:0);const log=S.log||[];const lastGame=log[0];
+  const tname=l=>`${TEAMS[l.team-1]||'Team '+l.team}${l.round!=null?' · '+ROUNDS[l.round]:''}`;
+  $('#dash').innerHTML=`
+  <div class="panel"><div class="head"><h2>${esc((S.me&&S.me.name)||'Your player')}'s progress</h2><span class="note" style="margin-left:auto">Last saved ${last.at?when(last.at):'—'}${lastGame?` · last game ${when(lastGame.at)}`:''}</span></div>
+    <div class="kpis" style="margin-top:10px">
+      <div class="kpi"><span>Questions right</span><b>${n?Math.round(c/n*100)+'%':'—'}</b><em>${c} of ${n}</em></div>
+      <div class="kpi"><span>Games won</span><b>${S.wins||0}</b><em>of ${S.played||0} played</em></div>
+      <div class="kpi"><span>Top difficulty</span><b>Lv ${S.bestLevel||1}</b><em>${LEVELS[S.bestLevel||1]}</em></div>
+      <div class="kpi"><span>Best streak</span><b>${S.bestStreak||0}</b><em>right in a row</em></div>
+      <div class="kpi"><span>Days played</span><b>${(S.days||[]).length}</b><em>${streak(S.days)} day streak</em></div>
+      <div class="kpi"><span>To practice</span><b>${need.length}</b><em>${learned.length} learned</em></div>
+      <div class="kpi"><span>Cards</span><b>${cards}</b><em>of ${CARD_TOTAL}</em></div>
+      <div class="kpi"><span>Season</span><b>${(S.beaten||[]).length}/31</b><em>teams beaten</em></div>
+    </div></div>
+  <div class="panel"><h3>Accuracy by difficulty</h3><div class="meters"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,(st.c||[])[i]||0,(st.n||[])[i]||0)).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,(st.c||[])[i]||0,(st.n||[])[i]||0)).join('')}</div></div></div>
+  <div class="panel"><div class="head"><h3>Missed questions</h3><div class="seg">${[['need',`To practice (${need.length})`],['learned',`Learned (${learned.length})`],['all',`All (${missed.length})`]].map(([k,l])=>`<button data-f="${k}" class="${RF===k?'on':''}">${l}</button>`).join('')}</div></div>
+    ${list.length?`<div class="mlist">${list.slice(0,80).map(m=>`<div class="mi"><div class="mtop"><span class="pill ${m.mastered?'ok':'need'}">${m.mastered?'Learned':'To practice'}</span>${when(m.at)} · Level ${m.level}${m.tp?' · '+esc(m.tp):''}</div><div class="mq">${m.text}</div>${m.vis&&m.vis.length?'<div class="note" style="font-size:13px">This question had a picture (clock, coins, fraction bar or shape).</div>':''}<div class="mans"><span class="gave">Answered <b>${m.given}</b></span><span class="right">Correct <b>${m.kind==='num'?Number(m.answer).toLocaleString('en-US')+(m.unit||''):m.answer}</b></span>${m.tries?`<span class="note" style="font-size:13px">${m.tries} practice tr${m.tries>1?'ies':'y'}</span>`:''}</div></div>`).join('')}</div>`:'<p class="note">Nothing here yet.</p>'}</div>
+  <div class="panel"><h3>Recent games</h3>${log.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Plays</th><th class="r">Yards</th><th class="r">Right</th></tr></thead><tbody>${log.slice(0,50).map(l=>`<tr><td>${when(l.at)}</td><td>${tname(l)}</td><td><span class="pill ${l.won?'ok':'lost'}">${l.won?'Won':'Lost'}</span></td><td class="r">${l.plays}</td><td class="r">${l.yards}</td><td class="r">${l.right}/${l.plays}</td></tr>`).join('')}</tbody></table></div>`:'<p class="note">No games yet.</p>'}</div>`;
+  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{RF=b.dataset.f;render()})}
+</script>
+</body>
+</html>
