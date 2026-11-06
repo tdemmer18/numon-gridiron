@@ -976,6 +976,8 @@ const edOf=(sp=spNow())=>Math.min(6,(S.ed&&S.ed[sp])||1);
 const gradeOf=(sp=spNow())=>ED_GRADE[edOf(sp)];
 const lvLo=()=>(gradeOf()-3)*3+1,lvHi=()=>lvLo()+2;
 const startLv=st=>Math.min(lvHi(),lvLo()+Math.min(2,Math.max(0,(st||1)-1))+(edOf()>=4?1:0));
+const maxGrade=()=>Math.max(gradeOf('football'),gradeOf('hockey'));
+const g5Open=()=>maxGrade()>=5;
 const cardEd=T=>window.RENDER_ED||edOf(T&&T.hockey?'hockey':'football');
 const edStamp=T=>{const e=cardEd(T);return e>=2?`<div class="edstamp">${EDITIONS[e]}</div>`:''};
 const lvRange=(kind,L)=>kind==='run'?[Math.max(lvLo(),L-1),L]:[L,Math.min(lvHi(),L+1)];
@@ -1583,7 +1585,7 @@ function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.redu
       <div class="kpi"><span>Best streak</span><b>${S.bestStreak}</b><em>in a row</em></div>
       <div class="kpi"><span>Days played</span><b>${S.days.length}</b><em>${streak()} day streak</em></div>
     </div></div>
-  <div class="panel"><h3 class="rh">Accuracy by difficulty</h3><div class="meters2"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 5 overall',g5c,g5n)}${[7,8,9].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div></div></div>
+  <div class="panel"><h3 class="rh">Accuracy by difficulty</h3><div class="meters2"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div>${g5Open()||g5n?`<div>${meter('Grade 5 overall',g5c,g5n)}${[7,8,9].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div>`:''}</div></div>
   <div class="panel"><div class="head"><h3 class="rh" style="margin:0">Missed questions</h3>
     <div class="seg" role="group" aria-label="Filter missed questions">${[['need',`To practice (${need.length})`],['learned',`Learned (${learned.length})`],['all',`All (${S.missed.length})`]].map(([k,l])=>`<button data-f="${k}" class="${RF===k?'on':''}" aria-pressed="${RF===k}">${l}</button>`).join('')}</div>
     ${need.length?`<button class="btn go" id="practice" style="font-size:18px;padding:10px 18px;margin-left:auto">Practice ${Math.min(10,need.length)} now</button>`:''}</div>
@@ -1626,10 +1628,10 @@ renderHome();show('home');renderSync();connectCloud();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 </script>
-<script src="learn.js?v=202611052255"></script>
+<script src="learn.js?v=202611052326"></script>
 <script src="lessons.js?v=202611052256"></script>
 <script src="hockey.js?v=202611052255"></script>
-<script src="editions.js?v=202611052255"></script>
+<script src="editions.js?v=202611052326"></script>
 
 </body>
 </html>

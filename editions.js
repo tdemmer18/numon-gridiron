@@ -20,7 +20,7 @@ let VIEW_ARCH=0;
 function edBinderBar(){const sp=spNow(),e=edOf(sp),past=S.arch[sp]||{};const tabs=[];
   for(let n=1;n<=e;n++){const done=n<e;tabs.push(`<button class="edtab ${(VIEW_ARCH?VIEW_ARCH===n:n===e)?'on':''}" data-edtab="${n}" ${done&&!past[n]?'disabled':''}>${EDITIONS[n]}${done?' ✓':''}</button>`)}
   const x=extrasOf(edStore(sp));
-  return`<div class="edbar"><span class="eyebrow">Editions</span>${tabs.join('')}${e<6?`<span class="note" style="font-size:13px">Next: ${EDITIONS[e+1]} (Grade ${ED_GRADE[e+1]})</span>`:''}</div>
+  return`<div class="edbar"><span class="eyebrow">Editions</span>${tabs.join('')}${e<6?`<span class="note" style="font-size:13px">Next: ${EDITIONS[e+1]}${ED_GRADE[e+1]<5||g5Open()?` (Grade ${ED_GRADE[e+1]})`:''}</span>`:''}</div>
     ${VIEW_ARCH?`<p class="note" style="margin:6px 0 0"><b>You finished the ${EDITIONS[VIEW_ARCH]} edition.</b> This is your saved binder from Grade ${ED_GRADE[VIEW_ARCH]}.</p>`
       :`<p class="note" style="margin:6px 0 0">${EDITIONS[e]} edition · Grade ${gradeOf(sp)}. Fill every slot to move up to the next edition. You have <b>${x} extra cop${x===1?'y':'ies'}</b>${x>=3?': tap <b>Trade 3 extras</b> on any empty slot to get that card.':'. Every 3 extras can be traded for a card you need.'}</p>`}`}
 

@@ -39,7 +39,7 @@ function lessonHTML(k){const L=LESSONS[k]||LESSONS.word;let pic='';try{pic=L.vis
 function openLesson(k,back){sfx.tap();modal(`${lessonHTML(k)}<div class="row">${back?'<button class="btn blue" data-act="lib">All lessons</button>':''}<button class="btn go" style="font-size:20px;padding:12px 22px" data-act="close">Got it!</button></div>`,{lib:openLibrary},true)}
 function openLibrary(){sfx.tap();const keys=Object.keys(LESSONS);
   modal(`<h2>Learn math</h2><p class="note">Tap a topic to see a picture, an example, the steps and the words to know. You can also tap <b>Learn how</b> on any question during a game.</p>
-   ${[3,4,5].map(g=>`<div class="libgrp"><h3>Grade ${g}</h3><div class="libgrid">${keys.filter(k=>LESSONS[k].g===g).map(k=>`<button class="libbtn" data-act="open" data-k="${k}">${LESSONS[k].title}</button>`).join('')}</div></div>`).join('')}
+   ${[3,4,5].filter(g=>g<5||g5Open()).map(g=>`<div class="libgrp"><h3>Grade ${g}</h3><div class="libgrid">${keys.filter(k=>LESSONS[k].g===g).map(k=>`<button class="libbtn" data-act="open" data-k="${k}">${LESSONS[k].title}</button>`).join('')}</div></div>`).join('')}
    <div class="row"><button class="btn" data-act="close">Close</button></div>`,{open:b=>openLesson(b.dataset.k,true)},true)}
 
 /* hook the Learn how button into every question and add a Learn math button on the home screens */
@@ -62,3 +62,4 @@ lessonFor=function(p){const h=p.text||'',t=h.replace(/<[^>]+>/g,' ');const dens=
   if(/÷\s*\d{2,}/.test(t))return'longdiv';
   if(/^\s*\d{3}\s*×\s*\d{2}\b/.test(t))return'm2d';
   return lessonFor34(p)};
+{const pickLesson=lessonFor;lessonFor=function(p){const k=pickLesson(p);return LESSONS[k]&&LESSONS[k].g===5&&!g5Open()?lessonFor34(p):k}}
