@@ -499,6 +499,27 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
   .vsmark{font-size:28px}.vs h3{font-size:18px}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sheet{padding:12px 10px 12px 30px}.sheet::before{left:5px}.book{padding:10px}
 }
+/* home layout */
+#v-home{display:flex;flex-direction:column;gap:14px}
+#v-home>.dailyban,#v-home>.edban{width:100%}
+#v-home .hero{background:rgba(11,16,41,.58);border-radius:20px;padding:14px 18px;display:flex;flex-direction:column;gap:4px}
+#v-home .hero .eyebrow{color:#c9d3f5!important}
+#v-home .hero .title{margin:0;line-height:1.05}
+#v-home .hero .sub{text-shadow:none;max-width:70ch}
+#v-home .vs{align-items:start;padding-top:4px}
+#v-home .vs .vsmark{align-self:center;margin-top:-40px}
+#v-home .vs .side{gap:6px}
+#v-home .vs .side h3{margin-top:2px}
+#v-home .cta{gap:12px;margin-top:14px}
+#v-home .cta>.note{margin:-4px 0 2px}
+#v-home .cta .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;max-width:760px}
+#v-home .cta .row .btn{width:100%;font-size:18px;padding:12px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#v-home .sched{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#v-home .game{min-height:178px;justify-content:flex-start;padding:28px 8px 10px}
+#v-home .game b{min-height:2.3em;display:flex;align-items:center;justify-content:center}
+#v-home .panel>h3{margin-bottom:2px}
+#v-home .panel h3+.sched{margin-top:8px}
+@media (max-width:640px){#v-home .cta .row{grid-template-columns:repeat(2,minmax(0,1fr))}#v-home .sched{grid-template-columns:repeat(2,minmax(0,1fr))}#v-home .vs .vsmark{margin-top:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
 
@@ -1110,7 +1131,7 @@ function renderHome(){if(S.sport==='hockey'&&typeof renderHHome==='function')ret
         :`<div class="side"><div class="art flipx">${fig(ME,true,me)}</div><h3>You won the Numon Bowl!</h3><div class="note">Replay any game below.</div></div>`}
     </div>
     <div class="cta">${T?`<button class="btn go" id="kick">Kickoff!</button><div class="note">${nr?`Win the ${nr.r} to earn a special playoff card.`:`Outscore them to win ${opp.name}'s card and a free pack.`} Inside the 30 you can kick a field goal.</div>`:''}
-      <div class="row"><button class="btn blue" id="tobinder">Card binder (${cardCount()}/${CARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button><button class="btn blue" id="tolearn">Learn math</button></div></div>
+      <div class="row"><button class="btn blue" id="tobinder">Card binder (${cardCount()}/${CARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button><button class="btn blue" id="tolearn">Learn math</button><button class="btn blue" id="toguide3">Game guide</button></div></div>
   </div>
   <div class="panel"><h3 style="font-size:24px">Season schedule</h3><p class="note" style="margin:2px 0 0">Beat every team in order, starting with your own division. Then win four playoff games to reach the Numon Bowl. Beating a team wins its defender's card. Its quarterback and star player come in packs from the card shop.</p>
     ${DIVS.map(d=>`<h3 style="font-size:18px;margin-top:14px">${d}${d==='AFC East'?' · your division':''}</h3><div class="sched" style="margin-top:6px">${TEAMS.filter(t=>t.div===d).map(t=>gameTile(t)).join('')}</div>`).join('')}
@@ -1630,10 +1651,10 @@ try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}ca
 </script>
 <script src="learn.js?v=202611052326"></script>
 <script src="lessons.js?v=202611052256"></script>
-<script src="hockey.js?v=202611052255"></script>
+<script src="hockey.js?v=202611052350"></script>
 <script src="editions.js?v=202611052335"></script>
-<script src="extras.js?v=202611052342"></script>
-<script src="guide.js?v=202611052337"></script>
+<script src="extras.js?v=202611052350"></script>
+<script src="guide.js?v=202611052350"></script>
 
 </body>
 </html>

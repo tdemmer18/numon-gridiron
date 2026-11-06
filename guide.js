@@ -98,3 +98,5 @@ function openGuide(tab='check'){sfx.tap();
   const b=document.createElement('div');b.className='row';b.innerHTML='<button class="btn blue" id="toguide">Game guide & checklist</button>';m.insertBefore(b,m.children[1]);b.firstChild.onclick=()=>openGuide()}}
 {const f0=settings;settings=function(){f0.apply(this,arguments);const m=document.querySelector('#modal-root .modal');if(!m||m.querySelector('#toguide2'))return;
   const b=document.createElement('div');b.className='row';b.innerHTML='<button class="btn blue" id="toguide2">Game guide & checklist</button>';m.insertBefore(b,m.lastElementChild);b.firstChild.onclick=()=>openGuide('how')}}
+
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#toguide3'))openGuide()});
