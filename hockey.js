@@ -33,17 +33,24 @@ const HTEAMS=HT_RAW.map(([abbr,city,name,p,s,div],i)=>{const id=i+1,r=seed(id*97
   T.roster=[mk('G',30+(id*3)%10,'goalie'),mk('C',10+(id*7)%20,'hk'),mk(w,w==='D'?2+(id*5)%8:60+(id*3)%30,'hk')];
   T.roster.forEach((P,k)=>{P.slot=k;P.mon=((id*5+k*9)%30)+1});return T});
 const hk=(T,slot=0)=>`H${T.id}-${slot}`;
-const MEPH=()=>{const P=MEP();return{...P,name:(S.me&&S.me.name||'').trim()||'Your player',pos:'C',look:{...P.look,pose:'hk'}}};
+/* the kid's hockey look: its own options, separate from football (name is shared) */
+const HUNIFORMS={home:{label:'Home navy',p:'#002654',s:'#FCB514',o:'#ffffff',kit:['#002654','#FCB514','#002654']},away:{label:'Away white',p:'#ffffff',s:'#002654',o:'#FCB514',kit:['#ffffff','#002654','#002654']},third:{label:'Third gold',p:'#FCB514',s:'#002654',o:'#ffffff',kit:['#FCB514','#002654','#002654']}};
+const MEH_DEFAULT={num:17,pose:'hk',face:'game',uniform:'home',helmet:'visor',beard:'',tape:'#1b1b1f',skates:'#1b1b1f'};
+const meh=()=>({...MEH_DEFAULT,...(S.meh||{})});
+const UNIH=()=>{const u=HUNIFORMS[meh().uniform]||HUNIFORMS.home;return{...ME_H,p:u.p,s:u.s,o:u.o,kit:u.kit}};
+const MEPH=(m=meh())=>({mon:6,name:(S.me&&S.me.name||'').trim()||'Your player',pos:'C',num:m.num??17,ht:`5'11"`,wt:'190 lb',look:{skin:S.me?S.me.skin??2:2,beard:m.beard,face:m.face,mouth:'smirk',pose:m.pose,helmet:m.helmet,tape:m.tape,skates:m.skates}});
 
 /* hockey figure: helmet with visor, sweater, gloves, stick and skates (faces right) */
-function hfig(T,flip,P){const L=P.look||{};const skin=SKIN[L.skin??2],sk=shade(skin,-.35),dk=shade(T.p,-.45),pants=(T.kit&&T.kit[2])||shade(T.p,-.35),pd=shade(pants,-.4),hdk=shade(T.p,-.5);
+function hfig(T,flip,P){if(T===ME_H)T=UNIH();const L=P.look||{};const tape=L.tape||'#1b1b1f',boot=L.skates||'#1b1b1f';const skin=SKIN[L.skin??2],sk=shade(skin,-.35),dk=shade(T.p,-.45),pants=(T.kit&&T.kit[2])||shade(T.p,-.35),pd=shade(pants,-.4),hdk=shade(T.p,-.5);
   const goalie=L.pose==='goalie',face=L.face||'game',mouth=L.mouth||'grit',o=[];
   o.push('<ellipse cx="60" cy="115" rx="32" ry="4.5" fill="rgba(0,0,0,.2)"/>');
-  for(const x of[50,70])o.push(`<path d="M${x-9} 107 h16 q3 0 3 3 v2 h-19 z" fill="#1b1b1f"/><path d="M${x-10} 114.5 H${x+10}" stroke="#c9d3e0" stroke-width="2" stroke-linecap="round"/>`);
+  for(const x of[50,70])o.push(`<path d="M${x-9} 107 h16 q3 0 3 3 v2 h-19 z" fill="${boot}" stroke="${shade(boot,-.4)}" stroke-width=".8"/><path d="M${x-10} 114.5 H${x+10}" stroke="#c9d3e0" stroke-width="2" stroke-linecap="round"/>`);
   if(goalie){for(const x of[40,61])o.push(`<rect x="${x}" y="76" width="19" height="32" rx="7" fill="#ffffff" stroke="${dk}" stroke-width="1.6"/><path d="M${x+3} 86 H${x+16} M${x+3} 95 H${x+16}" stroke="${T.p}" stroke-width="3"/>`)}
   else{o.push(`<path d="M40 79 h40 v13 q0 4 -4 4 h-32 q-4 0 -4 -4 z" fill="${pants}" stroke="${pd}" stroke-width="1.5"/>`);
     for(const x of[45,64])o.push(`<rect x="${x}" y="94" width="11" height="15" rx="3" fill="${T.p}" stroke="${dk}" stroke-width="1.3"/><rect x="${x}" y="99" width="11" height="3.5" fill="${T.s}"/>`);
-    o.push('<path d="M44 70 L100 106" stroke="#8a5a2b" stroke-width="3.6" stroke-linecap="round"/><path d="M97 104 L114 106 L113 111 L96 110 Z" fill="#1b1b1f"/>')}
+    if(L.pose==='shoot')o.push(`<path d="M74 64 L22 104" stroke="#8a5a2b" stroke-width="3.6" stroke-linecap="round"/><path d="M25 102 L8 104 L9 109 L26 108 Z" fill="${tape}" stroke="#111" stroke-width=".8"/>`);
+    else if(L.pose==='cheer')o.push(`<path d="M93 52 L106 8" stroke="#8a5a2b" stroke-width="3.6" stroke-linecap="round"/><path d="M103 9 L117 5 L118 10 L105 13 Z" fill="${tape}" stroke="#111" stroke-width=".8"/>`);
+    else o.push(`<path d="M44 70 L100 106" stroke="#8a5a2b" stroke-width="3.6" stroke-linecap="round"/><path d="M97 104 L114 106 L113 111 L96 110 Z" fill="${tape}" stroke="#111" stroke-width=".8"/>`)}
   o.push(`<path d="M29 66 Q30 55 46 53 L74 53 Q90 55 91 66 L89 90 Q60 96 31 90 Z" fill="${T.p}" stroke="${dk}" stroke-width="1.8" stroke-linejoin="round"/>`);
   o.push(`<path d="M32 84 Q60 90 88 84" stroke="${T.s}" stroke-width="3.2" fill="none"/><path d="M51 54 Q60 60 69 54" stroke="${T.s}" stroke-width="2.6" fill="none"/>`);
   o.push(`<g${flip?' transform="translate(120 0) scale(-1 1)"':''}><text x="60" y="80" text-anchor="middle" font-family="Lilita One, Arial Black, sans-serif" font-size="17" fill="${T.s}" stroke="${T.o||dk}" stroke-width="${T.o?1.6:1}" paint-order="stroke">${P.num}</text></g>`);
@@ -51,6 +58,8 @@ function hfig(T,flip,P){const L=P.look||{};const skin=SKIN[L.skin??2],sk=shade(s
   const glove=(x,y)=>`<rect x="${x-7}" y="${y-7}" width="14" height="14" rx="5" fill="${T.p}" stroke="${dk}" stroke-width="1.4"/><rect x="${x-7}" y="${y+2}" width="14" height="4" fill="${T.s}"/>`;
   if(goalie){o.push(sleeve(30,73,25)+`<circle cx="23" cy="84" r="11" fill="${T.s}" stroke="${dk}" stroke-width="1.6"/><path d="M16 80 Q23 74 30 80" stroke="${dk}" stroke-width="1.4" fill="none"/>`);
     o.push(sleeve(90,73,-25)+`<rect x="88" y="73" width="16" height="20" rx="3" fill="${T.s}" stroke="${dk}" stroke-width="1.6"/><rect x="93" y="93" width="6" height="15" fill="#8a5a2b"/><path d="M91 106 h17 v4 h-17z" fill="#1b1b1f"/>`)}
+  else if(L.pose==='shoot')o.push(sleeve(42,70,30)+glove(50,80)+sleeve(78,62,-55)+glove(70,65));
+  else if(L.pose==='cheer')o.push(sleeve(32,74,18)+glove(28,86)+sleeve(88,58,-30)+glove(93,47));
   else o.push(sleeve(36,69,35)+glove(44,73)+sleeve(80,78,-40)+glove(71,90));
   const eyes=(y,rx,ry,dx)=>{for(const x of[60-dx,60+dx])o.push(`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" stroke="#2a1a10" stroke-width="1"/><circle cx="${x+(x<60?1:-1)}" cy="${y+1}" r="${rx*.52}" fill="#1b1b1f" data-keep="1"/><circle cx="${x-.6}" cy="${y-.6}" r=".9" fill="#fff" data-drop="1"/>`)};
   const brows=(y,dx)=>o.push(face==='happy'?`<path d="M${60-dx-6} ${y+1} Q${60-dx} ${y-3} ${60-dx+6} ${y} M${60+dx+6} ${y+1} Q${60+dx} ${y-3} ${60+dx-6} ${y}" stroke="#2a1a10" stroke-width="3" fill="none" stroke-linecap="round"/>`:`<path d="M${60-dx-6} ${y-1.5} L${60-dx+6} ${y+2} M${60+dx+6} ${y-1.5} L${60+dx-6} ${y+2}" stroke="#2a1a10" stroke-width="3.2" stroke-linecap="round"/>`);
@@ -65,7 +74,8 @@ function hfig(T,flip,P){const L=P.look||{};const skin=SKIN[L.skin??2],sk=shade(s
     if(bd)o.push(`<g opacity="${bd==='stubble'?.32:1}"><path d="M38 46 Q39 64 60 64 Q81 64 82 46 L79 46 Q78 58 60 58 Q42 58 41 46 Z" fill="#2a1a10"/></g>`);
     if(L.eyeblack)o.push('<rect x="45" y="47" width="11" height="3" rx="1.5" fill="#151515"/><rect x="64" y="47" width="11" height="3" rx="1.5" fill="#151515"/>');
     eyes(42,5.2,4.8,9);brows(35.5,9);o.push(`<path d="M57.5 48 Q60 51 62.5 48" stroke="${sk}" stroke-width="1.6" fill="none" stroke-linecap="round"/>`);mouthAt(55);
-    if(!L.retro)o.push('<path d="M40 35 Q60 31 80 35 L80 46 Q60 44 40 46 Z" fill="rgba(190,225,255,.32)" stroke="rgba(120,150,190,.9)" stroke-width="1.2"/><path d="M40 50 Q44 63 60 64 Q76 63 80 50" stroke="#2a2a2a" stroke-width="1.3" fill="none"/>')}
+    if(!L.retro){if(L.helmet==='cage')o.push('<path d="M43 34 V62 M50 33 V64 M57 32 V65 M64 32 V65 M71 33 V64 M78 34 V62 M40 41 H80 M40 49 H80 M42 57 H78" stroke="#e8ebf0" stroke-width="1.5" fill="none"/><path d="M48 63 Q60 70 72 63" stroke="#2a2a2a" stroke-width="3" fill="none" stroke-linecap="round"/>');
+      else o.push(`<path d="M40 35 Q60 31 80 35 L80 46 Q60 44 40 46 Z" fill="${L.helmet==='tinted'?'rgba(25,35,70,.55)':'rgba(190,225,255,.32)'}" stroke="rgba(120,150,190,.9)" stroke-width="1.2"/><path d="M40 50 Q44 63 60 64 Q76 63 80 50" stroke="#2a2a2a" stroke-width="1.3" fill="none"/>`)}}
   return`<svg viewBox="0 0 120 120" role="img" aria-label="${esc(P.name||'Player')}, number ${P.num}">${o.join('')}</svg>`}
 
 /* hockey promo cards: made-up legends with true NHL history on the back, plus awards and specials */
@@ -127,9 +137,31 @@ function renderHHome(){const nt=nextHTeam(),me=MEPH();const daily=checkDaily();s
   <div class="panel"><h3 style="font-size:24px">Hockey schedule</h3><p class="note" style="margin:2px 0 0">Beat every team in order, starting with your own division. Beating a team wins its goalie's card. Its center and winger come in packs from the card shop.</p>
     ${HDIVS.map(d=>`<h3 style="font-size:18px;margin-top:14px">${d}${d==='Atlantic'?' · your division':''}</h3><div class="sched" style="margin-top:6px">${HTEAMS.filter(t=>t.div===d).map(hTile).join('')}</div>`).join('')}</div>`;
   if($('#dailyban'))$('#dailyban').onclick=()=>{renderShop();show('shop');buyPack(DAILY,'daily')};
-  $('#chstar').onclick=customize;$('#tobinder').onclick=()=>{renderBinder();show('binder')};$('#toreport').onclick=()=>{renderReport();show('report')};$('#toshop').onclick=()=>{renderShop();show('shop')};
+  $('#chstar').onclick=customizeH;$('#tobinder').onclick=()=>{renderBinder();show('binder')};$('#toreport').onclick=()=>{renderReport();show('report')};$('#toshop').onclick=()=>{renderShop();show('shop')};
   if($('#kick'))$('#kick').onclick=()=>startHGame(nt.id);
   document.querySelectorAll('#v-home .game[data-hid]').forEach(b=>b.onclick=()=>startHGame(+b.dataset.hid))}
+
+function customizeH(){const m=meh();
+  const groups=[['pose','Pose',[['hk','Ready'],['shoot','Shooting'],['cheer','Celebrate']]],
+    ['face','Face',[['game','Game face'],['happy','Happy'],['shout','Shout']]],
+    ['uniform','Jersey',Object.entries(HUNIFORMS).map(([k,u])=>[k,u.label])],
+    ['helmet','Helmet',[['visor','Clear visor'],['tinted','Tinted visor'],['cage','Full cage']]],
+    ['beard','Beard',[['','None'],['stubble','Stubble'],['full','Playoff beard']]],
+    ['tape','Stick tape',[['#1b1b1f','Black'],['#ffffff','White'],['#002654','Navy'],['#FCB514','Gold'],['#C60C30','Red']]],
+    ['skates','Skates',[['#1b1b1f','Black'],['#ffffff','White'],['#002654','Navy'],['#FCB514','Gold']]]];
+  const chip=(k,v,l)=>`<button class="ochip ${String(m[k])===String(v)?'on':''}" data-k="${k}" data-v='${JSON.stringify(v)}'>${(k==='tape'||k==='skates')?`<i style="background:${v}"></i>`:''}${l}</button>`;
+  modal(`<h2>Customize your hockey player</h2>
+   <div class="cust"><div class="cprev-wrap"><div class="art" id="cprev"></div></div>
+   <div class="copts">
+     <div class="ogrp"><span>Name</span><input class="field" id="pname" maxlength="18" autocomplete="off" style="width:100%;font-size:18px;text-align:left" value="${esc((S.me&&S.me.name)||'')}" placeholder="Type a name"></div>
+     <div class="ogrp"><span>Number</span><input class="field" id="pnum" inputmode="numeric" maxlength="2" autocomplete="off" style="width:90px;font-size:18px" value="${m.num}"></div>
+     ${groups.map(([k,l,opts])=>`<div class="ogrp"><span>${l}</span><div class="orow">${opts.map(([v,t])=>chip(k,v,t)).join('')}</div></div>`).join('')}
+   </div></div>
+   <div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="save">Save player</button><button class="btn" data-act="close">Cancel</button></div>`,
+   {save:()=>{const n=parseInt($('#pnum').value,10);m.num=Number.isFinite(n)&&n>=0&&n<=99?n:17;S.meh=m;S.me={...S.me,name:$('#pname').value.trim().slice(0,18)};save();closeModal();renderHome();renderBar()}},true);
+  const draw=()=>{const n=parseInt($('#pnum').value,10);const t={...m,num:Number.isFinite(n)&&n>=0&&n<=99?n:17};const keep=S.me;S.me={...S.me,name:$('#pname').value};$('#cprev').innerHTML=fig(ME_H,false,MEPH(t));S.me=keep};
+  draw();$('#pname').oninput=draw;$('#pnum').oninput=()=>{$('#pnum').value=$('#pnum').value.replace(/\D/g,'');draw()};
+  document.querySelectorAll('.copts [data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;m[k]=JSON.parse(b.dataset.v);document.querySelectorAll(`.copts [data-k="${k}"]`).forEach(x=>x.classList.toggle('on',x===b));draw()})}
 
 /* ---------- hockey game ---------- */
 const horn=()=>{tone(196,.9,'sawtooth',0,.06);tone(247,.9,'sawtooth',0,.045)};

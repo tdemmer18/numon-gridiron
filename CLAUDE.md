@@ -44,7 +44,7 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 
 ## Sports
 
-`S.sport` is `'football'` or `'hockey'` (Settings → Sport). Football cards live in `S.cards` (keys `id-slot`, promos `X-key`), hockey cards in `S.hcards` (keys `H<id>-<slot>`, promos `X-hk-...`). Coins, math stats, missed questions and the game log are shared; hockey log entries use team ids `100+id` (`teamOf()` resolves both). In hockey a right answer is a goal and a miss lets the other team score; first to 5 wins and earns the goalie card plus a free pack.
+`S.sport` is `'football'` or `'hockey'` (Settings → Sport). Football cards live in `S.cards` (keys `id-slot`, promos `X-key`), hockey cards in `S.hcards` (keys `H<id>-<slot>`, promos `X-hk-...`). Coins, math stats, missed questions and the game log are shared; hockey log entries use team ids `100+id` (`teamOf()` resolves both). The kid's hockey look is separate from football: `S.meh` (pose, face, jersey, helmet, beard, stick tape, skates, number) is edited by `customizeH()` in hockey.js; only the name is shared with football (`S.me.name`). In hockey a right answer is a goal and a miss lets the other team score; first to 5 wins and earns the goalie card plus a free pack.
 
 ## Editions and grades
 
