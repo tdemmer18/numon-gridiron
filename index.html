@@ -308,6 +308,8 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .stage.wx-sunset::before{background:linear-gradient(rgba(255,120,90,.45),rgba(110,60,140,.35))}
 .wxc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}
 .acct{background:var(--paper-2);border-radius:14px;padding:10px 12px;text-align:left}
+.gtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gtop .btn{font-size:17px;padding:8px 14px}
 .dailyban{display:flex;align-items:center;gap:14px;text-align:left;background:linear-gradient(120deg,#7a3fd0,#c2459a);color:#fff;border-radius:20px;padding:12px 16px;box-shadow:0 6px 0 rgba(0,0,0,.35);animation:glow 1.4s ease-in-out infinite alternate}
 .dailyban .pack{width:64px}.dailyban .pack b,.dailyban .pack span{display:none}.dailyban .pk-top{font-size:6px;padding:2px 0}
 .dailyban b{display:block;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.1}
@@ -825,7 +827,7 @@ const lvRange=(kind,L)=>kind==='run'?[Math.max(1,L-1),L]:[L,Math.min(6,L+1)];
 
 /* ============ STATE ============ */
 const KEY='numon-gridiron-v2';
-function fresh(){return{cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0]},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
+function fresh(){return{seen:[],cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0]},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
 let S=fresh();
 function migrate(){const c={};for(const [k,v] of Object.entries(S.cards||{}))c[String(k).includes('-')?k:`${k}-0`]=v;S.cards=c;S.me=Object.assign({...ME_DEFAULT},S.me||{});if(S.me.beard===true)S.me.beard='full';if(S.me.pose==='qb'||S.me.pose==='point')S.me.pose='throw';if(S.me.beard===false)S.me.beard=''}
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
@@ -988,8 +990,9 @@ let G=null,Q=null;
 const ord=n=>['','1st','2nd','3rd','4th'][n];
 const spotText=y=>y===50?'Ball on the 50':y<50?`Ball on your ${y}`:`Ball on their ${100-y}`;
 function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],start=R(20,30);const lv=round!=null?PLAYOFFS[round].start:T.start;
-  const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false};
+  const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
   $('#v-game').innerHTML=`
+  <div class="gtop"><button class="btn" id="exitg">← Exit game</button><span class="note" style="color:#dfe6ff">${round!=null?PLAYOFFS[round].r+' · ':''}${ME.name} vs ${T.city} ${T.name}</span></div>
   <div class="score">
     <div class="sb-team" style="${tvars(ME)}"><span class="pts" id="ptsme">0</span><div style="min-width:0"><small>${ME.city}</small><b>${ME.name}</b></div></div>
     <div class="sb-mid"><div class="dd" id="dd"></div><div class="spot" id="spot"></div><div class="spot" style="color:#ffe9a6">${WXINFO[G.weather].label} · ${G.temp}°F</div></div>
@@ -1012,6 +1015,7 @@ function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],s
   </div>
   <div class="panel" id="gp"></div>`;
   show('game');layoutField();place(true);updateBoard();whistle();
+  $('#exitg').onclick=()=>{sfx.tap();modal(`<h2>Leave this game?</h2><p class="note">You keep the coins you earned on this drive, but you won't get the card. You can play this team again any time.</p><div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="leave">Leave game</button><button class="btn" data-act="close">Keep playing</button></div>`,{leave:()=>{closeModal();G=null;Q=null;renderHome();show('home')}})};
   callPhase(`${{snow:'It’s snowing at the stadium! ',rain:'It’s pouring rain today! ',sunny:'A sunny day for football! ',night:'Under the lights for a night game! ',cloudy:'Gray skies over the stadium. ',sunset:'Kickoff at sunset! '}[G.weather]}${round!=null?PLAYOFFS[round].r+'! ':''}Kickoff! The ${T.name} kick it deep. Your ball on your own ${start}. Call a play!`);
 }
 let YPX=20;
@@ -1037,10 +1041,10 @@ function callPhase(msg){G.busy=false;Q=null;$('#me').className='spr idle';
    <button class="play pass" id="ppass"><b>PASS</b><span>Harder question, bigger gain</span><em>${rangeTxt('pass')}</em></button></div>`;
   $('#prun').onclick=()=>callPlay('run');$('#ppass').onclick=()=>callPlay('pass');
 }
-function callPlay(kind){if(G.busy)return;G.busy=true;sfx.tap();const [a,b]=lvRange(kind,G.level);const d=R(a,b);let yards=yardsFor(kind,d);let bonus='';
+function callPlay(kind){if(G.busy)return;G.busy=true;sfx.tap();const [a,b]=lvRange(kind,G.level);const d0=R(a,b);const p=pickQuestion(d0);const d=p._lvl||d0;let yards=yardsFor(kind,d);let bonus='';
   if(kind==='pass'&&G.streak>=2&&Math.random()<.2){yards=Math.round(yards*1.6);bonus='Deep ball! '}
-  const p=makeQ(d);G.cur={kind,d,yards,p};
-  mountQ($('#gp'),p,`<div class="qhead"><span class="chip ${kind}">${kind==='run'?'RUN':'PASS'}</span><span class="chip lvl">Level ${d} · ${LEVELS[d]}</span><span class="chip worth">${bonus}Worth +${yards} yards</span></div>`,
+  G.cur={kind,d,yards,p};
+  mountQ($('#gp'),p,`<div class="qhead"><span class="chip ${kind}">${kind==='run'?'RUN':'PASS'}</span><span class="chip lvl">Level ${d} · ${LEVELS[d]}</span><span class="chip worth">${bonus}Worth +${yards} yards</span>${p._retry?'<span class="chip" style="background:#7a3fd0">Second chance! You missed this one before</span>':''}</div>`,
     `${ord(G.down)} & ${G.fd>=100?'Goal':G.fd-G.yard}. Answer right to gain ${yards} yards.`,resolvePlay);
 }
 /* question UI */
@@ -1092,15 +1096,31 @@ addEventListener('keydown',e=>{if(!Q||Q.lock||$('#v-game').hidden||$('#modal-roo
   if(p.kind==='num'){if(/^\d$/.test(e.key))key(e.key);else if(e.key==='Backspace')key('del');else if(e.key==='Enter')key('ok')}
   else if(/^[1-4]$/.test(e.key)){const b=document.querySelector(`#ch button[data-i="${+e.key-1}"]`);if(b)choose(+e.key-1,b)}});
 
+/* No repeats: a question answered right is remembered (as a short hash) and not asked again.
+   A missed question comes back 2-3 plays later in the same game, and unlearned misses from
+   earlier games mix back in about every 4th play. Getting a returning question right marks it learned. */
+function qkey(p){const t=p.text+'|'+String(p.answer)+'|'+JSON.stringify(p.vis||[]);let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return(h>>>0).toString(36)}
+const fromMissed=m=>({kind:m.kind,text:m.text,vis:m.vis,answer:m.answer,choices:m.kind==='choice'?(m.choices.length===3?m.choices:shuffle(m.choices)):null,unit:m.unit,tp:m.tp});
+function pickQuestion(d){
+  const i=G.retry.findIndex(r=>G.plays>=r.due);
+  if(i>=0){const r=G.retry.splice(i,1)[0];const m=S.missed.find(x=>x.id===r.mid);if(m&&!m.mastered)return{...fromMissed(m),_retry:m.id,_lvl:m.level}}
+  if(G.plays%4===3){const m=S.missed.find(x=>!x.mastered&&!G.usedMiss.has(x.id)&&x.level<=G.level+1);if(m){G.usedMiss.add(m.id);return{...fromMissed(m),_retry:m.id,_lvl:m.level}}}
+  const seen=new Set(S.seen||[]);for(let t=0;t<40;t++){const p=makeQ(d);const k=qkey(p);if(!seen.has(k)&&!G.used.has(k)){G.used.add(k);return p}}
+  return makeQ(d)}
 function record(p,d,ok,given,team){S.stats.n[d]++;if(ok)S.stats.c[d]++;
-  if(!ok){S.missed.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),at:Date.now(),team,level:d,tp:p.tp||'',kind:p.kind,text:p.text,vis:p.vis||[],answer:p.answer,choices:p.choices||null,unit:p.unit||'',given,mastered:false,tries:0});if(S.missed.length>150)S.missed.length=150}
+  if(ok){(S.seen=S.seen||[]).push(qkey(p));if(S.seen.length>3000)S.seen.splice(0,S.seen.length-3000);
+    if(p._retry){const m=S.missed.find(x=>x.id===p._retry);if(m){m.mastered=true;m.masteredAt=Date.now();m.tries=(m.tries||0)+1}}}
+  else{let id=p._retry;const m=id&&S.missed.find(x=>x.id===id);
+    if(m){m.tries=(m.tries||0)+1;m.given=given;m.at=Date.now()}
+    else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);S.missed.unshift({id,at:Date.now(),team,level:d,tp:p.tp||'',kind:p.kind,text:p.text,vis:p.vis||[],answer:p.answer,choices:p.choices||null,unit:p.unit||'',given,mastered:false,tries:0});if(S.missed.length>150)S.missed.length=150}
+    if(G&&G.retry.filter(r=>r.mid===id).length===0&&(G.retryCount[id]||0)<2){G.retryCount[id]=(G.retryCount[id]||0)+1;G.retry.push({mid:id,due:G.plays+R(2,3)})}}
   markDay();save()}
-function resolvePlay(ok,given){const {kind,d,yards,p}=G.cur;G.plays++;record(p,d,ok,given,G.T.id);
+function resolvePlay(ok,given){const g=G;const {kind,d,yards,p}=G.cur;G.plays++;record(p,d,ok,given,G.T.id);
   const me=$('#me'),d0=$('#d0');let note='';
   if(ok){G.right++;G.streak++;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();
     if(G.streak%3===0&&G.level<6){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}: bigger gains now.`;if(G.level>S.bestLevel)S.bestLevel=G.level}
   }else{G.wrong++;G.streak=0;sfx.bad();if(G.level>G.startLevel){G.level--;note=` Difficulty down to Level ${G.level}.`}}
-  setTimeout(()=>{
+  setTimeout(()=>{if(G!==g)return;
     let gain=0,label;
     if(ok){gain=Math.min(yards,100-G.yard);me.className='spr '+(kind==='run'?'run':'leap');label=kind==='run'?`+${gain} yard run!`:`Pass complete! +${gain}`}
     else if(kind==='run'){gain=-Math.min(R(1,3),G.yard-1);label=gain?`Stuffed! ${gain} yards`:'No gain';}
@@ -1108,7 +1128,7 @@ function resolvePlay(ok,given){const {kind,d,yards,p}=G.cur;G.plays++;record(p,d
     const ny=G.yard+gain;
     if(ok||kind==='run'){at(me,ny-(ny>=100?-4:1.6));at(d0,ny+(ny>=100?-2:.9));at($('#d1'),ny+(ny>=100?-6:3.5));at($('#d2'),ny+(ny>=100?-9:6));camera(Math.min(ny,96))}
     G.gained+=gain;
-    setTimeout(()=>{me.className='spr';
+    setTimeout(()=>{if(G!==g)return;me.className='spr';
       if(ny>=100)return touchdown();
       if(!ok&&kind==='run'){me.classList.add('hit');d0.classList.add('hit');setTimeout(()=>d0.classList.remove('hit'),500)}
       G.yard=ny;
@@ -1119,7 +1139,7 @@ function resolvePlay(ok,given){const {kind,d,yards,p}=G.cur;G.plays++;record(p,d
         flash(label,ok?'':'red');msg=`${label} ${ord(G.down)} & ${G.fd>=100?'Goal':G.fd-G.yard}.`}
       if(earn){G.coins+=earn;S.coins+=earn;S.coinsEarned+=earn;msg+=` +${earn} coins.`;save();renderBar()}
       updateBoard();place(false);
-      setTimeout(()=>callPhase(msg+note),900);
+      setTimeout(()=>{if(G===g)callPhase(msg+note)},900);
     },1150);
   },ok?650:1600);
 }
@@ -1140,13 +1160,13 @@ function touchdown(){const T=G.T,round=G.round;G.yard=100;$('#me').className='sp
     card=sportsCard(T,S.cards[k],true,{slot:0});title=first?`New card: ${T.roster[0].name}!`:`Another ${T.roster[0].name} card!`}
   S.wins++;S.unopened=(S.unopened||0)+1;logGame(true);save();renderBar();
   const nt=nextTeam(),nr=nextRound();const up=nt?`Next up: the ${nt.city} ${nt.name}.`:nr?`Next up: the ${nr.r} against the ${nr.T.city} ${nr.T.name}.`:'';
-  setTimeout(()=>{modal(`<div class="eyebrow">Final: ${ME.name} 7, ${T.name} 0</div><h2>${title}</h2>
+  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="eyebrow">Final: ${ME.name} 7, ${T.name} 0</div><h2>${title}</h2>
     <div class="showcase reveal-in">${card}</div>${extra}
     <p class="note">Touchdown drive: ${G.plays} plays, ${G.gained} yards, ${G.right} of ${G.plays} right${perfect?'. <b>A perfect drive!</b>':''}. You earned <b>${G.coins} coins</b> this game (touchdown bonus ${bonus}). ${first?up:''}</p>
     <div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="pack">Open your reward pack!</button><button class="btn blue" data-act="shop">Card shop</button><button class="btn blue" data-act="binder">See binder</button><button class="btn" data-act="home">Locker room</button></div>`,
     {pack:()=>{G=null;renderShop();show('shop');buyPack(PACKS[0],true)},shop:()=>{closeModal();G=null;renderShop();show('shop')},binder:()=>{closeModal();G=null;renderBinder();show('binder')},home:()=>{closeModal();G=null;renderHome();show('home')}},!!extra)},1900)}
 function turnover(){const T=G.T;updateBoard();flash('TURNOVER ON DOWNS','red');whistle();logGame(false);save();$('#d0').classList.add('dance');
-  setTimeout(()=>{modal(`<div class="art" style="width:150px;height:150px">${fig(T,false,T.roster[0])}</div><h2>The ${T.name} hold!</h2>
+  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="art" style="width:150px;height:150px">${fig(T,false,T.roster[0])}</div><h2>The ${T.name} hold!</h2>
     <p class="note">You ran out of downs on ${spotText(G.yard).replace('Ball on ','')}, so no card this time. You gained ${G.gained} yards, got ${G.right} of ${G.plays} right and earned ${G.coins} coins. Try again!</p>
     <div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="again">Play again</button><button class="btn" data-act="home">Locker room</button></div>`,
     {again:()=>startGame(T.id,G.round),home:()=>{closeModal();G=null;renderHome();show('home')}})},1600)}

@@ -29,7 +29,8 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 - **Promo cards**: `LEGENDS` (made-up Hall of Legends players whose backs carry true Hall of Fame facts), awards, and special appearances in `PROMOS`.
 - **STATE**: `S` is saved to localStorage (`numon-gridiron-v2`) and, when a parent is signed in, to Firestore at `families/{parentUid}/kids/main` as `{json, updatedAt}`. The state is stored as one JSON string because Firestore rejects nested arrays. `migrate()` upgrades old saves. Newest `updatedAt` wins when syncing.
 - **STADIUM SKY**: background canvas and weather (`WX`, `pickWeather`, `drawStageWx`).
-- **GAME**: downs, yards (`BASE`, `yardsFor`), streak-based difficulty, touchdown and turnover.
+- **GAME**: downs, yards (`BASE`, `yardsFor`), streak-based difficulty, touchdown and turnover. An **Exit game** button leaves without logging the game (timers check `G` so nothing fires after leaving).
+- **Question choice** (`pickQuestion`, `record`, `qkey`): questions answered right are remembered in `S.seen` (short hashes, last 3000) and not asked again. A miss returns 2–3 plays later in the same game (`G.retry`, at most twice per game), and unlearned misses from earlier games mix in about every 4th play. A returning question answered right is marked learned; missing it again updates the same `S.missed` entry instead of adding a duplicate.
 - **SPORTS CARDS**: card fronts and backs (jokes in `JOKES`, NFL history in `FACTS`), binder.
 - **COLORING PAGES**: black-and-white line-art export (1700×2200 PNG via the share sheet).
 - **CARD SHOP**: coins, packs (each pack has one promo card), free touchdown packs, Pack of the Day.
