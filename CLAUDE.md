@@ -13,6 +13,7 @@ A football math game for a kid in grades 3–4, played as a home-screen web app 
 |---|---|
 | `index.html` | The game: HTML, CSS and the main JS (football, cards, shop, saving). Edit it directly. |
 | `hockey.js` | Hockey mode: 31 made-up teams in NHL cities, rink game (first to 5 goals), hockey figures (`hfig`), hockey promos, hockey binder. Shares the main script's globals. |
+| `editions.js` | Editions: binder completion, the move-up flow (with the real-prize message for Owen), past-edition binder tabs, and trading 3 extra copies for a missing card. |
 | `learn.js` | Learn lessons (`LESSONS`), `lessonFor(question)`, the in-question **Learn how** button and the **Learn math** library. |
 | `parent.html` | Read-only parent dashboard. Signs in with the parent account and live-reads the kid's save. |
 | `cloud.js` | ES module. Loads the Firebase SDK (v10.12.2 from gstatic), exposes `window.FB`, fires `fb-ready`. |
@@ -44,6 +45,10 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 ## Sports
 
 `S.sport` is `'football'` or `'hockey'` (Settings → Sport). Football cards live in `S.cards` (keys `id-slot`, promos `X-key`), hockey cards in `S.hcards` (keys `H<id>-<slot>`, promos `X-hk-...`). Coins, math stats, missed questions and the game log are shared; hockey log entries use team ids `100+id` (`teamOf()` resolves both). In hockey a right answer is a goal and a miss lets the other team score; first to 5 wins and earns the goalie card plus a free pack.
+
+## Editions and grades
+
+Each sport's binder is an edition (`S.ed[sport]`, 1–6): Standard (Grade 3), Bronze (Grade 4), Silver (Grade 5), Gold, Rainbow, Super Shiny (Grade 5, starting one level higher). The grade sets the difficulty range: Grade 3 = levels 1–3, Grade 4 = 4–6, Grade 5 = 7–9 (`lvLo`, `lvHi`, `startLv`). Grade 5 generators are `G5[7..9]` in **5TH GRADE MATH**. When every slot is filled, a banner offers **Move up**: a prize celebration shows ("You won a REAL prize! Go see Dad" plus the Mom & Dad message), the finished binder is saved to `S.arch[sport][edition]`, and the season and binder reset. Cards render with class `e<edition>` (frame, stamp and foil per edition); `window.RENDER_ED` overrides it when showing an archived binder. The grown-ups menu can move a sport up for testing.
 
 ## Rules to keep
 

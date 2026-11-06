@@ -154,6 +154,10 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .scratch{display:flex;flex-direction:column;gap:6px;min-width:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .sc-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .sc-head .eyebrow{margin-right:auto}
+.scwrap{position:relative}
+.scgrow{position:absolute;left:8px;bottom:8px;width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;font-family:var(--display);font-size:28px;line-height:1;display:grid;place-items:center;box-shadow:0 3px 0 #1b3f9e;z-index:2}
+.scgrow:active{transform:translateY(2px);box-shadow:0 1px 0 #1b3f9e}
+.scratch.big canvas{height:clamp(380px,62vh,680px)!important}
 .sc-tools{display:flex;gap:5px;flex-wrap:wrap}
 .sc-tools button{height:34px;min-width:34px;padding:0 10px;border-radius:10px;background:var(--paper-2);font-weight:800;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:4px;border:2px solid transparent}
 .sc-tools button.on{border-color:var(--accent);background:#fff1e8}
@@ -299,6 +303,33 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .pull.promo{position:relative}.pull.promo .scard{box-shadow:0 0 0 4px var(--gold),0 0 30px rgba(255,201,60,.8)}
 .promolabel{text-align:center;font-family:var(--display);font-size:18px;color:var(--accent);margin-bottom:4px}
 
+/* editions */
+.edstamp{position:absolute;top:0;right:0;z-index:3;font-family:var(--display);font-size:4cqw;letter-spacing:.05em;padding:.8cqw 2.6cqw;border-radius:0 0 0 3cqw;color:#fff;background:var(--edc,#555);text-shadow:0 .3cqw 0 rgba(0,0,0,.3);text-transform:uppercase}
+.scard.e2,.sback.e2{--frame:linear-gradient(145deg,#f6c99b,#9c5a2c 30%,#f0b27a 52%,#6e3a17 78%,#d9965c)}.e2 .edstamp{--edc:linear-gradient(#cf8f58,#7d4520)}
+.scard.e3,.sback.e3{--frame:linear-gradient(145deg,#ffffff,#9aa6b8 28%,#f4f7fb 48%,#7d899c 72%,#e7ebf2)}.e3 .edstamp{--edc:linear-gradient(#b8c2d2,#6b778a)}
+.scard.e4,.sback.e4{--frame:linear-gradient(145deg,#fff3b0,#c98d00 26%,#fff6c8 46%,#a06c00 70%,#ffe07a)}.e4 .edstamp{--edc:linear-gradient(#f2c230,#a87300)}
+.scard.e5,.sback.e5{--frame:linear-gradient(135deg,#ff6b6b,#ffd36b 18%,#6bffb0 36%,#6bc8ff 54%,#b06bff 72%,#ff6bd9 90%)}.e5 .edstamp{--edc:linear-gradient(90deg,#ff6b6b,#ffd36b,#6bffb0,#6bc8ff,#b06bff)}
+.scard.e6,.sback.e6{--frame:linear-gradient(115deg,#ff6b6b,#ffd36b,#6bffb0,#6bc8ff,#b06bff,#ff6bd9,#ff6b6b,#ffd36b,#6bffb0);background-size:300% 300%;animation:shinyframe 4s linear infinite}
+.scard.e6{box-shadow:0 0 18px rgba(255,255,255,.7),0 0 34px rgba(180,120,255,.55),0 2cqw 4cqw rgba(0,0,0,.45)}
+.e6 .edstamp{--edc:linear-gradient(90deg,#7a3fd0,#ff5aa8,#ffb03a)}
+@keyframes shinyframe{to{background-position:300% 0}}
+.scard.e5 .sphoto .foil,.scard.e6 .sphoto .foil{opacity:.42;mix-blend-mode:color-dodge;background:repeating-linear-gradient(115deg,#ff7a7a 0%,#ffd76b 7%,#7dffb8 14%,#6cc8ff 21%,#b47bff 28%,#ff7a7a 35%);background-size:400% 400%;background-position:var(--mx) var(--my)}
+.scard.e6 .sparkle{animation-duration:1.2s;opacity:1}
+.scard.e4 .sparkle{opacity:.6}
+.edban{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:linear-gradient(120deg,#ffb703,#ff6a1f 50%,#c2459a);color:#fff;border-radius:20px;padding:14px 18px;box-shadow:0 6px 0 rgba(0,0,0,.35);animation:glow 1.4s ease-in-out infinite alternate}
+.edban b{display:block;font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1}.edban span{font-weight:700}
+.edban.done{animation:none;background:linear-gradient(120deg,#7a3fd0,#2f6fe0)}
+.edbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.edtab{font-weight:800;font-size:14px;padding:6px 12px;border-radius:999px;background:var(--paper-2);border:2px solid transparent}
+.edtab.on{border-color:var(--accent);background:#fff1e8}
+.tradebtn{margin-top:6px;font-weight:800;font-size:13px;padding:6px 10px;border-radius:10px;background:var(--gold);color:#3a2600;box-shadow:0 3px 0 #b07800}
+
+.prize{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.prize svg{animation:prizebob 1.2s ease-in-out infinite alternate}
+@keyframes prizebob{to{transform:translateY(-8px) rotate(4deg)}}
+.prize-h{font-size:38px!important;color:var(--accent)}
+.prize-go{font-family:var(--display);font-size:26px;color:#7a3fd0;margin:0}
+.prize-msg{font-size:20px;font-weight:800;line-height:1.35;background:#fff6cf;border:3px dashed #f2b705;border-radius:16px;padding:12px 16px;margin:4px 0 0;max-width:460px}
 /* hockey rink */
 .rink{position:relative;height:clamp(170px,27vh,260px);border-radius:90px;overflow:hidden;background:linear-gradient(180deg,#f8fbff,#e2ecf8);border:5px solid #fff;box-shadow:0 0 0 3px #b9c8de,0 6px 0 rgba(0,0,0,.3)}
 .rk{position:absolute;top:0;bottom:0;width:6px;transform:translateX(-50%)}
@@ -451,8 +482,8 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 <div id="app">
   <header class="bar">
     <div class="brand">
-      <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="11" transform="rotate(-35 20 20)" fill="#9a4f1d" stroke="#16203f" stroke-width="2.5"/><path d="M14 26L26 14" stroke="#fff" stroke-width="2.2"/><path d="M16.5 20.5l3 3M19 18l3 3M21.5 15.5l3 3" stroke="#fff" stroke-width="1.8"/></svg>
-      <div><b>Numon</b><span>Gridiron</span></div>
+      <span id="brandicon" style="display:contents"><svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="11" transform="rotate(-35 20 20)" fill="#9a4f1d" stroke="#16203f" stroke-width="2.5"/><path d="M14 26L26 14" stroke="#fff" stroke-width="2.2"/><path d="M16.5 20.5l3 3M19 18l3 3M21.5 15.5l3 3" stroke="#fff" stroke-width="1.8"/></svg></span>
+      <div><b>Numon</b><span id="brandsub">Gridiron</span></div>
     </div>
     <div class="stat" title="Games won"><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h10v4a5 5 0 0 1-10 0z M5 4H2a3 3 0 0 0 3 4 M15 4h3a3 3 0 0 1-3 4" fill="#ffc93c" stroke="#16203f" stroke-width="1.6"/><path d="M10 11v4 M6 18h8" stroke="#16203f" stroke-width="2.2" stroke-linecap="round"/></svg><span id="wins"></span></div>
     <button class="stat" id="coinbtn" title="Coins: open the card shop"><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="#ffc93c" stroke="#b07800" stroke-width="2"/><path d="M10 5.5v9M7.5 7.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4" stroke="#8a5a00" stroke-width="1.6" fill="none"/></svg><span id="coins"></span></button>
@@ -621,7 +652,7 @@ function bar(k,d,w=220){const pw=w/d;let s=`<svg width="${w+8}" height="46" view
 const COIN={25:{r:22,f:'#d9dee6',t:'25¢'},10:{r:16,f:'#e6eaf0',t:'10¢'},5:{r:19,f:'#c5ccd6',t:'5¢'},1:{r:15,f:'#d98a4a',t:'1¢'}};
 function coins(list){let x=4,s='';for(const v of list){const c=COIN[v];s+=`<circle cx="${x+c.r}" cy="26" r="${c.r}" fill="${c.f}" stroke="#1d2547" stroke-width="2"/><circle cx="${x+c.r}" cy="26" r="${c.r-4}" fill="none" stroke="rgba(29,37,71,.25)" stroke-width="1.2"/><text x="${x+c.r}" y="30.5" text-anchor="middle" font-size="${c.r>17?12:10}" font-weight="800" fill="#1d2547" font-family="Baloo 2, sans-serif">${c.t}</text>`;x+=c.r*2+5}
   return `<svg width="${x}" height="52" viewBox="0 0 ${x} 52" aria-label="Coins">${s}</svg>`}
-function fracUnique(answer,n0,d0,extra){const ds=[];for(const [n,d] of extra){if(n>0&&n!==d)ds.push(fr(n,d))}return choiceQ(`What fraction is shaded?`,answer,ds)}
+function fracUnique(answer,n0,d0,extra){const ds=[];for(const [n,d] of extra){if(n>0&&n<d&&n*d0!==n0*d)ds.push(fr(n,d))}return choiceQ(`What fraction is shaded?`,answer,ds)}
 const fruits=['berries','apples','shells','acorns','gems'];
 
 const GEN={
@@ -770,7 +801,7 @@ const PW={legend:1,award:2,special:3};
 const DIVS=[...new Set(TEAMS.map(t=>t.div))];
 const byAbbr=a=>TEAMS.find(t=>t.abbr===a);
 const PLAYOFFS=[{r:'Wild Card',t:'PIT',start:4},{r:'Divisional Round',t:'BAL',start:5},{r:'AFC Championship',t:'KC',start:5},{r:'Numon Bowl',t:'PHI',start:6}].map((x,i)=>({...x,i,T:byAbbr(x.t)}));
-const TIERLABEL={base:'Base',silver:'Silver',gold:'Gold',hof:'Hall of Fame'};
+const TIERLABEL={base:'Common',silver:'Rare',gold:'Epic',hof:'Hall of Fame'};
 const initials=T=>T.abbr;
 const lum=h=>{const n=parseInt(h.slice(1),16);return(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255))/255};
 const tvars=T=>`--tp:${T.p};--ts:${T.s};--ti:${lum(T.p)>.55?'#16203f':T.p}`;
@@ -867,21 +898,67 @@ const G4={
     const n=pick([24,36,48,42,56,72,60,54]);const f=pick([2,3,4,6,7,8,9,12].filter(x=>n%x===0));const non=shuffle([5,7,9,11,13,10,8].filter(x=>n%x!==0));
     return choiceQ(`Which number is a factor of ${n}?`,String(f),non.slice(0,3).map(String),{tp:'Factors & multiples'})}
 };
+/* ============ 5TH GRADE MATH ============ */
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const frs=(n,d)=>{const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):fr(n,d)};
+const frVal=h=>{const m=String(h).match(/<span>(\d+)<\/span><span>(\d+)<\/span>/);const w=String(h).match(/^(\d+)(?=<span)/);return m?(w?+w[1]:0)+m[1]/m[2]:+h};
+const decS=(num,p)=>{let t=(num/10**p).toFixed(p);if(p>0)t=t.replace(/\.?0+$/,'');return t};
+function fracChoices(text,ans,cands,o={}){const v=frVal(ans);const ds=cands.filter(c=>c&&Math.abs(frVal(c)-v)>1e-9);return choiceQ(text,ans,ds,o)}
+const mixS=(n,d)=>{const g=gcd(n,d);n/=g;d/=g;const w=Math.floor(n/d),r=n%d;return r?`${w?w:''}${fr(r,d)}`:String(w)};
+const G5={
+  7(){const k=pick(['m32','dadd','dsub','pow10','ooo','dplace']);
+    if(k==='m32'){const a=R(112,489),b=R(12,39);return numQ(`${a} × ${b} = ?`,a*b,{vis:[['vert',a,b,'×']],tp:'Multiply & divide'})}
+    if(k==='dadd'){const A=R(110,989),B=R(105,899),t=A+B;return choiceQ(`${decS(A,2)} + ${decS(B,2)} = ?`,decS(t,2),[decS(t+10,2),decS(t-100,2),decS(A+Math.round(B/10),2),decS(t+1,2)],{tp:'Decimals'})}
+    if(k==='dsub'){const A=R(520,989),B=R(105,A-60),t=A-B;return choiceQ(`${decS(A,2)} − ${decS(B,2)} = ?`,decS(t,2),[decS(t+10,2),decS(t+100,2),decS(Math.abs(A-Math.round(B/10)),2),decS(t-1,2)],{tp:'Decimals'})}
+    if(k==='pow10'){const X=R(12,99),m=pick([10,100,1000]),t=X*m;return choiceQ(`${decS(X,1)} × ${comma(m)} = ?`,decS(t,1),[decS(t*10,1),decS(t/10,1),decS(X,1)+'0',decS(t*100,1)].filter((v,i,a)=>a.indexOf(v)===i),{tp:'Decimals'})}
+    if(k==='ooo'){const a=R(2,9),b=R(2,9),c=R(2,6);return Math.random()<.5?numQ(`(${a} + ${b}) × ${c} = ?`,(a+b)*c,{tp:'Order of operations'}):numQ(`${a} + ${b} × ${c} = ?`,a+b*c,{tp:'Order of operations'})}
+    const d=[R(1,9),R(0,9),R(0,9),R(1,9)];const pos=R(1,3);const names=['ones','tenths','hundredths','thousandths'];const n=`${d[0]}.${d[1]}${d[2]}${d[3]}`;const dig=d[pos];
+    return choiceQ(`In ${n}, what is the value of the digit in the ${names[pos]} place?`,`${dig} ${names[pos]}`,[1,2,3,0].filter(i=>i!==pos).map(i=>`${dig} ${names[i]}`),{tp:'Decimals'})},
+  8(){const k=pick(['div32','div42','fadd','fsub','fmul','vol','dmul']);
+    if(k==='div32'){const d=R(12,39),q=R(12,49);return numQ(`${comma(d*q)} ÷ ${d} = ?`,q,{tp:'Multiply & divide'})}
+    if(k==='div42'){const d=R(12,49),q=R(21,Math.floor(9999/d));return numQ(`${comma(d*q)} ÷ ${d} = ?`,q,{tp:'Multiply & divide'})}
+    const pairs=[[2,3],[2,5],[3,4],[2,4],[3,6],[4,6],[2,6],[3,5],[4,8],[5,10],[4,5],[3,8]];
+    if(k==='fadd'||k==='fsub'){const [b,d]=pick(pairs);let a=R(1,b-1),c=R(1,d-1);if(k==='fsub'&&a*d<=c*b){a=b-1;c=1;if(a*d<=c*b)return G5[8]()}
+      const num=k==='fadd'?a*d+c*b:a*d-c*b,den=b*d;const ans=frs(num,den);const op=k==='fadd'?'+':'−';
+      return fracChoices(`${fr(a,b)} ${op} ${fr(c,d)} = ?`,ans,[fr(k==='fadd'?a+c:Math.abs(a-c)||1,b+d),fr(k==='fadd'?a+c:Math.abs(a-c)||1,b*d),frs(num+den,den),frs(Math.max(1,num-1),den),frs(num,den*2)],{tp:'Fractions & decimals'})}
+    if(k==='fmul'){const [b,d]=pick(pairs);const a=R(1,b-1),c=R(1,d-1);return fracChoices(`${fr(a,b)} × ${fr(c,d)} = ?`,frs(a*c,b*d),[fr(a+c,b+d),frs(a*d,b*c),fr(a*c,b+d),frs(a+c,b*d)],{tp:'Fractions & decimals'})}
+    if(k==='vol'){const l=R(2,9),w=R(2,9),h=R(2,9);return numQ(`A box is ${l} cm long, ${w} cm wide and ${h} cm tall. What is its volume in cubic centimeters?`,l*w*h,{unit:' cu cm',tp:'Measurement'})}
+    const X=R(11,99),n=R(2,9),t=X*n;return choiceQ(`${decS(X,1)} × ${n} = ?`,decS(t,1),[decS(t*10,1),decS(t+n,1),decS(X*10+n,1),decS(t+10,1)].filter((v,i,a)=>a.indexOf(v)===i),{tp:'Decimals'})},
+  9(){const k=pick(['udiv','wdiv','mixedu','ooo2','exp','money','vol2']);
+    if(k==='udiv'){const a=pick([2,3,4,5,6,8]),n=R(2,5);return fracChoices(`${fr(1,a)} ÷ ${n} = ?`,fr(1,a*n),[fr(n,a),fr(1,a+n),fr(n,a*n>a?a*n:a+1),fr(1,Math.max(2,a*n-1))],{tp:'Fractions & decimals'})}
+    if(k==='wdiv'){const a=pick([2,3,4,5,6,8]),n=R(2,9);return numQ(`How many ${fr(1,a)}s are in ${n}? (${n} ÷ ${fr(1,a)} = ?)`,n*a,{tp:'Fractions & decimals'})}
+    if(k==='mixedu'){const pairs=[[2,4],[2,3],[3,6],[4,8],[2,5],[3,4]];const [b,d]=pick(pairs);const w1=R(1,3),w2=R(1,3),a=R(1,b-1),c=R(1,d-1);
+      const num=(w1*b+a)*d+(w2*d+c)*b,den=b*d;const ans=mixS(num,den);return fracChoices(`${w1}${fr(a,b)} + ${w2}${fr(c,d)} = ?`,ans,[`${w1+w2}${fr(a+c,b+d)}`,mixS(num+den,den),mixS(Math.max(1,num-1),den),`${w1+w2}${fr(a+c,b*d)}`],{tp:'Fractions & decimals'})}
+    if(k==='ooo2'){const a=R(2,6),b=R(2,9),d=R(1,5),c=d+R(1,6);return numQ(`${a} × [${b} + (${c} − ${d})] = ?`,a*(b+(c-d)),{tp:'Order of operations'})}
+    if(k==='exp'){const e=R(2,4),m=R(2,9);return Math.random()<.5?numQ(`10<sup>${e}</sup> = ?`,10**e,{tp:'Powers of ten'}):numQ(`${m} × 10<sup>${e-1}</sup> = ?`,m*10**(e-1),{tp:'Powers of ten'})}
+    if(k==='money'){const c=R(105,495),n=R(3,8),t=c*n;return choiceQ(`A snack costs $${decS(c,2)}. You buy ${n} of them. How much do they cost in all?`,'$'+decS(t,2).replace(/^(\d+)$/,'$1.00').replace(/\.(\d)$/,'.$10'),[t+100,t-100,t+10,c*(n-1)].map(v=>'$'+(v/100).toFixed(2)),{tp:'Word problems'})}
+    const l1=R(2,6),w1=R(2,5),h1=R(2,5),l2=R(2,6),w2=R(2,5),h2=R(2,5);return numQ(`A building block is made of two boxes. One is ${l1}×${w1}×${h1} inches and the other is ${l2}×${w2}×${h2} inches. What is the total volume in cubic inches?`,l1*w1*h1+l2*w2*h2,{unit:' cu in',tp:'Measurement'})}
+};
 const G3TOPIC={addsub:'Add & subtract',multdiv:'Multiply & divide',ftm:'Fractions, time & money'};
 function makeQ(level){
   if(level<=3){const t=pick(['addsub','multdiv','ftm']);const tier=level===1?0:level===2?1:pick([2,3]);let p;do{p=GEN[t](tier)}while(!p);p.tp=G3TOPIC[t];return p}
-  return G4[level]();
+  return level<=6?G4[level]():G5[level]();
 }
-const LEVELS=['','Grade 3 · Warm-up','Grade 3','Grade 3 · Challenge','Grade 4','Grade 4 · Tough','Grade 4 · All-Pro'];
-const BASE=[0,3,4,6,8,10,13];
+const LEVELS=['','Grade 3 · Warm-up','Grade 3','Grade 3 · Challenge','Grade 4','Grade 4 · Tough','Grade 4 · All-Pro','Grade 5 · Warm-up','Grade 5','Grade 5 · All-Pro'];
+const BASE=[0,3,4,6,8,10,13,14,15,16];
 const yardsFor=(kind,d)=>kind==='run'?BASE[d]+R(0,3):Math.round(BASE[d]*1.3)+R(0,4);
-const lvRange=(kind,L)=>kind==='run'?[Math.max(1,L-1),L]:[L,Math.min(6,L+1)];
+/* Editions: each sport's binder is an edition tied to a grade. Fill the binder to move up. */
+const EDITIONS=['','Standard','Bronze','Silver','Gold','Rainbow','Super Shiny'];
+const ED_GRADE=[0,3,4,5,5,5,5];
+const spNow=()=>S.sport==='hockey'?'hockey':'football';
+const edOf=(sp=spNow())=>Math.min(6,(S.ed&&S.ed[sp])||1);
+const gradeOf=(sp=spNow())=>ED_GRADE[edOf(sp)];
+const lvLo=()=>(gradeOf()-3)*3+1,lvHi=()=>lvLo()+2;
+const startLv=st=>Math.min(lvHi(),lvLo()+Math.min(2,Math.max(0,(st||1)-1))+(edOf()>=4?1:0));
+const cardEd=T=>window.RENDER_ED||edOf(T&&T.hockey?'hockey':'football');
+const edStamp=T=>{const e=cardEd(T);return e>=2?`<div class="edstamp">${EDITIONS[e]}</div>`:''};
+const lvRange=(kind,L)=>kind==='run'?[Math.max(lvLo(),L-1),L]:[L,Math.min(lvHi(),L+1)];
 
 /* ============ STATE ============ */
 const KEY='numon-gridiron-v2';
-function fresh(){return{seen:[],sport:'football',hcards:{},hbeaten:[],hperfect:{},cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0]},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
+function fresh(){return{seen:[],sport:'football',hcards:{},hbeaten:[],hperfect:{},cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0,0,0,0]},ed:{football:1,hockey:1},arch:{football:{},hockey:{}},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
 let S=fresh();
-function migrate(){const c={};for(const [k,v] of Object.entries(S.cards||{}))c[String(k).includes('-')?k:`${k}-0`]=v;S.cards=c;S.me=Object.assign({...ME_DEFAULT},S.me||{});if(S.me.beard===true)S.me.beard='full';if(S.me.pose==='qb'||S.me.pose==='point')S.me.pose='throw';S.hcards=S.hcards||{};S.hbeaten=S.hbeaten||[];S.hperfect=S.hperfect||{};S.sport=S.sport||'football';if(S.me.beard===false)S.me.beard=''}
+function migrate(){const c={};for(const [k,v] of Object.entries(S.cards||{}))c[String(k).includes('-')?k:`${k}-0`]=v;S.cards=c;S.me=Object.assign({...ME_DEFAULT},S.me||{});if(S.me.beard===true)S.me.beard='full';if(S.me.pose==='qb'||S.me.pose==='point')S.me.pose='throw';S.hcards=S.hcards||{};S.hbeaten=S.hbeaten||[];S.hperfect=S.hperfect||{};S.sport=S.sport||'football';S.ed=Object.assign({football:1,hockey:1},S.ed||{});S.arch=Object.assign({football:{},hockey:{}},S.arch||{});if(S.stats&&S.stats.n)for(const k of['n','c'])while(S.stats[k].length<10)S.stats[k].push(0);if(S.me.beard===false)S.me.beard=''}
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
 migrate();
 function localSave(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -977,7 +1054,8 @@ if(!reduce)(function loop(t){drawSky(t);requestAnimationFrame(loop)})(0);
 /* ============ VIEWS ============ */
 const VIEWS=['home','game','binder','report','shop'];
 function show(v){VIEWS.forEach(n=>$('#v-'+n).hidden=n!==v);scrollTo({top:0,behavior:'instant'});renderBar()}
-function renderBar(){$('#coins').textContent=comma(S.coins);$('#wins').textContent=`${S.wins} win${S.wins===1?'':'s'}`;$('#cardcount').textContent=S.sport==='hockey'&&typeof hCount==='function'?`${hCount()}/${HCARD_TOTAL}`:`${cardCount()}/${CARD_TOTAL}`;
+const BRAND_HK='<svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 4 L23 29 L35 29 L35 34 L20 34 L5 7 Z" fill="#8a5a2b" stroke="#16203f" stroke-width="2" stroke-linejoin="round"/><path d="M22 29 H35" stroke="#16203f" stroke-width="2"/><ellipse cx="14" cy="31" rx="7" ry="3.5" fill="#111"/></svg>';let BRAND_FB=null;
+function renderBar(){{const bi=document.getElementById('brandicon');if(bi){if(!BRAND_FB)BRAND_FB=bi.innerHTML;const hk=S.sport==='hockey';bi.innerHTML=hk?BRAND_HK:BRAND_FB;document.getElementById('brandsub').textContent=hk?'Hockey':'Gridiron'}}$('#coins').textContent=comma(S.coins);$('#wins').textContent=`${S.wins} win${S.wins===1?'':'s'}`;$('#cardcount').textContent=S.sport==='hockey'&&typeof hCount==='function'?`${hCount()}/${HCARD_TOTAL}`:`${cardCount()}/${CARD_TOTAL}`;
   $('#mute').innerHTML=S.muted?'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h3l4-3v12l-4-3H3z" fill="#16203f"/><path d="M13 7l5 6M18 7l-5 6" stroke="#e0413a" stroke-width="2"/></svg>':'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h3l4-3v12l-4-3H3z" fill="#16203f"/><path d="M13 6.5a5 5 0 0 1 0 7M15.5 4a8.5 8.5 0 0 1 0 12" stroke="#16203f" stroke-width="1.8" fill="none"/></svg>'}
 function modal(html,acts={},wide=false){const root=$('#modal-root');root.innerHTML=`<div class="scrim"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${html}</div></div>`;
   root.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{sfx.tap();(acts[b.dataset.act]||closeModal)(b)});const f=root.querySelector('button,input');if(f)f.focus()}
@@ -990,10 +1068,10 @@ function gameTile(T,round){const isPO=round!=null;
   const label=isPO?PLAYOFFS[round].r:`WK ${T.id}`;const cnt=isPO?S.pcards[round]||0:T.roster.filter(P=>S.cards[ck(T,P.slot)]).length;
   return`<button class="game ${isNext?'next':''} ${open?'':'locked'}" style="${tvars(T)}" ${open?`data-id="${T.id}" ${isPO?`data-r="${round}"`:''}`:'disabled'} aria-label="${label} ${T.city} ${T.name}${open?'':' locked'}"><span class="wk">${label}</span>${beat?'<span class="done">✓ Won</span>':''}<div class="art">${fig(T,false,T.roster[0])}</div><b>${T.city} ${T.name}</b><small>${open?(isNext?'Next game':isPO?`Cards ×${cnt}`:`${cnt} of 3 players`):'Locked'}</small></button>`}
 function renderHome(){if(S.sport==='hockey'&&typeof renderHHome==='function')return renderHHome();
-  const nt=nextTeam(),nr=nextRound(),me=MEP();const T=nt||(nr&&nr.T);const lvl=nt?nt.start:nr?nr.start:0;const opp=T&&T.roster[0];
+  const nt=nextTeam(),nr=nextRound(),me=MEP();const T=nt||(nr&&nr.T);const lvl=nt?startLv(nt.start):nr?startLv(nr.start):0;const opp=T&&T.roster[0];
   const title=nt?`Week ${nt.id}: ${ME.name} vs ${nt.name}`:nr?`${nr.r}: ${ME.name} vs ${nr.T.name}`:'Numon Bowl Champions!';
   const daily=checkDaily();setWX(homeWX());
-  $('#v-home').innerHTML=`${daily?`<button class="dailyban" id="dailyban">${packArt(DAILY)}<div><b>Your Pack of the Day is here!</b><span>2 promo cards and 1 player card, free. Tap to open it.</span></div></button>`:''}<div class="hero"><div class="eyebrow" style="color:#c9d3f5">${nt?`Regular season · ${S.beaten.length} of ${TEAMS.length} teams beaten`:nr?'Playoffs!':'Season complete'}</div><h2 class="title">${title}</h2>
+  $('#v-home').innerHTML=`${typeof edBanner==='function'?edBanner():''}${daily?`<button class="dailyban" id="dailyban">${packArt(DAILY)}<div><b>Your Pack of the Day is here!</b><span>2 promo cards and 1 player card, free. Tap to open it.</span></div></button>`:''}<div class="hero"><div class="eyebrow" style="color:#c9d3f5">Grade ${gradeOf()} · ${EDITIONS[edOf()]} edition · ${nt?`Regular season · ${S.beaten.length} of ${TEAMS.length} teams beaten`:nr?'Playoffs!':'Season complete'}</div><h2 class="title">${title}</h2>
     <div class="sub">Call a run or a pass, answer the math, and drive into the end zone. Harder questions gain more yards and more coins. Today's forecast: ${WXINFO[WX].label}, ${wxTemp(WX,1)}°F.</div></div>
   <div class="panel">
     <div class="vs">
@@ -1041,7 +1119,7 @@ function customize(){const m={...S.me};
 let G=null,Q=null;
 const ord=n=>['','1st','2nd','3rd','4th'][n];
 const spotText=y=>y===50?'Ball on the 50':y<50?`Ball on your ${y}`:`Ball on their ${100-y}`;
-function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],start=R(20,30);const lv=round!=null?PLAYOFFS[round].start:T.start;
+function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],start=R(20,30);const lv=startLv(round!=null?PLAYOFFS[round].start:T.start);
   const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
   $('#v-game').innerHTML=`
   <div class="score">
@@ -1081,7 +1159,7 @@ function place(instant){const y=G.yard;const els=['#me','#d0','#d1','#d2','#los'
   if(instant){void $('#me').offsetWidth;els.forEach(e=>e.style.transition='')}
   camera(y,instant)}
 function updateBoard(){const toGo=G.fd-G.yard;$('#dd').textContent=`${ord(G.down)} & ${G.fd>=100?'Goal':toGo}`;$('#spot').textContent=spotText(G.yard);
-  $('#pips').innerHTML=[1,2,3,4,5,6].map(i=>`<i class="${i<=G.level?'on':''} ${i>=4?'g4':''}"></i>`).join('');$('#lvname').textContent=LEVELS[G.level];
+  $('#pips').innerHTML=[lvLo(),lvLo()+1,lvLo()+2].map(i=>`<i class="${i<=G.level?'on':''} ${i>=4?'g4':''}"></i>`).join('');$('#lvname').textContent=LEVELS[G.level];
   $('#streak').innerHTML=[0,1,2].map(i=>`<i class="${i<G.streak%3||(G.streak>0&&G.streak%3===0&&G.level===6)?'on':''}"></i>`).join('')}
 function flash(text,cls=''){const f=$('#flash');f.className='flash '+cls;f.textContent=text;void f.offsetWidth;f.classList.add('show')}
 function rangeTxt(kind){const [a,b]=lvRange(kind,G.level);const lo=kind==='run'?BASE[a]:Math.round(BASE[a]*1.3),hi=kind==='run'?BASE[b]+3:Math.round(BASE[b]*1.3)+4;return`${lo}–${hi} yards`}
@@ -1107,15 +1185,18 @@ function mountQ(el,p,head,msg,cb){Q={p,input:'',lock:false,cb};
     ${p.kind==='num'?`<div class="ansbox" id="ans"><span class="ph">?</span></div>`:`<div class="choices" id="ch">${p.choices.map((c,i)=>`<button data-i="${i}">${c}</button>`).join('')}</div>`}<div id="rev"></div></div>
     <div class="scratch"><div class="sc-head"><span class="eyebrow">Scratch pad · show your work</span><button class="learnbtn" id="learnq" type="button">Learn how</button><div class="sc-tools" id="sctools">
       <button data-c="#1d2547" class="on" aria-label="Black pen"><span class="sw" style="background:#1d2547"></span></button><button data-c="#2f6fe0" aria-label="Blue pen"><span class="sw" style="background:#2f6fe0"></span></button><button data-c="#e0413a" aria-label="Red pen"><span class="sw" style="background:#e0413a"></span></button>
-      <button data-t="erase">Eraser</button><button data-t="undo">Undo</button><button data-t="clear">Clear</button></div></div><canvas id="scratch" aria-label="Scratch pad. Draw here with your finger or Apple Pencil."></canvas></div>
+      <button data-t="erase">Eraser</button><button data-t="undo">Undo</button><button data-t="clear">Clear</button></div></div><div class="scwrap"><canvas id="scratch" aria-label="Scratch pad. Draw here with your finger or Apple Pencil."></canvas><button class="scgrow" id="scgrow" type="button" aria-label="Make the scratch pad bigger">+</button></div></div>
     ${p.kind==='num'?`<div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}<button data-k="del" aria-label="Delete">⌫</button><button data-k="0">0</button><button data-k="ok" class="enter" aria-label="Check answer">✓</button></div>`:''}</div>`;
   if(p.kind==='num')el.querySelectorAll('#pad button').forEach(b=>b.onclick=()=>key(b.dataset.k));
   else el.querySelectorAll('#ch button').forEach(b=>b.onclick=()=>choose(+b.dataset.i,b));
   initScratch();
 }
 /* scratch pad: finger or Apple Pencil; once a pencil is used, touches are ignored so a resting palm does not draw */
-let SCR=null;
+let SCR=null,SCR_BIG=false;
 function initScratch(){if(SCR&&SCR.ro)SCR.ro.disconnect();const c=document.getElementById('scratch');if(!c){SCR=null;return}
+  const box=c.closest('.scratch'),gb=document.getElementById('scgrow');
+  const setBig=v=>{SCR_BIG=v;box.classList.toggle('big',v);gb.textContent=v?'−':'+';gb.setAttribute('aria-label',v?'Make the scratch pad smaller':'Make the scratch pad bigger')};
+  setBig(SCR_BIG);gb.onclick=()=>{sfx.tap();setBig(!SCR_BIG);if(SCR_BIG)setTimeout(()=>c.scrollIntoView({behavior:'smooth',block:'nearest'}),60)};
   const g=c.getContext('2d');const st={color:'#1d2547',erase:false,strokes:[],cur:null,pen:false,dpr:1};SCR=st;
   const seg=(k,a,b)=>{g.globalCompositeOperation=k.erase?'destination-out':'source-over';g.strokeStyle=k.color;g.lineCap='round';g.lineJoin='round';
     g.lineWidth=k.erase?24:1.8+(b[2]??.5)*3.6;g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.stroke()};
@@ -1169,7 +1250,7 @@ function record(p,d,ok,given,team){S.stats.n[d]++;if(ok)S.stats.c[d]++;
 function resolvePlay(ok,given){const g=G;const {kind,d,yards,p}=G.cur;G.plays++;record(p,d,ok,given,G.T.id);
   const me=$('#me'),d0=$('#d0');let note='';
   if(ok){G.right++;G.streak++;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();
-    if(G.streak%3===0&&G.level<6){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}: bigger gains now.`;if(G.level>S.bestLevel)S.bestLevel=G.level}
+    if(G.streak%3===0&&G.level<lvHi()){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}: bigger gains now.`;if(G.level>S.bestLevel)S.bestLevel=G.level}
   }else{G.wrong++;G.streak=0;sfx.bad();if(G.level>G.startLevel){G.level--;note=` Difficulty down to Level ${G.level}.`}}
   setTimeout(()=>{if(G!==g)return;
     let gain=0,label;
@@ -1294,21 +1375,21 @@ const FACTS=[
 const cardIndex=(T,ed)=>ed.promo?98+(PROMO[ed.promo].hk?HPROMOS.indexOf(PROMO[ed.promo]):PROMOS.indexOf(PROMO[ed.promo])):ed.champ?97:ed.round!=null?93+ed.round:(T.id-1)*3+(ed.slot||0);
 function cardPlayer(T,ed){if(ed.promo)return PROMO[ed.promo].P();return ed.champ?MEP():T.roster[ed.round!=null?0:(ed.slot||0)]}
 function promoCard(X,count,tilt,isNew){const T=X.T,P=X.P();const me=!T.hockey&&(T===ME||T.city===ME.city);const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';
-  return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} ${tilt?'tilt':''}"><div class="sface">
+  return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} e${cardEd(T)} ${tilt?'tilt':''}"><div class="sface">${edStamp(T)}
     <div class="sphoto th-${X.theme}"><div class="bignum">${P.num}</div><div class="mon ${me?'flipx':''}">${fig(T,me,P)}</div><div class="sbadge">${initials(T)}</div><div class="ptag ${X.kind}">${X.kind==='award'?'🏆 ':''}${X.title}</div>${isNew?'<div class="perfect" style="left:auto;right:4cqw;bottom:auto;top:24cqw;background:#ff5a3c;color:#fff">NEW!</div>':''}<div class="foil"></div></div>
     <div class="sban"><div class="sname">${esc(P.name)}<span class="spos">${P.pos}</span></div><div class="steam">${T.city} ${T.name} · #${P.num}</div></div>
     <div class="stier"><span>${X.kind==='legend'?'Hall of Legends · '+X.sub:X.kind==='award'?'Award winner':'Special appearance'}</span><span>${new Date().getFullYear()} · PROMO</span></div>
-  </div>${count>1?`<span class="copies">×${count}</span>`:''}${tier!=='legend'?'<div class="foil"></div><div class="sparkle"></div>':''}<div class="glare"></div></div></div>`}
+  </div>${count>1?`<span class="copies">×${count}</span>`:''}${tier!=='legend'||cardEd(T)>=4?'<div class="foil"></div><div class="sparkle"></div>':''}<div class="glare"></div></div></div>`}
 function sportsCard(T,count=1,tilt=true,ed={}){if(ed.promo)return promoCard(PROMO[ed.promo],count,tilt,ed.isNew);const isMe=!!ed.champ;const P=cardPlayer(T,ed);
   const tier=ed.round!=null||isMe?'hof':T.tier;const label=isMe?'Numon Bowl Champion':ed.round!=null?PLAYOFFS[ed.round].r:TIERLABEL[tier];
   const yr=new Date().getFullYear();const right=isMe?`${yr} · Champion`:ed.round!=null?`${yr} · Playoffs`:`${yr} · ${String(T.id).padStart(2,'0')}-${(ed.slot||0)+1}`;
-  return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} ${tilt?'tilt':''}"><div class="sface">
+  return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} e${cardEd(T)} ${tilt?'tilt':''}"><div class="sface">${edStamp(T)}
     <div class="sphoto"><div class="bignum">${P.num}</div><div class="mon ${isMe?'flipx':''}">${fig(T,isMe,P)}</div><div class="sbadge">${initials(T)}</div>${!isMe&&ed.round==null&&!ed.slot&&(T.hockey?S.hperfect:S.perfect)[T.id]?`<div class="perfect">${T.hockey?'Perfect game':'Perfect drive'}</div>`:''}${ed.round!=null?`<div class="perfect">${PLAYOFFS[ed.round].r}</div>`:''}${isMe?'<div class="perfect">Champion</div>':''}${ed.isNew?'<div class="perfect" style="left:auto;right:4cqw;bottom:auto;top:24cqw;background:#ff5a3c;color:#fff">NEW!</div>':''}<div class="foil"></div></div>
     <div class="sban"><div class="sname">${esc(P.name)}<span class="spos">${P.pos}</span></div><div class="steam">${T.city} ${T.name} · #${P.num}</div></div>
     <div class="stier"><span>${label}</span><span>${right}</span></div>
-  </div>${count>1?`<span class="copies">×${count}</span>`:''}${tier==='hof'?'<div class="foil"></div><div class="sparkle"></div>':''}<div class="glare"></div></div></div>`}
+  </div>${count>1?`<span class="copies">×${count}</span>`:''}${tier==='hof'||cardEd(T)>=4?'<div class="foil"></div><div class="sparkle"></div>':''}<div class="glare"></div></div></div>`}
 function promoBack(X){const T=X.T,P=X.P(),ci=cardIndex(T,{promo:X.key});const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';const JK=T.hockey?HJOKES:JOKES,FC=T.hockey?HFACTS:FACTS,HL=T.hockey?'Hockey history':'Football history';
-  return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier}"><div class="bk">
+  return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier} e${cardEd(T)}"><div class="bk">
     <div class="bkh"><div class="sbadge" style="position:static;width:13cqw;height:13cqw;font-size:4.6cqw">${initials(T)}</div><div><b>${esc(P.name)}</b><div style="font-weight:800;font-size:4cqw;color:var(--ink-2)">${X.title} · ${P.pos} · #${P.num}</div></div></div>
     <table><tr><th>Height</th><th>Weight</th><th>Position</th></tr><tr><td>${P.ht}</td><td>${P.wt}</td><td>${P.pos}</td></tr></table>
     <div class="rep">“${X.desc}”</div>
@@ -1318,7 +1399,7 @@ function promoBack(X){const T=X.T,P=X.P(),ci=cardIndex(T,{promo:X.key});const ti
 function cardBack(T,ed={}){if(ed.promo)return promoBack(PROMO[ed.promo]);const isMe=!!ed.champ;const P=cardPlayer(T,ed);const ci=cardIndex(T,ed);const tier=ed.round!=null||isMe?'hof':T.tier;const JK=T.hockey?HJOKES:JOKES,FC=T.hockey?HFACTS:FACTS,HL=T.hockey?'Hockey history':'Football history';
   const games=isMe?S.log.filter(l=>l.round===3):S.log.filter(l=>l.team===(T.hockey?100+T.id:T.id)&&(ed.round!=null?l.round===ed.round:l.round==null));const won=games.filter(l=>l.won);const best=won.length?Math.min(...won.map(l=>l.plays)):null;
   const rep=isMe?`Led the ${ME.city} ${ME.name} past ${TEAMS.length} teams and four playoff games to win the Numon Bowl.`:ed.round!=null?`Beaten in the ${PLAYOFFS[ed.round].r}. ${T.report}`:(ed.slot?`${T.hockey?(P.pos==='C'?'Top center':'Speedy skater'):(P.pos==='QB'?'Field general':'Playmaker')} for the ${T.city} ${T.name}. Found in a card pack.`:T.report);
-  return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier}"><div class="bk">
+  return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier} e${cardEd(T)}"><div class="bk">
     <div class="bkh"><div class="sbadge" style="position:static;width:13cqw;height:13cqw;font-size:4.6cqw">${initials(T)}</div><div><b>${esc(P.name)}</b><div style="font-weight:800;font-size:4cqw;color:var(--ink-2)">${T.city} ${T.name} · ${P.pos} · #${P.num}</div></div></div>
     <table><tr><th>Height</th><th>Weight</th><th>Position</th></tr><tr><td>${P.ht}</td><td>${P.wt}</td><td>${P.pos}</td></tr></table>
     <div class="rep">“${rep}”</div>
@@ -1326,17 +1407,18 @@ function cardBack(T,ed={}){if(ed.promo)return promoBack(PROMO[ed.promo]);const i
     <div class="fact"><b>${HL}:</b> ${FC[(ci*7)%FC.length]}</div>
     <div class="rec">Your games ${games.length} · Wins ${won.length} · ${T.hockey?'Fastest win':'Fastest TD'} ${best?best+(T.hockey?' shots':' plays'):'—'}</div>
     <div class="seal"><span>${T.hockey?'Numon Hockey League':'Numon League'}</span><span>${isMe?'Champion':ed.round!=null?'Playoffs':TIERLABEL[tier]}</span></div></div></div></div>`}
-function slotFor(T,have,count,ed,label,sub){return`<div class="slot">${have?`<button data-id="${T.id||0}" data-ed='${JSON.stringify(ed)}' aria-label="View card">${sportsCard(T,count,true,ed)}</button>`:`<div class="empty" style="${tvars(T)}"><div class="art">${fig(T,!T.hockey&&(!!ed.champ||(ed.promo&&(T===ME||T.city===ME.city))),cardPlayer(T,ed))}</div><b>${label}</b>${sub}</div>`}</div>`}
-function renderBinder(){if(S.sport==='hockey'&&typeof renderHBinder==='function')return renderHBinder();const n=cardCount();
+function slotFor(T,have,count,ed,label,sub){return`<div class="slot">${have?`<button data-id="${T.id||0}" data-ed='${JSON.stringify(ed)}' aria-label="View card">${sportsCard(T,count,true,ed)}</button>`:`<div class="empty" style="${tvars(T)}" data-key="${ed.champ||ed.round!=null?'':ed.promo?'X-'+ed.promo:(T.hockey?'H'+T.id+'-'+(ed.slot||0):T.id+'-'+(ed.slot||0))}"><div class="art">${fig(T,!T.hockey&&(!!ed.champ||(ed.promo&&(T===ME||T.city===ME.city))),cardPlayer(T,ed))}</div><b>${label}</b>${sub}</div>`}</div>`}
+function renderBinder(){if(S.sport==='hockey'&&typeof renderHBinder==='function'){renderHBinder();if(window.edAfterBinder)edAfterBinder();return}const n=cardCount();
   $('#v-binder').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back2">← Locker room</button><h2>Sports card binder</h2><div class="prog"><i style="width:${n/CARD_TOTAL*100}%"></i></div><b class="num" style="font-size:16px">${n} / ${CARD_TOTAL}</b><button class="btn blue" id="b2shop" style="font-size:16px;padding:8px 14px">Card shop</button></div>
-    <p class="note" style="margin:6px 0 0">Every team has 3 players. Win the game to get the defender. Find the quarterback and star player in packs from the card shop. Tap a card to flip it over or make a coloring page.</p></div>
+    ${typeof edBinderBar==='function'?edBinderBar():''}<p class="note" style="margin:6px 0 0">Every team has 3 players. Win the game to get the defender. Find the quarterback and star player in packs from the card shop. Tap a card to flip it over or make a coloring page.</p></div>
   <div class="book" style="display:flex;flex-direction:column;gap:16px">${DIVS.map(d=>{const ts=TEAMS.filter(t=>t.div===d);const got=ts.reduce((a,t)=>a+t.roster.filter(P=>S.cards[ck(t,P.slot)]).length,0);return`<div class="sheet"><h3 style="font-size:22px;margin-bottom:10px">${d} <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${ts.length*3}</small></h3><div class="cards">${ts.map(T=>T.roster.map(P=>slotFor(T,S.cards[ck(T,P.slot)],S.cards[ck(T,P.slot)],{slot:P.slot},`${T.abbr} ${P.pos}`,P.slot?'Find in packs':`Win Week ${T.id}`)).join('')).join('')}</div></div>`}).join('')}
     <div class="sheet"><h3 style="font-size:22px;margin-bottom:10px">Playoffs <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${Object.keys(S.pcards).length+(S.champ?1:0)} of ${PLAYOFFS.length+1}</small></h3><div class="cards">${PLAYOFFS.map(r=>slotFor(r.T,S.pcards[r.i],S.pcards[r.i],{round:r.i},r.r,`${r.T.city} ${r.T.name}`)).join('')}${slotFor(ME,S.champ,S.champ,{champ:true},'Champion card','Win the Numon Bowl')}</div></div>
     ${[['legend','Hall of Legends','Legends from every era. Each card back tells a true Hall of Fame story.'],['award','Award winners','League MVP and other big awards.'],['special','Special appearances','Snow games, holidays and night games.']].map(([k,t,d])=>{const xs=PROMOS.filter(x=>x.kind===k);const got=xs.filter(x=>S.cards['X-'+x.key]).length;
       return`<div class="sheet"><h3 style="font-size:22px;margin-bottom:4px">${t} <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${xs.length}</small></h3><p class="note" style="margin:0 0 10px">${d} Found only as the promo card in packs.</p><div class="cards">${xs.map(x=>slotFor(x.T,S.cards['X-'+x.key],S.cards['X-'+x.key],{promo:x.key},x.title,'Promo card')).join('')}</div></div>`}).join('')}</div>`;
   $('#back2').onclick=()=>{renderHome();show('home')};$('#b2shop').onclick=()=>{renderShop();show('shop')};
   document.querySelectorAll('#v-binder .slot>button').forEach(b=>b.onclick=()=>{const ed=JSON.parse(b.dataset.ed);const T=ed.promo?PROMO[ed.promo].T:ed.champ?ME:TEAMS[b.dataset.id-1];const cnt=ed.promo?S.cards['X-'+ed.promo]:ed.champ?S.champ:ed.round!=null?S.pcards[ed.round]:S.cards[ck(T,ed.slot||0)];sfx.tap();
-    modal(`<div class="showcase"><div class="fi" id="fi">${sportsCard(T,cnt,true,ed)}${cardBack(T,ed)}</div></div><p class="note">You have ${cnt} cop${cnt>1?'ies':'y'}.</p><div class="row"><button class="btn blue" data-act="flip">Flip card</button><button class="btn blue" data-act="color">Coloring page</button><button class="btn" data-act="close">Close</button></div>`,{flip:()=>$('#fi').classList.toggle('flipped'),color:()=>coloringPage(T,ed)})})}
+    modal(`<div class="showcase"><div class="fi" id="fi">${sportsCard(T,cnt,true,ed)}${cardBack(T,ed)}</div></div><p class="note">You have ${cnt} cop${cnt>1?'ies':'y'}.</p><div class="row"><button class="btn blue" data-act="flip">Flip card</button><button class="btn blue" data-act="color">Coloring page</button><button class="btn" data-act="close">Close</button></div>`,{flip:()=>$('#fi').classList.toggle('flipped'),color:()=>coloringPage(T,ed)})});
+  if(window.edAfterBinder)edAfterBinder()}
 
 /* ============ COLORING PAGES ============ */
 function toLine(svg){
@@ -1438,11 +1520,12 @@ function rvDone(){const r=RV;RV=null;Q=null;if(r.fixed)sfx.win();
 function meter(label,c,n){const p=n?Math.round(c/n*100):null;return`<div class="meter"><div class="ml"><span>${label}</span><b>${p===null?'—':p+'%'}</b></div><div class="mt" title="${label}: ${c} of ${n} right"><i style="width:${p||0}%"></i></div><small>${n?`${c} of ${n} right`:'Not tried yet'}</small></div>`}
 function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.reduce((a,b)=>a+b,0);
   const need=needPractice(),learned=S.missed.filter(m=>m.mastered),list=RF==='need'?need:RF==='learned'?learned:S.missed,shown=list.slice(0,60);
-  const g3n=st.n.slice(1,4).reduce((a,b)=>a+b,0),g3c=st.c.slice(1,4).reduce((a,b)=>a+b,0),g4n=st.n.slice(4).reduce((a,b)=>a+b,0),g4c=st.c.slice(4).reduce((a,b)=>a+b,0);
+  const g3n=st.n.slice(1,4).reduce((a,b)=>a+b,0),g3c=st.c.slice(1,4).reduce((a,b)=>a+b,0),g4n=st.n.slice(4,7).reduce((a,b)=>a+b,0),g4c=st.c.slice(4,7).reduce((a,b)=>a+b,0),g5n=st.n.slice(7).reduce((a,b)=>a+b,0),g5c=st.c.slice(7).reduce((a,b)=>a+b,0);
   $('#v-report').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back3">← Locker room</button><h2>Progress report</h2></div>
     <p class="note" style="margin:6px 0 0" id="synctxt">${syncText()}</p>
     <div class="kpis">
-      <div class="kpi"><span>Cards</span><b>${cardCount()}<small>/${CARD_TOTAL}</small></b></div>
+      <div class="kpi"><span>Football cards</span><b>${cardCount()}<small>/${CARD_TOTAL}</small></b><em>${EDITIONS[edOf('football')]} edition · Grade ${gradeOf('football')}</em></div>
+      <div class="kpi"><span>Hockey cards</span><b>${typeof hCount==='function'?hCount():0}<small>/${typeof HCARD_TOTAL!=='undefined'?HCARD_TOTAL:105}</small></b><em>${EDITIONS[edOf('hockey')]} edition · Grade ${gradeOf('hockey')}</em></div>
       <div class="kpi"><span>Coins earned</span><b>${comma(S.coinsEarned||0)}</b><em>${comma(S.coins)} to spend</em></div>
       <div class="kpi"><span>Games won</span><b>${S.wins}<small>/${S.played}</small></b></div>
       <div class="kpi"><span>Questions right</span><b>${n?Math.round(c/n*100)+'%':'—'}</b><em>${c} of ${n}</em></div>
@@ -1450,7 +1533,7 @@ function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.redu
       <div class="kpi"><span>Best streak</span><b>${S.bestStreak}</b><em>in a row</em></div>
       <div class="kpi"><span>Days played</span><b>${S.days.length}</b><em>${streak()} day streak</em></div>
     </div></div>
-  <div class="panel"><h3 class="rh">Accuracy by difficulty</h3><div class="meters2"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div></div></div>
+  <div class="panel"><h3 class="rh">Accuracy by difficulty</h3><div class="meters2"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 5 overall',g5c,g5n)}${[7,8,9].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div></div></div>
   <div class="panel"><div class="head"><h3 class="rh" style="margin:0">Missed questions</h3>
     <div class="seg" role="group" aria-label="Filter missed questions">${[['need',`To practice (${need.length})`],['learned',`Learned (${learned.length})`],['all',`All (${S.missed.length})`]].map(([k,l])=>`<button data-f="${k}" class="${RF===k?'on':''}" aria-pressed="${RF===k}">${l}</button>`).join('')}</div>
     ${need.length?`<button class="btn go" id="practice" style="font-size:18px;padding:10px 18px;margin-left:auto">Practice ${Math.min(10,need.length)} now</button>`:''}</div>
@@ -1471,8 +1554,9 @@ function grownups(){const a=R(12,19),b=R(3,9);
 function settings(){let armed=false;
   modal(`<h2>Settings</h2><p class="note">${S.wins} games won · ${cardCount()} of ${CARD_TOTAL} cards</p><p class="note" style="font-size:13px" id="synctxt">${syncText()}</p><div id="acctbox" style="width:100%"></div>
   <div class="row"><button class="btn blue" data-act="report">Open progress report</button><button class="btn blue" data-act="daily">Give a new Pack of the Day</button></div>
+  <div class="row"><button class="btn blue" data-act="edup">Move ${S.sport==='hockey'?'hockey':'football'} up to the next edition</button></div>
   <div class="row"><button class="btn blue" data-act="backup">Backup progress</button><button class="btn blue" data-act="restore">Restore from backup</button></div><input type="file" id="restorefile" accept="application/json,.json" hidden><div class="row"><button class="btn" data-act="reset" style="color:var(--bad)">Erase all progress</button></div><button class="btn" data-act="close">Close</button>`,
-  {report:()=>{closeModal();renderReport();show('report')},daily:()=>{S.dailyDay='';save();closeModal();renderHome();show('home')},
+  {report:()=>{closeModal();renderReport();show('report')},daily:()=>{S.dailyDay='';save();closeModal();renderHome();show('home')},edup:()=>{closeModal();if(typeof levelUp==='function')levelUp(spNow())},
    backup:async()=>{const b=new Blob([JSON.stringify({app:'numon-gridiron',v:2,savedAt:new Date().toISOString(),state:S},null,1)],{type:'application/json'});
      try{await saveFile(`gridiron-backup-${today()}.json`,b,'application/json');$('#synctxt').textContent='Backup saved. Keep the file somewhere safe, like Files or iCloud Drive.'}catch(e){$('#synctxt').textContent='Backup not saved.'}},
    restore:()=>{const inp=$('#restorefile');inp.onchange=async()=>{try{const d=JSON.parse(await inp.files[0].text());if(!d||!d.state||!d.state.cards)throw 0;
@@ -1494,6 +1578,7 @@ try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}ca
 </script>
 <script src="learn.js"></script>
 <script src="hockey.js"></script>
+<script src="editions.js"></script>
 
 </body>
 </html>

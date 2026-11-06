@@ -115,16 +115,70 @@ function lessonFor(p){const t=(p.text||'').replace(/<[^>]+>/g,' ');const vis=(p.
   return'word'}
 
 function lessonHTML(k){const L=LESSONS[k]||LESSONS.word;
-  return`<div class="lesson"><div class="eyebrow">${L.g===3?'Grade 3':'Grade 4'} · Learn</div><h2>${L.title}</h2>
+  return`<div class="lesson"><div class="eyebrow">Grade ${L.g} · Learn</div><h2>${L.title}</h2>
     <div class="lsec"><h3>Words to know</h3><dl>${L.terms.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></div>
     <div class="lsec"><h3>How to do it</h3><ol>${L.steps.map(x=>`<li>${x}</li>`).join('')}</ol></div>
     <div class="lsec lex"><h3>Example: ${L.ex.q}</h3>${L.ex.work.map(x=>`<p>${x}</p>`).join('')}<div class="lans">Answer: <b>${L.ex.a}</b></div></div></div>`}
 function openLesson(k,back){sfx.tap();modal(`${lessonHTML(k)}<div class="row">${back?'<button class="btn blue" data-act="lib">All lessons</button>':''}<button class="btn go" style="font-size:20px;padding:12px 22px" data-act="close">Got it!</button></div>`,{lib:openLibrary},true)}
 function openLibrary(){sfx.tap();const keys=Object.keys(LESSONS);
   modal(`<h2>Learn math</h2><p class="note">Tap a topic to see what the words mean, how to solve it, and an example. You can also tap <b>Learn how</b> on any question during a game.</p>
-   ${[3,4].map(g=>`<div class="libgrp"><h3>Grade ${g}</h3><div class="libgrid">${keys.filter(k=>LESSONS[k].g===g).map(k=>`<button class="libbtn" data-act="open" data-k="${k}">${LESSONS[k].title}</button>`).join('')}</div></div>`).join('')}
+   ${[3,4,5].map(g=>`<div class="libgrp"><h3>Grade ${g}</h3><div class="libgrid">${keys.filter(k=>LESSONS[k].g===g).map(k=>`<button class="libbtn" data-act="open" data-k="${k}">${LESSONS[k].title}</button>`).join('')}</div></div>`).join('')}
    <div class="row"><button class="btn" data-act="close">Close</button></div>`,{open:b=>openLesson(b.dataset.k,true)},true)}
 
 /* hook the Learn how button into every question and add a Learn math button on the home screens */
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#learnq');if(b&&Q&&Q.p){openLesson(lessonFor(Q.p))}
   const l=e.target.closest&&e.target.closest('#tolearn');if(l)openLibrary()});
+
+/* ---------- Grade 5 lessons ---------- */
+Object.assign(LESSONS,{
+ m2d:{g:5,title:'Multiplying by a 2-digit number',terms:[['Partial products','Break one number into tens and ones, multiply by each part, then add the answers.']],
+  steps:['Break the 2-digit number into tens and ones: 26 is 20 + 6.','Multiply the big number by the tens part.','Multiply the big number by the ones part.','Add the two answers together.'],
+  ex:{q:'234 × 26',work:['234 × 20 = 4,680.','234 × 6 = 1,404.','4,680 + 1,404 = 6,084.'],a:'6,084'}},
+ longdiv:{g:5,title:'Dividing by a 2-digit number',terms:[['Estimate','Make a smart guess using friendly numbers.'],['Quotient','The answer to a division problem.']],
+  steps:['Round the divisor to a friendly number to make a guess.','Multiply your guess by the real divisor to check it.','Too big? Guess smaller. Too small? Guess bigger.','When it matches exactly, that is your quotient.'],
+  ex:{q:'672 ÷ 24',work:['24 is close to 25, and 25 × 27 = 675, so try about 27 or 28.','24 × 28 = 672. It matches!','So 672 ÷ 24 = 28.'],a:'28'}},
+ decadd:{g:5,title:'Adding and subtracting decimals',terms:[['Decimal point','The dot that separates whole numbers from parts of a whole.']],
+  steps:['Line up the decimal points, one above the other.','Fill empty places with zeros if you need to.','Add or subtract just like whole numbers, regrouping when needed.','Bring the decimal point straight down into your answer.'],
+  ex:{q:'8.53 + 8.79',work:['Hundredths: 3 + 9 = 12. Write 2, carry 1.','Tenths: 5 + 7 + 1 = 13. Write 3, carry 1.','Ones: 8 + 8 + 1 = 17.','Answer: 17.32.'],a:'17.32'}},
+ pow10:{g:5,title:'Multiplying by 10, 100 and 1,000',terms:[['Power of ten','Numbers like 10, 100 and 1,000.']],
+  steps:['Count the zeros: 10 has one, 100 has two, 1,000 has three.','Move the decimal point that many places to the right.','Fill any empty places with zeros.'],
+  ex:{q:'3.4 × 100',work:['100 has two zeros, so move the decimal point 2 places right.','3.4 → 34. → 340.','So 3.4 × 100 = 340.'],a:'340'}},
+ dmul:{g:5,title:'Multiplying a decimal by a whole number',terms:[['Decimal place','Each digit to the right of the decimal point.']],
+  steps:['Ignore the decimal point and multiply like whole numbers.','Count how many digits were after the decimal point.','Put the decimal point back so your answer has that many digits after it.'],
+  ex:{q:'7.8 × 6',work:['78 × 6 = 468.','7.8 had 1 digit after the decimal point.','So the answer is 46.8.'],a:'46.8'}},
+ ooo:{g:5,title:'Order of operations',terms:[['Parentheses ( )','Do what is inside these first.'],['Brackets [ ]','Like parentheses, but they can hold parentheses inside.'],['Order','First ( ) and [ ], then × and ÷ from left to right, then + and − from left to right.']],
+  steps:['Work inside the innermost parentheses first.','Then finish what is inside the brackets.','Next do multiplication and division.','Last do addition and subtraction.'],
+  ex:{q:'4 × [3 + (9 − 5)]',work:['Parentheses: 9 − 5 = 4.','Brackets: 3 + 4 = 7.','Multiply: 4 × 7 = 28.'],a:'28'}},
+ dplace:{g:5,title:'Decimal place value',terms:[['Tenths','First place after the decimal point.'],['Hundredths','Second place after the decimal point.'],['Thousandths','Third place after the decimal point.']],
+  steps:['Find the decimal point.','Count places to the right: tenths, hundredths, thousandths.','The digit’s value is the digit with that place name.'],
+  ex:{q:'In 8.324, what is the 2 worth?',work:['3 is in the tenths place.','2 is in the hundredths place.','So the 2 is worth 2 hundredths.'],a:'2 hundredths'}},
+ funlike:{g:5,title:'Adding fractions with different denominators',terms:[['Common denominator','A bottom number that both fractions can share.']],
+  steps:['Find a common denominator: a number both bottoms divide into (multiplying the two bottoms always works).','Rename each fraction so it has that bottom number. Multiply the top by the same amount.','Add or subtract the tops.','Simplify if you can.'],
+  ex:{q:'1/2 + 1/5',work:['A common denominator is 10.','1/2 = 5/10 and 1/5 = 2/10.','5/10 + 2/10 = 7/10.'],a:'7/10'}},
+ fmul:{g:5,title:'Multiplying fractions',terms:[['Simplify','Divide the top and bottom by the same number to make the fraction smaller and easier.']],
+  steps:['Multiply the top numbers.','Multiply the bottom numbers.','Simplify the answer if you can.'],
+  ex:{q:'2/3 × 3/4',work:['Tops: 2 × 3 = 6.','Bottoms: 3 × 4 = 12.','6/12 simplifies to 1/2.'],a:'1/2'}},
+ fdiv:{g:5,title:'Dividing with unit fractions',terms:[['Unit fraction','A fraction with 1 on top, like 1/4.']],
+  steps:['A unit fraction ÷ a whole number: split the piece into that many smaller pieces. Multiply the bottom by the whole number.','A whole number ÷ a unit fraction: ask how many pieces fit. Multiply the whole number by the bottom.'],
+  ex:{q:'1/6 ÷ 2 and 3 ÷ 1/4',work:['1/6 ÷ 2: the bottom becomes 6 × 2 = 12, so 1/12.','3 ÷ 1/4: each whole holds 4 fourths, so 3 × 4 = 12.'],a:'1/12 and 12'}},
+ volume:{g:5,title:'Volume',terms:[['Volume','How much space is inside a 3-D shape, like a box.'],['Cubic unit','A cube that is 1 unit on each side.']],
+  steps:['Find the length, width and height.','Multiply them: length × width × height.','For a shape made of two boxes, find each volume and add them.','Write the answer in cubic units.'],
+  ex:{q:'A box 7 cm × 9 cm × 5 cm',work:['7 × 9 = 63.','63 × 5 = 315.','Volume: 315 cubic centimeters.'],a:'315 cu cm'}},
+ exp:{g:5,title:'Powers of ten',terms:[['Exponent','The small raised number. It tells how many times to multiply 10 by itself.']],
+  steps:['10² means 10 × 10 = 100. 10³ means 10 × 10 × 10 = 1,000.','The exponent is the number of zeros.','For 6 × 10², write 6 and add 2 zeros.'],
+  ex:{q:'6 × 10²',work:['10² = 100.','6 × 100 = 600.'],a:'600'}}});
+const lessonFor34=lessonFor;
+lessonFor=function(p){const h=p.text||'',t=h.replace(/<[^>]+>/g,' ');const dens=[...h.matchAll(/<span>(\d+)<\/span><\/span>/g)].map(m=>m[1]);
+  if(/volume|cubic/i.test(t))return'volume';
+  if(/<sup>/.test(h))return'exp';
+  if(/How many .* are in/i.test(t)||(dens.length&&/÷/.test(t)))return'fdiv';
+  if(/value of the digit/i.test(t))return'dplace';
+  if(/\[|\(\s*\d/.test(t))return'ooo';
+  if(/\d\s*[+−]\s*\d+\s*×/.test(t))return'ooo';
+  if(/×\s*(100|1,000)\b/.test(t))return'pow10';
+  if(dens.length>=2&&/×/.test(t))return'fmul';
+  if(dens.length>=2&&/[+−]/.test(t)&&dens[0]!==dens[1])return'funlike';
+  if(/\d\.\d/.test(t)&&!/\$/.test(t)){if(/×\s*(10|100|1,000)\b/.test(t))return'pow10';if(/×/.test(t))return'dmul';if(/[+−]/.test(t))return'decadd'}
+  if(/÷\s*\d{2,}/.test(t))return'longdiv';
+  if(/^\s*\d{3}\s*×\s*\d{2}\b/.test(t))return'm2d';
+  return lessonFor34(p)};

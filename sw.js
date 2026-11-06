@@ -1,6 +1,6 @@
 // Offline support: keep the game files on the device so it opens without internet.
-const CACHE = 'gridiron-v4';
-const FILES = ['./', './index.html', './learn.js', './hockey.js', './parent.html', './cloud.js', './firebase-config.js', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
+const CACHE = 'gridiron-v5';
+const FILES = ['./', './index.html', './learn.js', './hockey.js', './editions.js', './parent.html', './cloud.js', './firebase-config.js', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))); self.clients.claim(); });
 self.addEventListener('fetch', e => {

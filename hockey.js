@@ -114,13 +114,13 @@ const nextHTeam=()=>HTEAMS.find(t=>!S.hbeaten.includes(t.id));
 function hTile(T){const beat=S.hbeaten.includes(T.id),nt=nextHTeam(),isNext=nt&&nt.id===T.id,open=beat||isNext;const cnt=T.roster.filter(P=>S.hcards[hk(T,P.slot)]).length;
   return`<button class="game ${isNext?'next':''} ${open?'':'locked'}" style="${tvars(T)}" ${open?`data-hid="${T.id}"`:'disabled'} aria-label="Week ${T.id} ${T.city} ${T.name}${open?'':' locked'}"><span class="wk">WK ${T.id}</span>${beat?'<span class="done">✓ Won</span>':''}<div class="art flipx">${fig(T,true,T.roster[0])}</div><b>${T.city} ${T.name}</b><small>${open?(isNext?'Next game':`${cnt} of 3 players`):'Locked'}</small></button>`}
 function renderHHome(){const nt=nextHTeam(),me=MEPH();const daily=checkDaily();setWX('night');const opp=nt&&nt.roster[0];
-  $('#v-home').innerHTML=`${daily?`<button class="dailyban" id="dailyban">${packArt(DAILY)}<div><b>Your Pack of the Day is here!</b><span>2 promo cards and 1 player card, free. Tap to open it.</span></div></button>`:''}
-  <div class="hero"><div class="eyebrow" style="color:#c9d3f5">Hockey season · ${S.hbeaten.length} of ${HTEAMS.length} teams beaten</div><h2 class="title">${nt?`Week ${nt.id}: ${ME_H.name} vs ${nt.name}`:'Hockey champions!'}</h2>
+  $('#v-home').innerHTML=`${typeof edBanner==='function'?edBanner():''}${daily?`<button class="dailyban" id="dailyban">${packArt(DAILY)}<div><b>Your Pack of the Day is here!</b><span>2 promo cards and 1 player card, free. Tap to open it.</span></div></button>`:''}
+  <div class="hero"><div class="eyebrow" style="color:#c9d3f5">Grade ${gradeOf()} · ${EDITIONS[edOf()]} edition · ${S.hbeaten.length} of ${HTEAMS.length} teams beaten</div><h2 class="title">${nt?`Week ${nt.id}: ${ME_H.name} vs ${nt.name}`:'Hockey champions!'}</h2>
     <div class="sub">Answer a question to take a shot. A right answer is a goal! First team to 5 goals wins.</div></div>
   <div class="panel"><div class="vs">
     <div class="side"><span class="tpill" style="${tvars(ME_H)}">${ME_H.city} ${ME_H.name}</span><div class="art">${fig(ME_H,false,me)}</div><h3>${esc(me.name)}</h3><div class="num">#${me.num} · Center</div><button class="btn" id="chstar" style="font-size:16px;padding:8px 14px">Customize player</button></div>
     <div class="vsmark">VS</div>
-    ${nt?`<div class="side"><span class="tpill" style="${tvars(nt)}">${nt.city} ${nt.name}</span><div class="art flipx">${fig(nt,true,opp)}</div><h3>${opp.name}</h3><div class="num">#${opp.num} · Goalie · starts at ${LEVELS[nt.start]}</div></div>`
+    ${nt?`<div class="side"><span class="tpill" style="${tvars(nt)}">${nt.city} ${nt.name}</span><div class="art flipx">${fig(nt,true,opp)}</div><h3>${opp.name}</h3><div class="num">#${opp.num} · Goalie · starts at ${LEVELS[startLv(nt.start)]}</div></div>`
       :`<div class="side"><div class="art">${fig(ME_H,false,me)}</div><h3>You beat every team!</h3><div class="note">Replay any game below.</div></div>`}
   </div><div class="cta">${nt?`<button class="btn go" id="kick">Drop the puck!</button><div class="note">Win to get ${opp.name}'s card and a free pack.</div>`:''}
     <div class="row"><button class="btn blue" id="tobinder">Hockey binder (${hCount()}/${HCARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button><button class="btn blue" id="tolearn">Learn math</button></div></div></div>
@@ -134,7 +134,7 @@ function renderHHome(){const nt=nextHTeam(),me=MEPH();const daily=checkDaily();s
 /* ---------- hockey game ---------- */
 const horn=()=>{tone(196,.9,'sawtooth',0,.06);tone(247,.9,'sawtooth',0,.045)};
 function startHGame(tid){sfx.tap();closeModal();const T=HTEAMS[tid-1];setWX('night');
-  G={hk:true,T,round:null,me:0,opp:0,level:T.start,startLevel:T.start,streak:0,plays:0,right:0,wrong:0,gained:0,coins:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
+  const lv=startLv(T.start);G={hk:true,T,round:null,me:0,opp:0,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,coins:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
   const opp1={...T.roster[2]},opp2={...T.roster[1]};
   $('#v-game').innerHTML=`
   <div class="score">
@@ -157,7 +157,7 @@ function startHGame(tid){sfx.tap();closeModal();const T=HTEAMS[tid-1];setWX('nig
   show('game');layoutRink();hPositions(true);hBoard();whistle();
   $('#exitg').onclick=()=>{sfx.tap();modal(`<h2>Leave this game?</h2><p class="note">You keep the coins you earned, but you won't get the card. You can play this team again any time.</p><div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="leave">Leave game</button><button class="btn" data-act="close">Keep playing</button></div>`,{leave:()=>{closeModal();G=null;Q=null;renderHome();show('home')}})};
   hCall(`The ${T.name} are ready in net. Drop the puck! Pick your shot.`)}
-function hBoard(){$('#pips').innerHTML=[1,2,3,4,5,6].map(i=>`<i class="${i<=G.level?'on':''} ${i>=4?'g4':''}"></i>`).join('');$('#lvname').textContent=LEVELS[G.level];
+function hBoard(){$('#pips').innerHTML=[lvLo(),lvLo()+1,lvLo()+2].map(i=>`<i class="${i<=G.level?'on':''} ${i>=4?'g4':''}"></i>`).join('');$('#lvname').textContent=LEVELS[G.level];
   $('#streak').innerHTML=[0,1,2].map(i=>`<i class="${i<G.streak%3||(G.streak>0&&G.streak%3===0&&G.level===6)?'on':''}"></i>`).join('')}
 function layoutRink(){const r=$('#rink');if(!r)return;r.style.setProperty('--hspr',Math.round(Math.min(150,Math.max(64,r.clientHeight*.46)))+'px')}
 addEventListener('resize',()=>{if(G&&G.hk)layoutRink()});
@@ -180,7 +180,7 @@ function hShot(kind){if(G.busy)return;G.busy=true;sfx.tap();const [a,b]=lvRange(
   mountQ($('#gp'),p,`<div class="qhead"><span class="chip ${kind==='wrist'?'run':'pass'}">${kind==='wrist'?'WRIST SHOT':'SLAP SHOT'}</span><span class="chip lvl">Level ${d} · ${LEVELS[d]}</span><span class="chip worth">Goal = +${kind==='wrist'?5:10} coins</span>${p._retry?'<span class="chip" style="background:#7a3fd0">Second chance! You missed this one before</span>':''}</div>`,
     `Score ${G.me}–${G.opp}. Answer right to score a goal!`,hResolve)}
 function hResolve(ok,given){const g=G;const {kind,d,p}=G.cur;G.plays++;record(p,d,ok,given,100+G.T.id);let note='';
-  if(ok){G.right++;G.streak++;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();if(G.streak%3===0&&G.level<6){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}.`;if(G.level>S.bestLevel)S.bestLevel=G.level}}
+  if(ok){G.right++;G.streak++;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();if(G.streak%3===0&&G.level<lvHi()){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}.`;if(G.level>S.bestLevel)S.bestLevel=G.level}}
   else{G.wrong++;G.streak=0;sfx.bad();if(G.level>G.startLevel){G.level--;note=` Difficulty down to Level ${G.level}.`}}
   setTimeout(async()=>{if(G!==g)return;const me=$('#hme');me.classList.add('glide');me.style.left='54%';me.style.bottom='30%';
     setTimeout(async()=>{if(G!==g)return;placePuck();me.classList.remove('glide');let msg;
@@ -212,7 +212,7 @@ function hLose(){const T=G.T;hLog(false);save();const gT=G;$('#hg').className='h
 /* ---------- hockey binder ---------- */
 function renderHBinder(){const n=hCount();
   $('#v-binder').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back2">← Locker room</button><h2>Hockey card binder</h2><div class="prog"><i style="width:${n/HCARD_TOTAL*100}%"></i></div><b class="num" style="font-size:16px">${n} / ${HCARD_TOTAL}</b><button class="btn blue" id="b2shop" style="font-size:16px;padding:8px 14px">Card shop</button></div>
-    <p class="note" style="margin:6px 0 0">Every team has 3 players. Win the game to get the goalie. Find the center and winger in packs from the card shop. Tap a card to flip it over or make a coloring page.</p></div>
+    ${typeof edBinderBar==='function'?edBinderBar():''}<p class="note" style="margin:6px 0 0">Every team has 3 players. Win the game to get the goalie. Find the center and winger in packs from the card shop. Tap a card to flip it over or make a coloring page.</p></div>
   <div class="book hbook" style="display:flex;flex-direction:column;gap:16px">${HDIVS.map(d=>{const ts=HTEAMS.filter(t=>t.div===d);const got=ts.reduce((a,t)=>a+t.roster.filter(P=>S.hcards[hk(t,P.slot)]).length,0);
       return`<div class="sheet"><h3 style="font-size:22px;margin-bottom:10px">${d} <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${ts.length*3}</small></h3><div class="cards">${ts.map(T=>T.roster.map(P=>slotFor(T,S.hcards[hk(T,P.slot)],S.hcards[hk(T,P.slot)],{slot:P.slot},`${T.abbr} ${P.pos}`,P.slot?'Find in packs':`Win Week ${T.id}`)).join('')).join('')}</div></div>`}).join('')}
     ${[['legend','Hall of Legends','Legends from hockey history. Each card back tells a true Hall of Fame story.'],['award','Awards','Rookie of the Year and Goalie of the Year.'],['special','Special appearances','Outdoor games, hat tricks and all-stars.']].map(([k,t,d])=>{const xs=HPROMOS.filter(x=>x.kind===k);const got=xs.filter(x=>S.hcards['X-'+x.key]).length;
