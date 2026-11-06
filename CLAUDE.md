@@ -11,7 +11,9 @@ A football math game for a kid in grades 3–4, played as a home-screen web app 
 
 | File | Purpose |
 |---|---|
-| `index.html` | The whole game: HTML, CSS and JS in one file. This is the source of truth; edit it directly. |
+| `index.html` | The game: HTML, CSS and the main JS (football, cards, shop, saving). Edit it directly. |
+| `hockey.js` | Hockey mode: 31 made-up teams in NHL cities, rink game (first to 5 goals), hockey figures (`hfig`), hockey promos, hockey binder. Shares the main script's globals. |
+| `learn.js` | Learn lessons (`LESSONS`), `lessonFor(question)`, the in-question **Learn how** button and the **Learn math** library. |
 | `parent.html` | Read-only parent dashboard. Signs in with the parent account and live-reads the kid's save. |
 | `cloud.js` | ES module. Loads the Firebase SDK (v10.12.2 from gstatic), exposes `window.FB`, fires `fb-ready`. |
 | `firebase-config.js` | Firebase web config (public by design; data is protected by the rules). |
@@ -39,12 +41,16 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 - **Game screen must fit an iPad without scrolling** (landscape 1180×820 and 1024×768, portrait 820×1180). The field box (`.stage`) is field only, sized `clamp(170px,27vh,260px)`; sprite size comes from `--spr` set in `layoutField`. Check page height at those sizes after layout changes.
 - Grown-ups menu (lock icon, behind a multiplication question): parent account sign-in, backup/restore, Pack of the Day reset, erase progress.
 
+## Sports
+
+`S.sport` is `'football'` or `'hockey'` (Settings → Sport). Football cards live in `S.cards` (keys `id-slot`, promos `X-key`), hockey cards in `S.hcards` (keys `H<id>-<slot>`, promos `X-hk-...`). Coins, math stats, missed questions and the game log are shared; hockey log entries use team ids `100+id` (`teamOf()` resolves both). In hockey a right answer is a goal and a miss lets the other team score; first to 5 wins and earns the goalie card plus a free pack.
+
 ## Rules to keep
 
 - No real NFL team names, logos, or real player names on cards or figures. Cities, team-style colors and made-up nicknames are fine. Real players may appear only inside factual history text.
 - Don't copy any commercial toy's exact design (for example, no team nameplate on the helmet front).
 - Keep the math at grades 3–4. Run every generator change through a quick check that answers are valid (integers in range, the right choice present and choices unique).
-- Kid-friendly copy; the parent dashboard stays read-only.
+- Kid-friendly copy only: no words like kill, death, hate, lose or wrong in anything the kid reads. Prefer "Good try", "Not quite", "to practice". The parent dashboard stays read-only.
 - Save-format changes must keep old saves working: extend `fresh()` and `migrate()`.
 
 ## Test locally

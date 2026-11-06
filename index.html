@@ -299,6 +299,30 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .pull.promo{position:relative}.pull.promo .scard{box-shadow:0 0 0 4px var(--gold),0 0 30px rgba(255,201,60,.8)}
 .promolabel{text-align:center;font-family:var(--display);font-size:18px;color:var(--accent);margin-bottom:4px}
 
+/* hockey rink */
+.rink{position:relative;height:clamp(170px,27vh,260px);border-radius:90px;overflow:hidden;background:linear-gradient(180deg,#f8fbff,#e2ecf8);border:5px solid #fff;box-shadow:0 0 0 3px #b9c8de,0 6px 0 rgba(0,0,0,.3)}
+.rk{position:absolute;top:0;bottom:0;width:6px;transform:translateX(-50%)}
+.rk.red{background:#d8243a}.rk.blue{background:#1f4fb8;width:9px}.rk.goal{background:#d8243a;width:2px}
+.rk-c{position:absolute;width:15%;aspect-ratio:1;border:2.5px solid #d8243a;border-radius:50%;transform:translate(-50%,-50%)}
+.rk-c.center{border-color:#1f4fb8;width:18%}
+.crease{position:absolute;top:50%;width:5%;height:30%;transform:translateY(-50%);background:rgba(80,140,230,.35);border:2px solid #d8243a}
+.crease.r{left:88%;border-radius:100px 0 0 100px;border-right:0}.crease.l{left:7%;border-radius:0 100px 100px 0;border-left:0}
+.net{position:absolute;top:50%;width:4%;height:24%;transform:translateY(-50%);border:4px solid #d8243a;transition:box-shadow .3s;
+  background:repeating-linear-gradient(45deg,rgba(0,0,0,.18) 0 2px,transparent 2px 7px),repeating-linear-gradient(-45deg,rgba(0,0,0,.18) 0 2px,transparent 2px 7px),rgba(255,255,255,.75)}
+.net.r{left:93%;border-left:0;border-radius:0 10px 10px 0}.net.l{left:3%;border-right:0;border-radius:10px 0 0 10px}
+.net.lit{box-shadow:0 0 30px 12px rgba(255,40,40,.75)}
+.hspr{position:absolute;width:var(--hspr,110px);aspect-ratio:1;transform:translateX(-50%);transition:left .7s ease,bottom .7s ease;z-index:2}
+.hspr.back{z-index:1;width:calc(var(--hspr,110px)*.85)}
+.hspr .inner{width:100%;height:100%}.hspr svg{width:100%;height:100%}
+.hspr.glide .inner{animation:glide .3s ease-in-out infinite alternate}
+@keyframes glide{to{transform:translateY(-4%) rotate(-5deg)}}
+.hspr.dive .inner{animation:hdive .6s ease}
+@keyframes hdive{50%{transform:translateY(-10%) rotate(-22deg)}}
+.hspr.cheer .inner{animation:dance .45s ease-in-out infinite alternate}
+.puck{position:absolute;width:16px;height:9px;border-radius:50%;background:#111;box-shadow:0 2px 0 rgba(0,0,0,.25);z-index:3}
+.pk-ball.puck{width:46px;height:18px;border-radius:50%;background:#111;border:2px solid #444;transform:none}
+.hbook{background:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.5px) 0 0/6px 6px,linear-gradient(160deg,#1d3a5c,#0e1f33)}
+
 /* weather + settings */
 .wxturf{position:absolute;inset:0;pointer-events:none}
 .wx-snow .wxturf{background:radial-gradient(ellipse 70px 26px,rgba(255,255,255,.9),transparent 70%) 0 0/230px 90px,radial-gradient(ellipse 50px 20px,rgba(255,255,255,.85),transparent 70%) 110px 45px/260px 110px,rgba(240,246,252,.5)}
@@ -315,6 +339,22 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .acct{background:var(--paper-2);border-radius:14px;padding:10px 12px;text-align:left}
 .gtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .gtop .btn{font-size:17px;padding:8px 14px}
+.learnbtn{height:30px;padding:0 12px;border-radius:999px;background:#fff3c4;border:2px solid #f2b705;font-weight:800;font-size:13px;color:#5a3d00}
+.lesson{width:100%;text-align:left;display:flex;flex-direction:column;gap:10px}
+.lesson h2{font-size:28px}
+.lsec{background:var(--paper-2);border-radius:14px;padding:10px 14px}
+.lsec h3{font-size:18px;margin-bottom:4px}
+.lsec dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
+.lsec dt{font-weight:800}.lsec dd{margin:0}
+.lsec ol{margin:0;padding-left:22px;display:grid;gap:3px;font-weight:600}
+.lex{background:#e8f6ec;border:2px solid #b5e2c3}.lex p{margin:2px 0;font-weight:700}
+.lans{margin-top:4px;font-size:18px}.lans b{font-family:var(--display);font-weight:400;font-size:22px;color:var(--good)}
+.libgrp h3{font-size:20px;margin:6px 0}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;width:100%}
+.libbtn{background:var(--paper-2);border-radius:12px;padding:10px 12px;font-weight:800;text-align:left;border:2px solid transparent}
+.libbtn:hover{border-color:var(--accent)}
+.modal:has(.lesson),.modal:has(.libgrid){max-height:calc(100vh - 40px);overflow-y:auto}
+@media (max-width:560px){.lsec dl{grid-template-columns:1fr}}
 .dailyban{display:flex;align-items:center;gap:14px;text-align:left;background:linear-gradient(120deg,#7a3fd0,#c2459a);color:#fff;border-radius:20px;padding:12px 16px;box-shadow:0 6px 0 rgba(0,0,0,.35);animation:glow 1.4s ease-in-out infinite alternate}
 .dailyban .pack{width:64px}.dailyban .pack b,.dailyban .pack span{display:none}.dailyban .pk-top{font-size:6px;padding:2px 0}
 .dailyban b{display:block;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.1}
@@ -657,10 +697,10 @@ const TEAMS=[
  ['TEN','Tennessee','Thunder',28,'#0C2340','#4B92DB','OLB',58,`3'8"`,'95 lb','You hear it coming, then BOOM!','AFC South'],
  ['DEN','Denver','Summits',19,'#FB4F14','#002244','MLB',54,`3'10"`,'180 lb','Plays its best high up in the mountains.','AFC West'],
  ['KC','Kansas City','Blaze',26,'#E31837','#FFB81C','DE',91,`5'9"`,'260 lb','Brings the heat on every single down.','AFC West'],
- ['LV','Las Vegas','Shadows',24,'#000000','#A5ACAF','CB',24,`3'3"`,'50 lb','Disappears into the shadows, then strikes.','AFC West'],
+ ['LV','Las Vegas','Shadows',24,'#000000','#A5ACAF','CB',24,`3'3"`,'50 lb','Hides in the shadows, then pops out to make the play.','AFC West'],
  ['LAC','Los Angeles','Surf',10,'#0080C6','#FFC20E','LB',52,`3'2"`,'83 lb','Catches every wave and every tipped pass.','AFC West'],
  ['DAL','Dallas','Rodeo',15,'#041E42','#869397','MLB',55,`4'0"`,'230 lb','Charges like a bull out of the chute.','NFC East'],
- ['NYG','New York','Empire',21,'#0B2265','#A71930','DE',94,`6'2"`,'280 lb','Its roar freezes quarterbacks in place.','NFC East'],
+ ['NYG','New York','Empire',21,'#0B2265','#A71930','DE',94,`6'2"`,'280 lb','Its big roar gets the whole crowd cheering.','NFC East'],
  ['PHI','Philadelphia','Liberty',5,'#004C54','#A5ACAF','DT',97,`3'5"`,'240 lb','Strong roots, strong defense.','NFC East'],
  ['WAS','Washington','Monuments',6,'#5A1414','#FFB612','OLB',56,`4'2"`,'150 lb','Stands at the goal line like a statue that breathes fire.','NFC East'],
  ['CHI','Chicago','Hoppers',2,'#0B162A','#C83803','LB',50,`2'5"`,'30 lb','Hops right over blockers in the Windy City.','NFC North'],
@@ -668,7 +708,7 @@ const TEAMS=[
  ['GB','Green Bay','Tundra',17,'#203731','#FFB612','NT',92,`2'4"`,'60 lb','Loves the snow. The colder, the better.','NFC North'],
  ['MIN','Minnesota','Loons',18,'#4F2683','#FFC62F','S',38,`2'8"`,'72 lb','Slides across frozen lakes to make the tackle.','NFC North'],
  ['ATL','Atlanta','Firebirds',16,'#A71930','#000000','FS',21,`4'4"`,'90 lb','Rises from the end zone to swat away passes.','NFC South'],
- ['CAR','Carolina','Stingers',14,'#0085CA','#101820','OLB',53,`2'11"`,'88 lb','Blitzes off the edge with a sting in its tail.','NFC South'],
+ ['CAR','Carolina','Stingers',14,'#0085CA','#101820','OLB',53,`2'11"`,'88 lb','Zooms off the edge with a zip in its step.','NFC South'],
  ['NO','New Orleans','Brass',25,'#D3BC8D','#101820','DT',99,`6'8"`,'290 lb','Coils around ball carriers to a marching-band beat.','NFC South'],
  ['TB','Tampa Bay','Cannons',3,'#D50A0A','#34302B','NT',93,`2'6"`,'190 lb','Fires off the line like a cannonball.','NFC South'],
  ['ARI','Arizona','Saguaros',13,'#97233F','#ffffff','LB',51,`3'1"`,'85 lb','Prickly, patient and very hard to get past.','NFC West'],
@@ -751,7 +791,7 @@ const monFor=P=>{let h=0;for(const ch of String(P.name||''))h=(h*31+ch.charCodeA
 const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SKIN=['#f6d2ae','#e8b48a','#c98b5a','#94603a','#5f3b22'];
 /* chibi football figure: big helmet, small body */
-function fig(T,flip,P){if(T===ME)T=UNI();if(S.style==='numon')return art(DEX[(P.mon||monFor(P))-1],{jersey:{p:T.p,s:T.s,o:T.o,num:P.num,flip}});const L=P.look||{},kit=T.kit||[T.p,T.s,'#ffffff'];const skin=SKIN[L.skin??2],sk=shade(skin,-.35),dk=shade(T.p,-.45),helm=L.retro?'#7a4a22':kit[0],hdk=shade(helm,-.42),st=L.retro?'#5a3416':kit[1],pants=kit[2],pd=shade(pants,-.35);
+function fig(T,flip,P){if(T===ME)T=UNI();if(T&&T.hockey&&S.style!=='numon')return hfig(T,flip,P);if(S.style==='numon')return art(DEX[(P.mon||monFor(P))-1],{jersey:{p:T.p,s:T.s,o:T.o,num:P.num,flip}});const L=P.look||{},kit=T.kit||[T.p,T.s,'#ffffff'];const skin=SKIN[L.skin??2],sk=shade(skin,-.35),dk=shade(T.p,-.45),helm=L.retro?'#7a4a22':kit[0],hdk=shade(helm,-.42),st=L.retro?'#5a3416':kit[1],pants=kit[2],pd=shade(pants,-.35);
   let pose=L.pose||'flex';if(pose==='qb'||pose==='point')pose='ball';
   const mouth=L.mouth||'grit',face=L.face||(mouth==='smirk'?'game':'game'),glove=L.gloves||skin,gk=L.gloves?shade(L.gloves,-.4):sk,cleat=L.cleats||'#1b1b1f',o=[];
   o.push('<ellipse cx="60" cy="114" rx="30" ry="5" fill="rgba(0,0,0,.22)"/>');
@@ -839,9 +879,9 @@ const lvRange=(kind,L)=>kind==='run'?[Math.max(1,L-1),L]:[L,Math.min(6,L+1)];
 
 /* ============ STATE ============ */
 const KEY='numon-gridiron-v2';
-function fresh(){return{seen:[],cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0]},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
+function fresh(){return{seen:[],sport:'football',hcards:{},hbeaten:[],hperfect:{},cards:{},beaten:[],me:{...ME_DEFAULT},coins:100,coinsEarned:0,packs:0,unopened:0,style:'mini',dailyDay:'',dailyReady:false,wins:0,played:0,muted:false,stats:{n:[0,0,0,0,0,0,0],c:[0,0,0,0,0,0,0]},missed:[],log:[],days:[],perfect:{},bestLevel:1,bestStreak:0,pcards:{},pwon:[],champ:0,champMon:null,updatedAt:0}}
 let S=fresh();
-function migrate(){const c={};for(const [k,v] of Object.entries(S.cards||{}))c[String(k).includes('-')?k:`${k}-0`]=v;S.cards=c;S.me=Object.assign({...ME_DEFAULT},S.me||{});if(S.me.beard===true)S.me.beard='full';if(S.me.pose==='qb'||S.me.pose==='point')S.me.pose='throw';if(S.me.beard===false)S.me.beard=''}
+function migrate(){const c={};for(const [k,v] of Object.entries(S.cards||{}))c[String(k).includes('-')?k:`${k}-0`]=v;S.cards=c;S.me=Object.assign({...ME_DEFAULT},S.me||{});if(S.me.beard===true)S.me.beard='full';if(S.me.pose==='qb'||S.me.pose==='point')S.me.pose='throw';S.hcards=S.hcards||{};S.hbeaten=S.hbeaten||[];S.hperfect=S.hperfect||{};S.sport=S.sport||'football';if(S.me.beard===false)S.me.beard=''}
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
 migrate();
 function localSave(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -937,7 +977,7 @@ if(!reduce)(function loop(t){drawSky(t);requestAnimationFrame(loop)})(0);
 /* ============ VIEWS ============ */
 const VIEWS=['home','game','binder','report','shop'];
 function show(v){VIEWS.forEach(n=>$('#v-'+n).hidden=n!==v);scrollTo({top:0,behavior:'instant'});renderBar()}
-function renderBar(){$('#coins').textContent=comma(S.coins);$('#wins').textContent=`${S.wins} win${S.wins===1?'':'s'}`;$('#cardcount').textContent=`${cardCount()}/${CARD_TOTAL}`;
+function renderBar(){$('#coins').textContent=comma(S.coins);$('#wins').textContent=`${S.wins} win${S.wins===1?'':'s'}`;$('#cardcount').textContent=S.sport==='hockey'&&typeof hCount==='function'?`${hCount()}/${HCARD_TOTAL}`:`${cardCount()}/${CARD_TOTAL}`;
   $('#mute').innerHTML=S.muted?'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h3l4-3v12l-4-3H3z" fill="#16203f"/><path d="M13 7l5 6M18 7l-5 6" stroke="#e0413a" stroke-width="2"/></svg>':'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h3l4-3v12l-4-3H3z" fill="#16203f"/><path d="M13 6.5a5 5 0 0 1 0 7M15.5 4a8.5 8.5 0 0 1 0 12" stroke="#16203f" stroke-width="1.8" fill="none"/></svg>'}
 function modal(html,acts={},wide=false){const root=$('#modal-root');root.innerHTML=`<div class="scrim"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${html}</div></div>`;
   root.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{sfx.tap();(acts[b.dataset.act]||closeModal)(b)});const f=root.querySelector('button,input');if(f)f.focus()}
@@ -949,7 +989,7 @@ function gameTile(T,round){const isPO=round!=null;
   const nt=nextTeam(),nr=nextRound();const isNext=isPO?(nr&&nr.i===round):(nt&&nt.id===T.id);const open=beat||isNext;
   const label=isPO?PLAYOFFS[round].r:`WK ${T.id}`;const cnt=isPO?S.pcards[round]||0:T.roster.filter(P=>S.cards[ck(T,P.slot)]).length;
   return`<button class="game ${isNext?'next':''} ${open?'':'locked'}" style="${tvars(T)}" ${open?`data-id="${T.id}" ${isPO?`data-r="${round}"`:''}`:'disabled'} aria-label="${label} ${T.city} ${T.name}${open?'':' locked'}"><span class="wk">${label}</span>${beat?'<span class="done">✓ Won</span>':''}<div class="art">${fig(T,false,T.roster[0])}</div><b>${T.city} ${T.name}</b><small>${open?(isNext?'Next game':isPO?`Cards ×${cnt}`:`${cnt} of 3 players`):'Locked'}</small></button>`}
-function renderHome(){
+function renderHome(){if(S.sport==='hockey'&&typeof renderHHome==='function')return renderHHome();
   const nt=nextTeam(),nr=nextRound(),me=MEP();const T=nt||(nr&&nr.T);const lvl=nt?nt.start:nr?nr.start:0;const opp=T&&T.roster[0];
   const title=nt?`Week ${nt.id}: ${ME.name} vs ${nt.name}`:nr?`${nr.r}: ${ME.name} vs ${nr.T.name}`:'Numon Bowl Champions!';
   const daily=checkDaily();setWX(homeWX());
@@ -964,7 +1004,7 @@ function renderHome(){
         :`<div class="side"><div class="art flipx">${fig(ME,true,me)}</div><h3>You won the Numon Bowl!</h3><div class="note">Replay any game below.</div></div>`}
     </div>
     <div class="cta">${T?`<button class="btn go" id="kick">Kickoff!</button><div class="note">${nr?`Win the ${nr.r} to earn a special playoff card.`:`Score a touchdown to win ${opp.name}'s card and a free pack.`} You get 4 downs to gain 10 yards.</div>`:''}
-      <div class="row"><button class="btn blue" id="tobinder">Card binder (${cardCount()}/${CARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button></div></div>
+      <div class="row"><button class="btn blue" id="tobinder">Card binder (${cardCount()}/${CARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button><button class="btn blue" id="tolearn">Learn math</button></div></div>
   </div>
   <div class="panel"><h3 style="font-size:24px">Season schedule</h3><p class="note" style="margin:2px 0 0">Beat every team in order, starting with your own division. Then win four playoff games to reach the Numon Bowl. Beating a team wins its defender's card. Its quarterback and star player come in packs from the card shop.</p>
     ${DIVS.map(d=>`<h3 style="font-size:18px;margin-top:14px">${d}${d==='AFC East'?' · your division':''}</h3><div class="sched" style="margin-top:6px">${TEAMS.filter(t=>t.div===d).map(t=>gameTile(t)).join('')}</div>`).join('')}
@@ -1046,7 +1086,7 @@ function updateBoard(){const toGo=G.fd-G.yard;$('#dd').textContent=`${ord(G.down
 function flash(text,cls=''){const f=$('#flash');f.className='flash '+cls;f.textContent=text;void f.offsetWidth;f.classList.add('show')}
 function rangeTxt(kind){const [a,b]=lvRange(kind,G.level);const lo=kind==='run'?BASE[a]:Math.round(BASE[a]*1.3),hi=kind==='run'?BASE[b]+3:Math.round(BASE[b]*1.3)+4;return`${lo}–${hi} yards`}
 function callPhase(msg){G.busy=false;Q=null;$('#me').className='spr idle';
-  $('#gp').innerHTML=`<div class="qhead"><span class="eyebrow">${ord(G.down)} down · ${G.fd>=100?'goal to go':`${G.fd-G.yard} to go`}</span>${G.down===4?'<span class="chip" style="background:var(--bad)">4th down: get it or lose the ball!</span>':''}</div>
+  $('#gp').innerHTML=`<div class="qhead"><span class="eyebrow">${ord(G.down)} down · ${G.fd>=100?'goal to go':`${G.fd-G.yard} to go`}</span>${G.down===4?'<span class="chip" style="background:var(--bad)">4th down: last chance for a first down!</span>':''}</div>
    <div class="msg" style="margin-bottom:10px">${msg}</div>
    <div class="calls"><button class="play run" id="prun"><b>RUN</b><span>Easier question, steady gain</span><em>${rangeTxt('run')}</em></button>
    <button class="play pass" id="ppass"><b>PASS</b><span>Harder question, bigger gain</span><em>${rangeTxt('pass')}</em></button></div>`;
@@ -1065,7 +1105,7 @@ const ansText=p=>p.kind==='num'?comma(p.answer)+(p.unit||''):p.answer;
 function mountQ(el,p,head,msg,cb){Q={p,input:'',lock:false,cb};
   el.innerHTML=`<div class="qpanel"><div class="qcol">${head}<div class="msg" id="msg">${msg||''}</div><div class="qtext">${p.text}</div>${p.vis&&p.vis.length?`<div class="qvis">${renderVis(p.vis)}</div>`:''}
     ${p.kind==='num'?`<div class="ansbox" id="ans"><span class="ph">?</span></div>`:`<div class="choices" id="ch">${p.choices.map((c,i)=>`<button data-i="${i}">${c}</button>`).join('')}</div>`}<div id="rev"></div></div>
-    <div class="scratch"><div class="sc-head"><span class="eyebrow">Scratch pad · show your work</span><div class="sc-tools" id="sctools">
+    <div class="scratch"><div class="sc-head"><span class="eyebrow">Scratch pad · show your work</span><button class="learnbtn" id="learnq" type="button">Learn how</button><div class="sc-tools" id="sctools">
       <button data-c="#1d2547" class="on" aria-label="Black pen"><span class="sw" style="background:#1d2547"></span></button><button data-c="#2f6fe0" aria-label="Blue pen"><span class="sw" style="background:#2f6fe0"></span></button><button data-c="#e0413a" aria-label="Red pen"><span class="sw" style="background:#e0413a"></span></button>
       <button data-t="erase">Eraser</button><button data-t="undo">Undo</button><button data-t="clear">Clear</button></div></div><canvas id="scratch" aria-label="Scratch pad. Draw here with your finger or Apple Pencil."></canvas></div>
     ${p.kind==='num'?`<div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}<button data-k="del" aria-label="Delete">⌫</button><button data-k="0">0</button><button data-k="ok" class="enter" aria-label="Check answer">✓</button></div>`:''}</div>`;
@@ -1134,7 +1174,7 @@ function resolvePlay(ok,given){const g=G;const {kind,d,yards,p}=G.cur;G.plays++;
   setTimeout(()=>{if(G!==g)return;
     let gain=0,label;
     if(ok){gain=Math.min(yards,100-G.yard);me.className='spr '+(kind==='run'?'run':'leap');label=kind==='run'?`+${gain} yard run!`:`Pass complete! +${gain}`}
-    else if(kind==='run'){gain=-Math.min(R(1,3),G.yard-1);label=gain?`Stuffed! ${gain} yards`:'No gain';}
+    else if(kind==='run'){gain=-Math.min(R(1,3),G.yard-1);label=gain?`Stopped short! ${gain} yards`:'No gain';}
     else{gain=0;label='Incomplete';throwIncomplete()}
     const ny=G.yard+gain;
     if(ok||kind==='run'){at(me,ny-(ny>=100?-4:1.6));at(d0,ny+(ny>=100?-2:.9));at($('#d1'),ny+(ny>=100?-6:3.5));at($('#d2'),ny+(ny>=100?-9:6));camera(Math.min(ny,96))}
@@ -1251,9 +1291,9 @@ const FACTS=[
  'The forward pass became legal in American football in 1906.',
  'NFL referees have worn black-and-white striped shirts since the 1920s, so they stand out from the players.',
  'The Hall of Fame Game in Canton, Ohio, kicks off the NFL preseason each summer.'];
-const cardIndex=(T,ed)=>ed.promo?98+PROMOS.indexOf(PROMO[ed.promo]):ed.champ?97:ed.round!=null?93+ed.round:(T.id-1)*3+(ed.slot||0);
+const cardIndex=(T,ed)=>ed.promo?98+(PROMO[ed.promo].hk?HPROMOS.indexOf(PROMO[ed.promo]):PROMOS.indexOf(PROMO[ed.promo])):ed.champ?97:ed.round!=null?93+ed.round:(T.id-1)*3+(ed.slot||0);
 function cardPlayer(T,ed){if(ed.promo)return PROMO[ed.promo].P();return ed.champ?MEP():T.roster[ed.round!=null?0:(ed.slot||0)]}
-function promoCard(X,count,tilt,isNew){const T=X.T,P=X.P();const me=T===ME||T.city===ME.city;const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';
+function promoCard(X,count,tilt,isNew){const T=X.T,P=X.P();const me=!T.hockey&&(T===ME||T.city===ME.city);const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';
   return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} ${tilt?'tilt':''}"><div class="sface">
     <div class="sphoto th-${X.theme}"><div class="bignum">${P.num}</div><div class="mon ${me?'flipx':''}">${fig(T,me,P)}</div><div class="sbadge">${initials(T)}</div><div class="ptag ${X.kind}">${X.kind==='award'?'🏆 ':''}${X.title}</div>${isNew?'<div class="perfect" style="left:auto;right:4cqw;bottom:auto;top:24cqw;background:#ff5a3c;color:#fff">NEW!</div>':''}<div class="foil"></div></div>
     <div class="sban"><div class="sname">${esc(P.name)}<span class="spos">${P.pos}</span></div><div class="steam">${T.city} ${T.name} · #${P.num}</div></div>
@@ -1263,31 +1303,31 @@ function sportsCard(T,count=1,tilt=true,ed={}){if(ed.promo)return promoCard(PROM
   const tier=ed.round!=null||isMe?'hof':T.tier;const label=isMe?'Numon Bowl Champion':ed.round!=null?PLAYOFFS[ed.round].r:TIERLABEL[tier];
   const yr=new Date().getFullYear();const right=isMe?`${yr} · Champion`:ed.round!=null?`${yr} · Playoffs`:`${yr} · ${String(T.id).padStart(2,'0')}-${(ed.slot||0)+1}`;
   return`<div class="cwrap" style="${tvars(T)}"><div class="scard t-${tier} ${tilt?'tilt':''}"><div class="sface">
-    <div class="sphoto"><div class="bignum">${P.num}</div><div class="mon ${isMe?'flipx':''}">${fig(T,isMe,P)}</div><div class="sbadge">${initials(T)}</div>${!isMe&&ed.round==null&&!ed.slot&&S.perfect[T.id]?'<div class="perfect">Perfect drive</div>':''}${ed.round!=null?`<div class="perfect">${PLAYOFFS[ed.round].r}</div>`:''}${isMe?'<div class="perfect">Champion</div>':''}${ed.isNew?'<div class="perfect" style="left:auto;right:4cqw;bottom:auto;top:24cqw;background:#ff5a3c;color:#fff">NEW!</div>':''}<div class="foil"></div></div>
+    <div class="sphoto"><div class="bignum">${P.num}</div><div class="mon ${isMe?'flipx':''}">${fig(T,isMe,P)}</div><div class="sbadge">${initials(T)}</div>${!isMe&&ed.round==null&&!ed.slot&&(T.hockey?S.hperfect:S.perfect)[T.id]?`<div class="perfect">${T.hockey?'Perfect game':'Perfect drive'}</div>`:''}${ed.round!=null?`<div class="perfect">${PLAYOFFS[ed.round].r}</div>`:''}${isMe?'<div class="perfect">Champion</div>':''}${ed.isNew?'<div class="perfect" style="left:auto;right:4cqw;bottom:auto;top:24cqw;background:#ff5a3c;color:#fff">NEW!</div>':''}<div class="foil"></div></div>
     <div class="sban"><div class="sname">${esc(P.name)}<span class="spos">${P.pos}</span></div><div class="steam">${T.city} ${T.name} · #${P.num}</div></div>
     <div class="stier"><span>${label}</span><span>${right}</span></div>
   </div>${count>1?`<span class="copies">×${count}</span>`:''}${tier==='hof'?'<div class="foil"></div><div class="sparkle"></div>':''}<div class="glare"></div></div></div>`}
-function promoBack(X){const T=X.T,P=X.P(),ci=cardIndex(T,{promo:X.key});const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';
+function promoBack(X){const T=X.T,P=X.P(),ci=cardIndex(T,{promo:X.key});const tier=X.kind==='legend'?'legend':X.kind==='award'?'gold':'hof';const JK=T.hockey?HJOKES:JOKES,FC=T.hockey?HFACTS:FACTS,HL=T.hockey?'Hockey history':'Football history';
   return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier}"><div class="bk">
     <div class="bkh"><div class="sbadge" style="position:static;width:13cqw;height:13cqw;font-size:4.6cqw">${initials(T)}</div><div><b>${esc(P.name)}</b><div style="font-weight:800;font-size:4cqw;color:var(--ink-2)">${X.title} · ${P.pos} · #${P.num}</div></div></div>
     <table><tr><th>Height</th><th>Weight</th><th>Position</th></tr><tr><td>${P.ht}</td><td>${P.wt}</td><td>${P.pos}</td></tr></table>
     <div class="rep">“${X.desc}”</div>
-    ${X.kind==='legend'?`<div class="fact"><b>Real Hall of Fame history:</b> ${X.fact}</div>`:`<div class="fact"><b>Football history:</b> ${FACTS[(ci*7)%FACTS.length]}</div>`}
-    <div class="joke"><b>Joke time!</b> ${JOKES[ci%JOKES.length][0]} <span>${JOKES[ci%JOKES.length][1]}</span></div>
-    <div class="seal"><span>Numon League promo</span><span>${X.kind==='legend'?X.sub:X.sub}</span></div></div></div></div>`}
-function cardBack(T,ed={}){if(ed.promo)return promoBack(PROMO[ed.promo]);const isMe=!!ed.champ;const P=cardPlayer(T,ed);const ci=cardIndex(T,ed);const tier=ed.round!=null||isMe?'hof':T.tier;
-  const games=isMe?S.log.filter(l=>l.round===3):S.log.filter(l=>l.team===T.id&&(ed.round!=null?l.round===ed.round:l.round==null));const won=games.filter(l=>l.won);const best=won.length?Math.min(...won.map(l=>l.plays)):null;
-  const rep=isMe?`Led the ${ME.city} ${ME.name} past ${TEAMS.length} teams and four playoff games to win the Numon Bowl.`:ed.round!=null?`Beaten in the ${PLAYOFFS[ed.round].r}. ${T.report}`:(ed.slot?`${P.pos==='QB'?'Field general':'Playmaker'} for the ${T.city} ${T.name}. Found in a card pack.`:T.report);
+    ${X.kind==='legend'?`<div class="fact"><b>Real Hall of Fame history:</b> ${X.fact}</div>`:`<div class="fact"><b>${HL}:</b> ${FC[(ci*7)%FC.length]}</div>`}
+    <div class="joke"><b>Joke time!</b> ${JK[ci%JK.length][0]} <span>${JK[ci%JK.length][1]}</span></div>
+    <div class="seal"><span>${T.hockey?'Numon Hockey promo':'Numon League promo'}</span><span>${X.kind==='legend'?X.sub:X.sub}</span></div></div></div></div>`}
+function cardBack(T,ed={}){if(ed.promo)return promoBack(PROMO[ed.promo]);const isMe=!!ed.champ;const P=cardPlayer(T,ed);const ci=cardIndex(T,ed);const tier=ed.round!=null||isMe?'hof':T.tier;const JK=T.hockey?HJOKES:JOKES,FC=T.hockey?HFACTS:FACTS,HL=T.hockey?'Hockey history':'Football history';
+  const games=isMe?S.log.filter(l=>l.round===3):S.log.filter(l=>l.team===(T.hockey?100+T.id:T.id)&&(ed.round!=null?l.round===ed.round:l.round==null));const won=games.filter(l=>l.won);const best=won.length?Math.min(...won.map(l=>l.plays)):null;
+  const rep=isMe?`Led the ${ME.city} ${ME.name} past ${TEAMS.length} teams and four playoff games to win the Numon Bowl.`:ed.round!=null?`Beaten in the ${PLAYOFFS[ed.round].r}. ${T.report}`:(ed.slot?`${T.hockey?(P.pos==='C'?'Top center':'Speedy skater'):(P.pos==='QB'?'Field general':'Playmaker')} for the ${T.city} ${T.name}. Found in a card pack.`:T.report);
   return`<div class="cwrap back" style="${tvars(T)}"><div class="sback t-${tier}"><div class="bk">
     <div class="bkh"><div class="sbadge" style="position:static;width:13cqw;height:13cqw;font-size:4.6cqw">${initials(T)}</div><div><b>${esc(P.name)}</b><div style="font-weight:800;font-size:4cqw;color:var(--ink-2)">${T.city} ${T.name} · ${P.pos} · #${P.num}</div></div></div>
     <table><tr><th>Height</th><th>Weight</th><th>Position</th></tr><tr><td>${P.ht}</td><td>${P.wt}</td><td>${P.pos}</td></tr></table>
     <div class="rep">“${rep}”</div>
-    <div class="joke"><b>Joke time!</b> ${JOKES[ci%JOKES.length][0]} <span>${JOKES[ci%JOKES.length][1]}</span></div>
-    <div class="fact"><b>Football history:</b> ${FACTS[(ci*7)%FACTS.length]}</div>
-    <div class="rec">Your games ${games.length} · Wins ${won.length} · Fastest TD ${best?best+' plays':'—'}</div>
-    <div class="seal"><span>Numon League</span><span>${isMe?'Champion':ed.round!=null?'Playoffs':TIERLABEL[tier]}</span></div></div></div></div>`}
-function slotFor(T,have,count,ed,label,sub){return`<div class="slot">${have?`<button data-id="${T.id||0}" data-ed='${JSON.stringify(ed)}' aria-label="View card">${sportsCard(T,count,true,ed)}</button>`:`<div class="empty" style="${tvars(T)}"><div class="art">${fig(T,!!ed.champ||(ed.promo&&(T===ME||T.city===ME.city)),cardPlayer(T,ed))}</div><b>${label}</b>${sub}</div>`}</div>`}
-function renderBinder(){const n=cardCount();
+    <div class="joke"><b>Joke time!</b> ${JK[ci%JK.length][0]} <span>${JK[ci%JK.length][1]}</span></div>
+    <div class="fact"><b>${HL}:</b> ${FC[(ci*7)%FC.length]}</div>
+    <div class="rec">Your games ${games.length} · Wins ${won.length} · ${T.hockey?'Fastest win':'Fastest TD'} ${best?best+(T.hockey?' shots':' plays'):'—'}</div>
+    <div class="seal"><span>${T.hockey?'Numon Hockey League':'Numon League'}</span><span>${isMe?'Champion':ed.round!=null?'Playoffs':TIERLABEL[tier]}</span></div></div></div></div>`}
+function slotFor(T,have,count,ed,label,sub){return`<div class="slot">${have?`<button data-id="${T.id||0}" data-ed='${JSON.stringify(ed)}' aria-label="View card">${sportsCard(T,count,true,ed)}</button>`:`<div class="empty" style="${tvars(T)}"><div class="art">${fig(T,!T.hockey&&(!!ed.champ||(ed.promo&&(T===ME||T.city===ME.city))),cardPlayer(T,ed))}</div><b>${label}</b>${sub}</div>`}</div>`}
+function renderBinder(){if(S.sport==='hockey'&&typeof renderHBinder==='function')return renderHBinder();const n=cardCount();
   $('#v-binder').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back2">← Locker room</button><h2>Sports card binder</h2><div class="prog"><i style="width:${n/CARD_TOTAL*100}%"></i></div><b class="num" style="font-size:16px">${n} / ${CARD_TOTAL}</b><button class="btn blue" id="b2shop" style="font-size:16px;padding:8px 14px">Card shop</button></div>
     <p class="note" style="margin:6px 0 0">Every team has 3 players. Win the game to get the defender. Find the quarterback and star player in packs from the card shop. Tap a card to flip it over or make a coloring page.</p></div>
   <div class="book" style="display:flex;flex-direction:column;gap:16px">${DIVS.map(d=>{const ts=TEAMS.filter(t=>t.div===d);const got=ts.reduce((a,t)=>a+t.roster.filter(P=>S.cards[ck(t,P.slot)]).length,0);return`<div class="sheet"><h3 style="font-size:22px;margin-bottom:10px">${d} <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${ts.length*3}</small></h3><div class="cards">${ts.map(T=>T.roster.map(P=>slotFor(T,S.cards[ck(T,P.slot)],S.cards[ck(T,P.slot)],{slot:P.slot},`${T.abbr} ${P.pos}`,P.slot?'Find in packs':`Win Week ${T.id}`)).join('')).join('')}</div></div>`}).join('')}
@@ -1308,7 +1348,7 @@ function toLine(svg){
 }
 function coloringSVG(T,ed){const P=cardPlayer(T,ed),isMe=!!ed.champ;const F='Arial Black, Arial, Helvetica, sans-serif';
   const tier=ed.round!=null||isMe?'hof':T.tier;const label=ed.promo?PROMO[ed.promo].title:isMe?'Numon Bowl Champion':ed.round!=null?PLAYOFFS[ed.round].r:TIERLABEL[tier];
-  const meFlip=isMe||(ed.promo&&(T===ME||T.city===ME.city));const figSvg=toLine(fig(T,meFlip,P)).replace('<svg viewBox="0 0 120 120"','<svg x="175" y="175" width="500" height="500" viewBox="0 0 120 120"');
+  const meFlip=!T.hockey&&(isMe||(ed.promo&&(T===ME||T.city===ME.city)));const figSvg=toLine(fig(T,meFlip,P)).replace('<svg viewBox="0 0 120 120"','<svg x="175" y="175" width="500" height="500" viewBox="0 0 120 120"');
   const name=esc(P.name),nl=Math.min(500,P.name.length*34);let bands='';for(let i=-6;i<16;i++)bands+=`<path d="M${157+i*70} 702 L${157+i*70+330} 142" stroke="#111" stroke-width="1.4" opacity=".55"/>`;
   return`<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="2200" viewBox="0 0 850 1100"><defs><clipPath id="ph"><rect x="157" y="142" width="536" height="560" rx="14"/></clipPath></defs>
   <rect width="850" height="1100" fill="#fff"/>
@@ -1352,19 +1392,19 @@ function drawPromo(){let x=Math.random()*PROMOS.reduce((a,p)=>a+PW[p.kind],0);fo
 const TW={base:10,silver:6,gold:3,hof:1};
 function drawCard(goldPlus){const pool=TEAMS.filter(T=>!goldPlus||T.tier==='gold'||T.tier==='hof').flatMap(T=>[1,2].map(slot=>({T,slot,w:TW[T.tier]})));
   let x=Math.random()*pool.reduce((a,c)=>a+c.w,0);for(const c of pool){x-=c.w;if(x<=0)return c}return pool[pool.length-1]}
-function packArt(P){return`<div class="pack ${P.id}"><div class="pk-top">${P.id==='daily'?'PACK OF THE DAY':'NUMON GRIDIRON'}</div><div class="pk-ball"></div><b>${P.name}</b><span>${P.cards} cards</span></div>`}
-function renderShop(){const have=TEAMS.reduce((a,T)=>a+[1,2].filter(sl=>S.cards[ck(T,sl)]).length,0);
-  $('#v-shop').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back4">← Locker room</button><h2>Card shop</h2><span class="stat" style="font-size:18px;margin-left:auto">${comma(S.coins)} coins</span></div>
-    <p class="note" style="margin:6px 0 0">Earn coins on every drive: 1 coin per yard on a right answer, 10 for a first down, 50 for a touchdown, 25 more for a perfect drive, and 100 for a playoff win. Practicing missed questions earns 5 coins each.</p>
+function packArt(P){return`<div class="pack ${P.id}"><div class="pk-top">${P.id==='daily'?'PACK OF THE DAY':S.sport==='hockey'?'NUMON HOCKEY':'NUMON GRIDIRON'}</div><div class="pk-ball${S.sport==='hockey'?' puck':''}"></div><b>${P.name}</b><span>${P.cards} cards</span></div>`}
+function renderShop(){const HK=S.sport==='hockey';const have=HK?HTEAMS.reduce((a,T)=>a+[1,2].filter(sl=>S.hcards[hk(T,sl)]).length,0):TEAMS.reduce((a,T)=>a+[1,2].filter(sl=>S.cards[ck(T,sl)]).length,0);
+  $('#v-shop').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back4">← Locker room</button><h2>${HK?'Hockey card shop':'Football card shop'}</h2><span class="stat" style="font-size:18px;margin-left:auto">${comma(S.coins)} coins</span></div>
+    <p class="note" style="margin:6px 0 0">${HK?'Earn coins in every hockey game: 5 for a wrist shot goal, 10 for a slap shot goal, 50 for a win and 25 more for a shutout.':'Earn coins on every drive: 1 coin per yard on a right answer, 10 for a first down, 50 for a touchdown, 25 more for a perfect drive, and 100 for a playoff win.'} Practicing missed questions earns 5 coins each. Packs give you ${HK?'hockey':'football'} cards; switch sports in Settings (gear icon).</p>
     ${checkDaily()?`<div class="prod" style="margin-top:14px;background:#f1e8ff;border:3px solid #7a3fd0">${packArt(DAILY)}<div><h3 style="font-size:24px">Pack of the Day</h3><p class="note" style="margin:4px 0 10px">A free pack every day with 2 promo cards and 1 player card. Come back tomorrow for a new one!</p><button class="btn go" style="font-size:20px;padding:10px 20px" id="opendaily">Open Pack of the Day</button></div></div>`:''}
-    ${S.unopened?`<div class="prod" style="margin-top:14px;background:#fff3d6;border:3px solid var(--gold)">${packArt(PACKS[0])}<div><h3 style="font-size:24px">${S.unopened} free reward pack${S.unopened>1?'s':''}!</h3><p class="note" style="margin:4px 0 10px">You earned ${S.unopened>1?'these':'this'} by scoring touchdowns. Each has 2 player cards and 1 promo card.</p><button class="btn go" style="font-size:20px;padding:10px 20px" id="openfree">Open free pack</button></div></div>`:''}
+    ${S.unopened?`<div class="prod" style="margin-top:14px;background:#fff3d6;border:3px solid var(--gold)">${packArt(PACKS[0])}<div><h3 style="font-size:24px">${S.unopened} free reward pack${S.unopened>1?'s':''}!</h3><p class="note" style="margin:4px 0 10px">You earned ${S.unopened>1?'these':'this'} by winning games. Each has 2 player cards and 1 promo card.</p><button class="btn go" style="font-size:20px;padding:10px 20px" id="openfree">Open free pack</button></div></div>`:''}
     <div class="shopgrid">${PACKS.map(P=>`<div class="prod">${packArt(P)}<div><h3 style="font-size:24px">${P.name}</h3><p class="note" style="margin:4px 0 10px">${P.desc}</p><button class="btn go" style="font-size:20px;padding:10px 20px" data-buy="${P.id}" ${S.coins<P.cost?'disabled':''}>Buy · ${P.cost} coins</button>${S.coins<P.cost?`<div class="note" style="margin-top:6px">${P.cost-S.coins} more coins needed. Win a game to earn more!</div>`:''}</div></div>`).join('')}</div>
-    <p class="note">Pack players found: <b>${have} of ${TEAMS.length*2}</b>. Promo cards found: <b>${PROMOS.filter(x=>S.cards['X-'+x.key]).length} of ${PROMOS.length}</b>. Packs opened: ${S.packs||0}. Duplicates count as extra copies.</p></div>`;
+    <p class="note">Pack players found: <b>${have} of ${(HK?HTEAMS:TEAMS).length*2}</b>. Promo cards found: <b>${HK?HPROMOS.filter(x=>S.hcards['X-'+x.key]).length:PROMOS.filter(x=>S.cards['X-'+x.key]).length} of ${(HK?HPROMOS:PROMOS).length}</b>. Packs opened: ${S.packs||0}. Duplicates count as extra copies.</p></div>`;
   $('#back4').onclick=()=>{renderHome();show('home')};if($('#openfree'))$('#openfree').onclick=()=>buyPack(PACKS[0],true);if($('#opendaily'))$('#opendaily').onclick=()=>buyPack(DAILY,'daily');
   document.querySelectorAll('#v-shop [data-buy]').forEach(b=>b.onclick=()=>buyPack(PACKS.find(p=>p.id===b.dataset.buy)))}
-function buyPack(P,free=false){const daily=free==='daily';if(daily?!S.dailyReady:free?S.unopened<1:S.coins<P.cost)return;sfx.tap();if(daily)S.dailyReady=false;else if(free)S.unopened--;else S.coins-=P.cost;S.packs=(S.packs||0)+1;const np=P.promos||1;
-  const got=[];for(let i=0;i<P.cards-np;i++){const c=drawCard(P.id==='mega'&&i===P.cards-2);const k=ck(c.T,c.slot);const isNew=!S.cards[k];S.cards[k]=(S.cards[k]||0)+1;got.push({...c,isNew,count:S.cards[k]})}
-  for(let i=0;i<np;i++){const x=drawPromo();const k='X-'+x.key;const isNew=!S.cards[k];S.cards[k]=(S.cards[k]||0)+1;got.push({T:x.T,promo:x.key,isNew,count:S.cards[k]})}
+function buyPack(P,free=false){const daily=free==='daily';if(daily?!S.dailyReady:free?S.unopened<1:S.coins<P.cost)return;sfx.tap();if(daily)S.dailyReady=false;else if(free)S.unopened--;else S.coins-=P.cost;S.packs=(S.packs||0)+1;const np=P.promos||1;const HK=S.sport==='hockey',store=HK?S.hcards:S.cards;
+  const got=[];for(let i=0;i<P.cards-np;i++){const c=(HK?hDrawCard:drawCard)(P.id==='mega'&&i===P.cards-2);const k=HK?hk(c.T,c.slot):ck(c.T,c.slot);const isNew=!store[k];store[k]=(store[k]||0)+1;got.push({...c,isNew,count:S.cards[k]})}
+  for(let i=0;i<np;i++){const x=HK?drawHPromo():drawPromo();const k='X-'+x.key;const isNew=!store[k];store[k]=(store[k]||0)+1;got.push({T:x.T,promo:x.key,isNew,count:S.cards[k]})}
   save();renderBar();
   modal(`<h2>${daily?'Pack of the Day':free?'Free reward pack':P.name}</h2><div id="packzone" style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%"><button class="packbtn" id="rip" aria-label="Open the pack">${packArt(P)}</button><div class="note">Tap the pack to rip it open!</div></div>`,{},true);
   $('#rip').onclick=()=>{sfx.win();if(!reduce)confetti(['#ffc93c','#ff6a1f','#ffffff','#2fd6c9']);
@@ -1378,6 +1418,7 @@ if(!reduce){document.addEventListener('pointermove',e=>{const c=e.target.closest
   document.addEventListener('pointerout',off);document.addEventListener('pointercancel',off)}
 
 /* ============ PRACTICE + REPORT ============ */
+const teamOf=id=>id>100?HTEAMS[id-101]:TEAMS[id-1];
 const needPractice=()=>S.missed.filter(m=>!m.mastered);
 const fmtDate=t=>new Date(t).toLocaleDateString([],{month:'short',day:'numeric'});
 let RV=null,RF='need';
@@ -1386,7 +1427,7 @@ function startReview(){const list=needPractice().slice(0,10);if(!list.length)ret
   $('#rvback').onclick=()=>{Q=null;RV=null;renderReport();show('report')};show('game');rvNext()}
 function rvNext(){const m=S.missed.find(x=>x.id===RV.ids[RV.i]);if(!m){RV.i++;return RV.i<RV.ids.length?rvNext():rvDone()}
   const p={kind:m.kind,text:m.text,vis:m.vis,answer:m.answer,choices:m.kind==='choice'?(m.choices.length===3?m.choices:shuffle(m.choices)):null,unit:m.unit};
-  mountQ($('#gp'),p,`<div class="qhead"><span class="eyebrow">Question ${RV.i+1} of ${RV.ids.length}</span><span class="chip lvl">Level ${m.level}</span>${m.tp?`<span class="chip">${m.tp}</span>`:''}</div>`,`Missed on ${fmtDate(m.at)} against the ${TEAMS[m.team-1].name}.`,ok=>{
+  mountQ($('#gp'),p,`<div class="qhead"><span class="eyebrow">Question ${RV.i+1} of ${RV.ids.length}</span><span class="chip lvl">Level ${m.level}</span>${m.tp?`<span class="chip">${m.tp}</span>`:''}</div>`,`Missed on ${fmtDate(m.at)} against the ${teamOf(m.team).name}.`,ok=>{
     const cur=S.missed.find(x=>x.id===m.id)||m;cur.tries=(cur.tries||0)+1;
     if(ok){cur.mastered=true;cur.masteredAt=Date.now();RV.fixed++;S.coins+=5;S.coinsEarned+=5;renderBar();sfx.ok();$('#msg').textContent='Correct! Moved to your learned list. +5 coins.'}else{sfx.bad();$('#msg').textContent='Not quite. It stays on your practice list.'}
     markDay();save();RV.i++;setTimeout(()=>{if(!RV)return;RV.i<RV.ids.length?rvNext():rvDone()},ok?1200:2600)})}
@@ -1413,12 +1454,12 @@ function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.redu
   <div class="panel"><div class="head"><h3 class="rh" style="margin:0">Missed questions</h3>
     <div class="seg" role="group" aria-label="Filter missed questions">${[['need',`To practice (${need.length})`],['learned',`Learned (${learned.length})`],['all',`All (${S.missed.length})`]].map(([k,l])=>`<button data-f="${k}" class="${RF===k?'on':''}" aria-pressed="${RF===k}">${l}</button>`).join('')}</div>
     ${need.length?`<button class="btn go" id="practice" style="font-size:18px;padding:10px 18px;margin-left:auto">Practice ${Math.min(10,need.length)} now</button>`:''}</div>
-    ${shown.length?`<div class="mlist">${shown.map(m=>`<div class="mi"><div class="mtop"><span class="pill ${m.mastered?'ok':'need'}">${m.mastered?'✓ Learned':'To practice'}</span><span>${fmtDate(m.at)} · vs ${TEAMS[m.team-1].name} · Level ${m.level}${m.tp?' · '+m.tp:''}</span></div>
+    ${shown.length?`<div class="mlist">${shown.map(m=>`<div class="mi"><div class="mtop"><span class="pill ${m.mastered?'ok':'need'}">${m.mastered?'✓ Learned':'To practice'}</span><span>${fmtDate(m.at)} · vs ${teamOf(m.team).name} · Level ${m.level}${m.tp?' · '+m.tp:''}</span></div>
       <div class="mq">${m.text}</div>${m.vis&&m.vis.length?`<div class="mvis">${renderVis(m.vis)}</div>`:''}
       <div class="mans"><span class="gave">Answered <b>${m.given}</b></span><span class="right">Correct <b>${m.kind==='num'?comma(m.answer)+(m.unit||''):m.answer}</b></span>${m.tries?`<span class="tries">${m.tries} practice tr${m.tries>1?'ies':'y'}</span>`:''}</div></div>`).join('')}</div>${list.length>shown.length?`<p class="note">Showing the newest ${shown.length} of ${list.length}.</p>`:''}`
-    :`<p class="note">${RF==='need'?(S.missed.length?'Nothing left to practice. Every missed question has been learned!':'No missed questions yet. Questions answered wrong in games will show up here.'):'Nothing here yet.'}</p>`}</div>
-  <div class="panel"><h3 class="rh">Recent games</h3>${S.log.length?`<div class="tablewrap"><table class="blog"><thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Plays</th><th class="r">Yards</th><th class="r">Right</th></tr></thead><tbody>
-    ${S.log.slice(0,30).map(l=>{const T=TEAMS[l.team-1];return`<tr><td>${new Date(l.at).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td><td>${T.city} ${T.name}${l.round!=null?` · ${PLAYOFFS[l.round].r}`:''}</td><td><span class="pill ${l.won?'ok':'lost'}">${l.won?'Won 7–0':'Lost'}</span></td><td class="r">${l.plays}</td><td class="r">${l.yards}</td><td class="r">${l.right}/${l.plays}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="note">No games yet.</p>'}</div>`;
+    :`<p class="note">${RF==='need'?(S.missed.length?'Nothing left to practice. Every missed question has been learned!':'No missed questions yet. Questions to practice from your games will show up here.'):'Nothing here yet.'}</p>`}</div>
+  <div class="panel"><h3 class="rh">Recent games</h3>${S.log.length?`<div class="tablewrap"><table class="blog"><thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Plays</th><th class="r">Yards or score</th><th class="r">Right</th></tr></thead><tbody>
+    ${S.log.slice(0,30).map(l=>{const T=teamOf(l.team);return`<tr><td>${new Date(l.at).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td><td>${T.city} ${T.name}${l.round!=null?` · ${PLAYOFFS[l.round].r}`:''}${l.sport==='hockey'?' · Hockey':''}</td><td><span class="pill ${l.won?'ok':'lost'}">${l.won?(l.sport==='hockey'?'Won '+l.score:'Won 7–0'):'Good try'}</span></td><td class="r">${l.plays}</td><td class="r">${l.sport==='hockey'?l.score:l.yards}</td><td class="r">${l.right}/${l.plays}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="note">No games yet.</p>'}</div>`;
   $('#back3').onclick=()=>{renderHome();show('home')};if($('#practice'))$('#practice').onclick=startReview;
   document.querySelectorAll('#v-report .seg button').forEach(b=>b.onclick=()=>{RF=b.dataset.f;renderReport()})}
 function refreshView(){if(RV)return;if(G){return}const v=VIEWS.find(n=>!$('#v-'+n).hidden)||'home';({home:renderHome,binder:renderBinder,report:renderReport,shop:renderShop}[v]||renderHome)();renderBar()}
@@ -1438,9 +1479,12 @@ function settings(){let armed=false;
      S=Object.assign(fresh(),d.state);migrate();save();closeModal();renderHome();show('home');modal('<h2>Progress restored</h2><p class="note">Cards, coins and history are back.</p><button class="btn" data-act="close">OK</button>')}catch(e){$('#synctxt').textContent='That file is not a Gridiron backup.'}};inp.click()},reset:b=>{if(!armed){armed=true;b.textContent='Tap again to erase everything';return}S=fresh();save();closeModal();renderHome();show('home')}});renderAcct()}
 $('#grownup').onclick=grownups;
 function gearMenu(){const opt=(v,l,d)=>`<button class="stylepick ${S.style===v?'on':''}" data-act="st" data-v="${v}"><div class="art">${(()=>{const k=S.style;S.style=v;const h=fig(ME,true,MEP());S.style=k;return h})()}</div><b>${l}</b><span>${d}</span></button>`;
-  modal(`<h2>Settings</h2><div class="note" style="font-weight:800">Player style</div><div class="row">${opt('mini','Mini players','Big helmets, small bodies')}${opt('numon','Numons','Creatures in jerseys')}</div>
+  const sp=(v,l,d,ic)=>`<button class="stylepick ${S.sport===v?'on':''}" data-act="sp" data-v="${v}"><div class="art" style="display:grid;place-items:center">${ic}</div><b>${l}</b><span>${d}</span></button>`;
+  modal(`<h2>Settings</h2><div class="note" style="font-weight:800">Sport</div><div class="row">${sp('football','Football','Drive down the field','<svg viewBox="0 0 40 40" width="70" height="70"><ellipse cx="20" cy="20" rx="17" ry="11" transform="rotate(-35 20 20)" fill="#9a4f1d" stroke="#16203f" stroke-width="2"/><path d="M14 26L26 14M16.5 20.5l3 3M19 18l3 3M21.5 15.5l3 3" stroke="#fff" stroke-width="1.8"/></svg>')}${sp('hockey','Hockey','Score 5 goals on the ice','<svg viewBox="0 0 40 40" width="70" height="70"><path d="M8 6 L22 30 L34 30 L34 34 L19 34 L5 8 Z" fill="#8a5a2b" stroke="#16203f" stroke-width="1.5"/><ellipse cx="27" cy="25" rx="7" ry="3.5" fill="#111"/></svg>')}</div>
+   <p class="note">Each sport has its own teams, games and card binder. Coins, math progress and the progress report are shared.</p>
+   <div class="note" style="font-weight:800">Player style</div><div class="row">${opt('mini','Mini players','Big helmets, small bodies')}${opt('numon','Numons','Creatures in jerseys')}</div>
    <p class="note">Your choice changes the players everywhere: on the field, on the home screen, on every card and on coloring pages.</p><div class="row"><button class="btn" data-act="close">Done</button></div>`,
-   {st:b=>{S.style=b.dataset.v;save();closeModal();refreshView();gearMenu()}})}
+   {st:b=>{S.style=b.dataset.v;save();closeModal();refreshView();gearMenu()},sp:b=>{if(G){closeModal();return}S.sport=b.dataset.v;save();closeModal();renderHome();show('home');gearMenu()}},true)}
 $('#gear').onclick=gearMenu;
 $('#coinbtn').onclick=()=>{if(G||RV)return;renderShop();show('shop')};
 $('#mute').onclick=()=>{S.muted=!S.muted;save();renderBar();sfx.tap()};
@@ -1448,6 +1492,8 @@ renderHome();show('home');renderSync();connectCloud();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 </script>
+<script src="learn.js"></script>
+<script src="hockey.js"></script>
 
 </body>
 </html>
