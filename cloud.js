@@ -21,6 +21,11 @@ if (!cfg) {
     signUp: (e, p) => A.createUserWithEmailAndPassword(auth, e, p),
     reset: e => A.sendPasswordResetEmail(auth, e),
     signOut: () => A.signOut(auth),
+    uid: () => auth.currentUser && auth.currentUser.uid,
+    // Weekly backups: families/{uid}/backups/{YYYY-MM-DD}
+    backupSave: (uid, id, data) => F.setDoc(F.doc(db, 'families', uid, 'backups', id), data),
+    backupList: async uid => { const qs = await F.getDocs(F.collection(db, 'families', uid, 'backups')); return qs.docs.map(d => ({ id: d.id, ...d.data() })); },
+    backupDelete: (uid, id) => F.deleteDoc(F.doc(db, 'families', uid, 'backups', id)),
     // Stored as one JSON string: Firestore does not allow arrays inside arrays, which the saved questions use.
     progressRef: uid => ({
       get: async () => { const s = await F.getDoc(progressDoc(uid)); const d = s.exists() ? s.data() : null;
