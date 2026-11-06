@@ -35,7 +35,8 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 - **COLORING PAGES**: black-and-white line-art export (1700×2200 PNG via the share sheet).
 - **CARD SHOP**: coins, packs (each pack has one promo card), free touchdown packs, Pack of the Day.
 - **PRACTICE + REPORT**: missed-question practice and the in-game progress report.
-- **Scratch pad** (`initScratch`, called from `mountQ`): a drawing canvas between the question and the keypad for showing work with a finger or Apple Pencil. Pen colors, eraser, undo, clear; cleared for every new question. After a pencil touches it, finger touches are ignored (palm rejection). Layout is question | scratch pad | keypad, stacking to one column under 900px wide.
+- **Scratch pad** (`initScratch`, called from `mountQ`): a drawing canvas between the question and the keypad for showing work with a finger or Apple Pencil. Pen colors, eraser, undo, clear; cleared for every new question. After a pencil touches it, finger touches are ignored (palm rejection). Layout is question | scratch pad | keypad on a wide screen; between 641 and 900px the question spans the top with scratch pad | keypad below; one column under 640px.
+- **Game screen must fit an iPad without scrolling** (landscape 1180×820 and 1024×768, portrait 820×1180). The field box (`.stage`) is field only, sized `clamp(170px,27vh,260px)`; sprite size comes from `--spr` set in `layoutField`. Check page height at those sizes after layout changes.
 - Grown-ups menu (lock icon, behind a multiplication question): parent account sign-in, backup/restore, Pack of the Day reset, erase progress.
 
 ## Rules to keep

@@ -88,7 +88,13 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .sb-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 14px;gap:2px;text-align:center}
 .dd{font-family:var(--display);font-size:22px;color:var(--gold);line-height:1;white-space:nowrap}
 .spot{font-size:12px;font-weight:800;letter-spacing:.06em;color:#c9d3f5;white-space:nowrap}
-.meters{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;color:#fff;font-weight:800;font-size:13px}
+.meters{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;color:#fff;font-weight:800;font-size:13px;background:rgba(11,16,41,.88);border-radius:14px;padding:5px 10px 5px 5px}
+.meters .exitb{font-size:15px;padding:5px 12px;margin-right:auto;box-shadow:none}
+.qcol{min-width:0;display:flex;flex-wrap:wrap;align-items:center;column-gap:18px}
+.qcol>.qhead,.qcol>.msg,.qcol>.qtext,.qcol>#rev{flex-basis:100%}
+.qcol>.choices{flex:1 1 240px;min-width:0}
+#app:has(#v-game:not([hidden])){gap:10px;padding-bottom:10px}
+.qcol>.qvis{margin-bottom:0}
 .pips{display:inline-flex;gap:3px;vertical-align:middle;margin-left:4px}
 .pips i{width:16px;height:8px;border-radius:3px;background:rgba(255,255,255,.2)}
 .pips i.on{background:var(--gold)}.pips i.g4.on{background:var(--accent)}
@@ -97,10 +103,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .streak i.on{background:linear-gradient(#ffd23f,#ff6a1f)}
 
 /* field */
-.stage{position:relative;height:clamp(280px,46vh,400px);border-radius:22px;overflow:hidden;
-  background:radial-gradient(circle,rgba(255,255,255,.55) 1.2px,transparent 1.8px) 0 0/9px 8px,radial-gradient(circle,rgba(255,106,31,.55) 1.2px,transparent 1.8px) 4px 4px/13px 9px,linear-gradient(#141b44,#28336c 40%,#1a2250 40%)}
-.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:40%;background:linear-gradient(rgba(10,14,40,.1),rgba(10,14,40,.55));z-index:0}
-.world{position:absolute;left:0;bottom:0;height:62%;transition:transform 1.1s cubic-bezier(.3,.7,.3,1);will-change:transform}
+.stage{position:relative;height:clamp(170px,27vh,260px);border-radius:22px;overflow:hidden;background:#3c9a40}
+.stage::before{display:none}
+.world{position:absolute;left:0;bottom:0;height:100%;transition:transform 1.1s cubic-bezier(.3,.7,.3,1);will-change:transform}
 .turf{position:absolute;inset:0;background:
   repeating-linear-gradient(90deg,rgba(255,255,255,.8) 0 2px,transparent 2px calc(var(--ypx)*5)) calc(var(--ypx)*10) 0/calc(var(--ypx)*100) 100% no-repeat,
   repeating-linear-gradient(90deg,#3c9a40 0 calc(var(--ypx)*5),#45a849 calc(var(--ypx)*5) calc(var(--ypx)*10));
@@ -113,8 +118,8 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .ln{position:absolute;top:0;bottom:0;width:4px;transform:translateX(-50%);transition:left 1.1s cubic-bezier(.3,.7,.3,1)}
 .ln.los{background:#3d8bff;box-shadow:0 0 8px #3d8bff}
 .ln.fd{background:#ffe14a;box-shadow:0 0 8px #ffe14a}
-.spr{position:absolute;width:clamp(70px,calc(var(--ypx)*4.6),150px);aspect-ratio:1;transform:translateX(-50%);transition:left 1.1s cubic-bezier(.3,.7,.3,1);z-index:2}
-.spr.back{z-index:1;width:clamp(60px,calc(var(--ypx)*3.9),128px)}
+.spr{position:absolute;width:var(--spr,90px);aspect-ratio:1;transform:translateX(-50%);transition:left 1.1s cubic-bezier(.3,.7,.3,1);z-index:2}
+.spr.back{z-index:1;width:var(--sprb,76px)}
 .spr .inner{width:100%;height:100%}
 .spr svg{width:100%;height:100%}
 .run .inner{animation:runbob .18s ease-in-out infinite alternate}
@@ -130,7 +135,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .fb{background:radial-gradient(ellipse at 40% 35%,#c27a3a,#7a3d14 70%);border-radius:50%;border:2px solid #4a2208;position:relative}
 .fb::after{content:"";position:absolute;left:30%;right:30%;top:45%;height:2px;background:#fff;box-shadow:0 -3px 0 -1px transparent}
 .flyball{position:absolute;width:26px;height:16px;z-index:4}
-.flash{position:absolute;left:50%;top:22%;transform:translate(-50%,-50%);font-family:var(--display);font-size:clamp(30px,7vw,60px);color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:0 5px 0 var(--ink);white-space:nowrap;z-index:5;pointer-events:none;opacity:0}
+.flash{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%);font-family:var(--display);font-size:clamp(30px,7vw,60px);color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:0 5px 0 var(--ink);white-space:nowrap;z-index:5;pointer-events:none;opacity:0}
 .flash.show{animation:flash 1.5s ease forwards}
 .flash.gold{color:var(--gold)}.flash.red{color:#ff8a7a}
 @keyframes flash{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}25%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-70%)}}
@@ -153,7 +158,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .sc-tools button{height:34px;min-width:34px;padding:0 10px;border-radius:10px;background:var(--paper-2);font-weight:800;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:4px;border:2px solid transparent}
 .sc-tools button.on{border-color:var(--accent);background:#fff1e8}
 .sc-tools .sw{width:18px;height:18px;border-radius:50%;display:block;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
-.scratch canvas{display:block;width:100%;height:clamp(230px,36vh,360px);border-radius:14px;border:2px solid var(--line);touch-action:none;cursor:crosshair;
+.scratch canvas{display:block;width:100%;height:clamp(180px,30vh,300px);border-radius:14px;border:2px solid var(--line);touch-action:none;cursor:crosshair;
   background-color:#fffef8;background-image:linear-gradient(#e3e9f5 1px,transparent 1px),linear-gradient(90deg,#e3e9f5 1px,transparent 1px);background-size:24px 24px}
 .qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:13px;padding:3px 10px;border-radius:999px;color:#fff;background:var(--navy)}
@@ -379,7 +384,14 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .45s ease-in-out infinite alternate}
 @keyframes flick{to{transform:scale(.88,1.1)}}
 
-@media (max-width:900px){
+@media (max-height:900px){.choices button{min-height:52px;font-size:24px}.qvis svg[aria-label="Clock"]{width:124px;height:124px}.pad button{height:48px}.pad{gap:7px}.qtext{font-size:clamp(20px,3.6vw,28px);margin:2px 0 6px}.msg{margin-top:2px}#gp.panel{padding:12px 14px}}
+@media (max-width:900px) and (min-width:641px){
+  .qpanel{grid-template-columns:minmax(0,1fr) auto;row-gap:10px}
+  .scratch canvas{height:clamp(160px,21vh,240px)}
+  .qpanel>div:first-child{grid-column:1/-1}
+  .qpanel>.scratch:last-child{grid-column:1/-1}
+}
+@media (max-width:640px){
   .qpanel{grid-template-columns:1fr}
   .pad{grid-template-columns:repeat(3,1fr);width:100%}
 }
@@ -992,13 +1004,12 @@ const spotText=y=>y===50?'Ball on the 50':y<50?`Ball on your ${y}`:`Ball on thei
 function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],start=R(20,30);const lv=round!=null?PLAYOFFS[round].start:T.start;
   const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
   $('#v-game').innerHTML=`
-  <div class="gtop"><button class="btn" id="exitg">← Exit game</button><span class="note" style="color:#dfe6ff">${round!=null?PLAYOFFS[round].r+' · ':''}${ME.name} vs ${T.city} ${T.name}</span></div>
   <div class="score">
     <div class="sb-team" style="${tvars(ME)}"><span class="pts" id="ptsme">0</span><div style="min-width:0"><small>${ME.city}</small><b>${ME.name}</b></div></div>
     <div class="sb-mid"><div class="dd" id="dd"></div><div class="spot" id="spot"></div><div class="spot" style="color:#ffe9a6">${WXINFO[G.weather].label} · ${G.temp}°F</div></div>
     <div class="sb-team away" style="${tvars(T)}"><div style="min-width:0"><small>${T.city}</small><b>${T.name}</b></div><span class="pts">0</span></div>
   </div>
-  <div class="meters"><span>Difficulty <span class="pips" id="pips"></span> <span id="lvname"></span></span><span>Streak <span class="streak" id="streak"></span></span></div>
+  <div class="meters"><button class="btn exitb" id="exitg">← Exit game</button><span>Difficulty <span class="pips" id="pips"></span> <span id="lvname"></span></span><span>Streak <span class="streak" id="streak"></span></span></div>
   <div class="stage wx-${G.weather}" id="stage">
     <div class="world" id="world" style="${tvars(T)}">
       <div class="turf"></div><div class="wxturf"></div><div class="hash" style="top:34%"></div><div class="hash" style="top:62%"></div>
@@ -1019,7 +1030,7 @@ function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],s
   callPhase(`${{snow:'It’s snowing at the stadium! ',rain:'It’s pouring rain today! ',sunny:'A sunny day for football! ',night:'Under the lights for a night game! ',cloudy:'Gray skies over the stadium. ',sunset:'Kickoff at sunset! '}[G.weather]}${round!=null?PLAYOFFS[round].r+'! ':''}Kickoff! The ${T.name} kick it deep. Your ball on your own ${start}. Call a play!`);
 }
 let YPX=20;
-function layoutField(){const st=$('#stage');if(!st)return;const w=st.clientWidth;YPX=Math.max(9,Math.min(34,w/34));const wd=$('#world');wd.style.setProperty('--ypx',YPX+'px');wd.style.width=(120*YPX)+'px';camera(G.yard,true)}
+function layoutField(){const st=$('#stage');if(!st)return;const w=st.clientWidth;YPX=Math.max(9,Math.min(34,w/34));const wd=$('#world');wd.style.setProperty('--ypx',YPX+'px');wd.style.width=(120*YPX)+'px';const sp=Math.round(Math.min(150,Math.max(60,YPX*4.6),st.clientHeight*.5));wd.style.setProperty('--spr',sp+'px');wd.style.setProperty('--sprb',Math.round(sp*.85)+'px');camera(G.yard,true)}
 function camera(yard,instant){const st=$('#stage'),wd=$('#world');const w=st.clientWidth;let x=-( (10+yard)*YPX - w*.36);x=Math.min(0,Math.max(x,-(120*YPX-w)));
   if(instant){wd.style.transition='none';wd.style.transform=`translateX(${x}px)`;void wd.offsetWidth;wd.style.transition=''}else wd.style.transform=`translateX(${x}px)`}
 const at=(el,yard)=>{el.style.left=`calc(var(--ypx)*${10+yard})`};
@@ -1052,7 +1063,7 @@ const VIS={vert,clock,bar,coins,rect};
 const renderVis=v=>(v||[]).map(([k,...a])=>VIS[k]?VIS[k](...a):'').join('');
 const ansText=p=>p.kind==='num'?comma(p.answer)+(p.unit||''):p.answer;
 function mountQ(el,p,head,msg,cb){Q={p,input:'',lock:false,cb};
-  el.innerHTML=`<div class="qpanel"><div style="min-width:0">${head}<div class="msg" id="msg">${msg||''}</div><div class="qtext">${p.text}</div>${p.vis&&p.vis.length?`<div class="qvis">${renderVis(p.vis)}</div>`:''}
+  el.innerHTML=`<div class="qpanel"><div class="qcol">${head}<div class="msg" id="msg">${msg||''}</div><div class="qtext">${p.text}</div>${p.vis&&p.vis.length?`<div class="qvis">${renderVis(p.vis)}</div>`:''}
     ${p.kind==='num'?`<div class="ansbox" id="ans"><span class="ph">?</span></div>`:`<div class="choices" id="ch">${p.choices.map((c,i)=>`<button data-i="${i}">${c}</button>`).join('')}</div>`}<div id="rev"></div></div>
     <div class="scratch"><div class="sc-head"><span class="eyebrow">Scratch pad · show your work</span><div class="sc-tools" id="sctools">
       <button data-c="#1d2547" class="on" aria-label="Black pen"><span class="sw" style="background:#1d2547"></span></button><button data-c="#2f6fe0" aria-label="Blue pen"><span class="sw" style="background:#2f6fe0"></span></button><button data-c="#e0413a" aria-label="Red pen"><span class="sw" style="background:#e0413a"></span></button>
