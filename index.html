@@ -12,8 +12,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<script src="firebase-config.js"></script>
-<script type="module" src="cloud.js"></script>
+<script src="firebase-config.js?v=202611052246"></script>
+<script type="module" src="cloud.js?v=202611052246"></script>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{-webkit-text-size-adjust:100%}button{-webkit-tap-highlight-color:transparent}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1092,7 +1092,7 @@ function renderHome(){if(S.sport==='hockey'&&typeof renderHHome==='function')ret
   if($('#kick'))$('#kick').onclick=()=>nt?startGame(nt.id):startGame(nr.T.id,nr.i);
   document.querySelectorAll('#v-home .game[data-id]').forEach(b=>b.onclick=()=>startGame(+b.dataset.id,b.dataset.r!=null?+b.dataset.r:null));
 }
-function customize(){const m={...S.me};
+function customize(){if(S.sport==='hockey'&&typeof customizeH==='function')return customizeH();const m={...S.me};
   const groups=[['pose','Pose',[['throw','Throw'],['td','Touchdown'],['flex','Flex'],['ball','Hold ball']]],
     ['face','Face',[['game','Game face'],['happy','Happy'],['shout','Shout']]],
     ['uniform','Uniform',Object.entries(UNIFORMS).map(([k,u])=>[k,u.label])],
@@ -1576,9 +1576,9 @@ renderHome();show('home');renderSync();connectCloud();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 </script>
-<script src="learn.js"></script>
-<script src="hockey.js"></script>
-<script src="editions.js"></script>
+<script src="learn.js?v=202611052246"></script>
+<script src="hockey.js?v=202611052246"></script>
+<script src="editions.js?v=202611052246"></script>
 
 </body>
 </html>

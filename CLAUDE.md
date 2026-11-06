@@ -78,4 +78,4 @@ git commit -m "Describe the change"
 git push
 ```
 
-GitHub Pages redeploys in about a minute. The iPad picks up the change the next time the game opens online (the service worker is network-first).
+Before pushing a change to any `.js` file, bump the `?v=` number on its `<script>` tag in index.html (any newer number, like the date and time) so iPads never mix old and new files. GitHub Pages redeploys in about a minute. The iPad picks up the change the next time the game opens online (the service worker is network-first).
