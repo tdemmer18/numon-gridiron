@@ -34,6 +34,7 @@ Search for the `/* ============ NAME ============ */` markers in the main `<scri
 - **COLORING PAGES**: black-and-white line-art export (1700×2200 PNG via the share sheet).
 - **CARD SHOP**: coins, packs (each pack has one promo card), free touchdown packs, Pack of the Day.
 - **PRACTICE + REPORT**: missed-question practice and the in-game progress report.
+- **Scratch pad** (`initScratch`, called from `mountQ`): a drawing canvas between the question and the keypad for showing work with a finger or Apple Pencil. Pen colors, eraser, undo, clear; cleared for every new question. After a pencil touches it, finger touches are ignored (palm rejection). Layout is question | scratch pad | keypad, stacking to one column under 900px wide.
 - Grown-ups menu (lock icon, behind a multiplication question): parent account sign-in, backup/restore, Pack of the Day reset, erase progress.
 
 ## Rules to keep
