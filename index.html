@@ -148,6 +148,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .play span{font-weight:700;font-size:15px;opacity:.95}
 .play em{font-style:normal;font-family:var(--display);font-size:20px;color:var(--gold)}
 .play.run{background:linear-gradient(135deg,#2f8f3a,#1b6b26)}
+.play.fg{background:linear-gradient(135deg,#7a3fd0,#4a1f9e)}
+.calls:has(.fg){grid-template-columns:repeat(3,1fr)}
+@media (max-width:640px){.calls:has(.fg){grid-template-columns:1fr 1fr}.calls .fg{grid-column:1/-1}}
 .play.pass{background:linear-gradient(135deg,#2f6fe0,#1b3f9e)}
 .play:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.3)}
 .qpanel{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,1.15fr) auto;gap:16px;align-items:start}
@@ -1104,7 +1107,7 @@ function renderHome(){if(S.sport==='hockey'&&typeof renderHHome==='function')ret
       ${T?`<div class="side"><span class="tpill" style="${tvars(T)}">${T.city} ${T.name}</span><div class="art">${fig(T,false,opp)}</div><h3>${opp.name}</h3><div class="num">#${opp.num} · ${opp.pos} · starts at ${LEVELS[lvl]}</div></div>`
         :`<div class="side"><div class="art flipx">${fig(ME,true,me)}</div><h3>You won the Numon Bowl!</h3><div class="note">Replay any game below.</div></div>`}
     </div>
-    <div class="cta">${T?`<button class="btn go" id="kick">Kickoff!</button><div class="note">${nr?`Win the ${nr.r} to earn a special playoff card.`:`Score a touchdown to win ${opp.name}'s card and a free pack.`} You get 4 downs to gain 10 yards.</div>`:''}
+    <div class="cta">${T?`<button class="btn go" id="kick">Kickoff!</button><div class="note">${nr?`Win the ${nr.r} to earn a special playoff card.`:`Outscore them to win ${opp.name}'s card and a free pack.`} Inside the 30 you can kick a field goal.</div>`:''}
       <div class="row"><button class="btn blue" id="tobinder">Card binder (${cardCount()}/${CARD_TOTAL})</button><button class="btn blue" id="toshop">${S.unopened?`Open ${S.unopened} free pack${S.unopened>1?'s':''}!`:`Card shop · ${comma(S.coins)} coins`}</button><button class="btn blue" id="toreport">Progress report</button><button class="btn blue" id="tolearn">Learn math</button></div></div>
   </div>
   <div class="panel"><h3 style="font-size:24px">Season schedule</h3><p class="note" style="margin:2px 0 0">Beat every team in order, starting with your own division. Then win four playoff games to reach the Numon Bowl. Beating a team wins its defender's card. Its quarterback and star player come in packs from the card shop.</p>
@@ -1143,12 +1146,12 @@ let G=null,Q=null;
 const ord=n=>['','1st','2nd','3rd','4th'][n];
 const spotText=y=>y===50?'Ball on the 50':y<50?`Ball on your ${y}`:`Ball on their ${100-y}`;
 function startGame(tid,round=null){sfx.tap();closeModal();const T=TEAMS[tid-1],start=R(20,30);const lv=startLv(round!=null?PLAYOFFS[round].start:T.start);
-  const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
+  const weather=pickWeather();setWX(weather);G={T,round,weather,temp:wxTemp(weather,tid),me:0,opp:0,wrongRow:0,coins:0,yard:start,down:1,fd:start+10,level:lv,startLevel:lv,streak:0,plays:0,right:0,wrong:0,gained:0,busy:false,retry:[],retryCount:{},used:new Set(),usedMiss:new Set()};
   $('#v-game').innerHTML=`
   <div class="score">
     <div class="sb-team" style="${tvars(ME)}"><span class="pts" id="ptsme">0</span><div style="min-width:0"><small>${ME.city}</small><b>${ME.name}</b></div></div>
     <div class="sb-mid"><div class="dd" id="dd"></div><div class="spot" id="spot"></div><div class="spot" style="color:#ffe9a6">${WXINFO[G.weather].label} · ${G.temp}°F</div></div>
-    <div class="sb-team away" style="${tvars(T)}"><div style="min-width:0"><small>${T.city}</small><b>${T.name}</b></div><span class="pts">0</span></div>
+    <div class="sb-team away" style="${tvars(T)}"><div style="min-width:0"><small>${T.city}</small><b>${T.name}</b></div><span class="pts" id="ptsopp">0</span></div>
   </div>
   <div class="meters"><button class="btn exitb" id="exitg">← Exit game</button><span>Difficulty <span class="pips" id="pips"></span> <span id="lvname"></span></span><span>Streak <span class="streak" id="streak"></span></span></div>
   <div class="stage wx-${G.weather}" id="stage">
@@ -1187,11 +1190,13 @@ function updateBoard(){const toGo=G.fd-G.yard;$('#dd').textContent=`${ord(G.down
 function flash(text,cls=''){const f=$('#flash');f.className='flash '+cls;f.textContent=text;void f.offsetWidth;f.classList.add('show')}
 function rangeTxt(kind){const [a,b]=lvRange(kind,G.level);const lo=kind==='run'?BASE[a]:Math.round(BASE[a]*1.3),hi=kind==='run'?BASE[b]+3:Math.round(BASE[b]*1.3)+4;return`${lo}–${hi} yards`}
 function callPhase(msg){G.busy=false;Q=null;$('#me').className='spr idle';
-  $('#gp').innerHTML=`<div class="qhead"><span class="eyebrow">${ord(G.down)} down · ${G.fd>=100?'goal to go':`${G.fd-G.yard} to go`}</span>${G.down===4?'<span class="chip" style="background:var(--bad)">4th down: last chance for a first down!</span>':''}</div>
+  const fg=G.yard>=70;
+  $('#gp').innerHTML=`<div class="qhead"><span class="eyebrow">${ord(G.down)} down · ${G.fd>=100?'goal to go':`${G.fd-G.yard} to go`} · Score ${G.me}–${G.opp}</span>${G.opp>G.me?`<span class="chip" style="background:#7a3fd0">Score ${G.opp-G.me+1}+ points to take the lead!</span>`:''}${G.down===4?'<span class="chip" style="background:var(--bad)">4th down: last chance for a first down!</span>':''}</div>
    <div class="msg" style="margin-bottom:10px">${msg}</div>
    <div class="calls"><button class="play run" id="prun"><b>RUN</b><span>Easier question, steady gain</span><em>${rangeTxt('run')}</em></button>
-   <button class="play pass" id="ppass"><b>PASS</b><span>Harder question, bigger gain</span><em>${rangeTxt('pass')}</em></button></div>`;
-  $('#prun').onclick=()=>callPlay('run');$('#ppass').onclick=()=>callPlay('pass');
+   <button class="play pass" id="ppass"><b>PASS</b><span>Harder question, bigger gain</span><em>${rangeTxt('pass')}</em></button>
+   ${fg?`<button class="play fg" id="pfg"><b>FIELD GOAL</b><span>Kick it through for 3 points</span><em>${100-G.yard+17}-yard kick</em></button>`:''}</div>`;
+  $('#prun').onclick=()=>callPlay('run');$('#ppass').onclick=()=>callPlay('pass');if(fg)$('#pfg').onclick=callFG;
 }
 function callPlay(kind){if(G.busy)return;G.busy=true;sfx.tap();const [a,b]=lvRange(kind,G.level);const d0=R(a,b);const p=pickQuestion(d0);const d=p._lvl||d0;let yards=yardsFor(kind,d);let bonus='';
   if(kind==='pass'&&G.streak>=2&&Math.random()<.2){yards=Math.round(yards*1.6);bonus='Deep ball! '}
@@ -1199,6 +1204,29 @@ function callPlay(kind){if(G.busy)return;G.busy=true;sfx.tap();const [a,b]=lvRan
   mountQ($('#gp'),p,`<div class="qhead"><span class="chip ${kind}">${kind==='run'?'RUN':'PASS'}</span><span class="chip lvl">Level ${d} · ${LEVELS[d]}</span><span class="chip worth">${bonus}Worth +${yards} yards</span>${p._retry?'<span class="chip" style="background:#7a3fd0">Second chance! You missed this one before</span>':''}</div>`,
     `${ord(G.down)} & ${G.fd>=100?'Goal':G.fd-G.yard}. Answer right to gain ${yards} yards.`,resolvePlay);
 }
+function callFG(){if(G.busy)return;G.busy=true;sfx.tap();const d0=G.level;const p=pickQuestion(d0);const d=p._lvl||d0;G.cur={kind:'fg',d,yards:0,p};
+  mountQ($('#gp'),p,`<div class="qhead"><span class="chip" style="background:#7a3fd0">FIELD GOAL</span><span class="chip lvl">Level ${d} · ${LEVELS[d]}</span><span class="chip worth">Good = 3 points</span>${p._retry?'<span class="chip" style="background:#7a3fd0">Second chance! You missed this one before</span>':''}</div>`,
+    `A ${100-G.yard+17}-yard kick. Answer right and it's good!`,resolveFG)}
+function streakNote(ok){let note='';if(ok){G.right++;G.streak++;G.wrongRow=0;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();
+    if(G.streak%3===0&&G.level<lvHi()){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}: bigger gains now.`;if(G.level>S.bestLevel)S.bestLevel=G.level}}
+  else{G.wrong++;G.streak=0;G.wrongRow++;sfx.bad();if(G.level>G.startLevel){G.level--;note=` Difficulty down to Level ${G.level}.`}}return note}
+function kickBall(good){const st=$('#stage'),m=$('#me').getBoundingClientRect(),sr=st.getBoundingClientRect();const b=document.createElement('div');b.className='flyball fb';
+  b.style.left=(m.left-sr.left+m.width*.7)+'px';b.style.top=(m.top-sr.top+m.height*.6)+'px';st.appendChild(b);const dx=sr.right-m.right+40;
+  b.animate([{transform:'translate(0,0) rotate(0)'},{transform:`translate(${dx*.5}px,${-sr.height*.55}px) rotate(360deg)`},{transform:`translate(${dx}px,${good?-sr.height*.45:sr.height*.05}px) rotate(720deg)`}],{duration:1000,easing:'ease-out',fill:'forwards'});
+  setTimeout(()=>b.remove(),1300)}
+function resolveFG(ok,given){const g=G;const {d,p}=G.cur;G.plays++;record(p,d,ok,given,G.T.id);const note=streakNote(ok);
+  setTimeout(()=>{if(G!==g)return;kickBall(ok);
+    setTimeout(()=>{if(G!==g)return;
+      if(ok){const earn=15;G.coins+=earn;S.coins+=earn;S.coinsEarned+=earn;save();renderBar();scorePoints(3,'IT’S GOOD!',`Field goal! +3 points, +${earn} coins.`,note)}
+      else{flash('NO GOOD!','red');newDrive(`The kick missed, but your defense makes a stop. Here's the ball back! Score ${G.me}–${G.opp}.${note}`)}},1100)},500)}
+function scorePoints(pts,label,why,note=''){G.me+=pts;$('#ptsme').textContent=G.me;flash(label,'gold');sfx.win();whistle();
+  if(G.me>G.opp){$('#me').className='spr dance';if(!reduce)confetti([ME.p,ME.o,'#ffffff','#ffc93c']);return winGame(why)}
+  if(G.me===G.opp)return newDrive(`${why} Tie game, ${G.me}–${G.opp}! A game can't end in a tie, so you get the ball back. Score again to win!${note}`);
+  newDrive(`${why} Score ${G.me}–${G.opp}. You still need ${G.opp-G.me+1} more points to take the lead. Keep going!${note}`)}
+function oppScores(pts,label,why){G.opp+=pts;$('#ptsopp').textContent=G.opp;flash(label,'red');whistle();$('#d0').classList.add('dance');setTimeout(()=>$('#d0')&&$('#d0').classList.remove('dance'),1300);
+  if(G.opp>=28)return loseGame();
+  newDrive(`${why} The ${G.T.name} got ${pts} points. Score ${G.me}–${G.opp}. Here's the ball back. Keep going!`)}
+function newDrive(msg){const g=G;setTimeout(()=>{if(G!==g)return;G.yard=R(20,30);G.down=1;G.fd=G.yard+10;$('#me').className='spr';place(true);updateBoard();callPhase(msg)},1500)}
 /* question UI */
 const VIS={vert,clock,bar,coins,rect};
 const renderVis=v=>(v||[]).map(([k,...a])=>VIS[k]?VIS[k](...a):'').join('');
@@ -1271,26 +1299,25 @@ function record(p,d,ok,given,team){S.stats.n[d]++;if(ok)S.stats.c[d]++;
     if(G&&G.retry.filter(r=>r.mid===id).length===0&&(G.retryCount[id]||0)<2){G.retryCount[id]=(G.retryCount[id]||0)+1;G.retry.push({mid:id,due:G.plays+R(2,3)})}}
   markDay();save()}
 function resolvePlay(ok,given){const g=G;const {kind,d,yards,p}=G.cur;G.plays++;record(p,d,ok,given,G.T.id);
-  const me=$('#me'),d0=$('#d0');let note='';
-  if(ok){G.right++;G.streak++;if(G.streak>S.bestStreak)S.bestStreak=G.streak;sfx.ok();
-    if(G.streak%3===0&&G.level<lvHi()){G.level++;note=` ${G.streak} in a row! Difficulty up to Level ${G.level}: bigger gains now.`;if(G.level>S.bestLevel)S.bestLevel=G.level}
-  }else{G.wrong++;G.streak=0;sfx.bad();if(G.level>G.startLevel){G.level--;note=` Difficulty down to Level ${G.level}.`}}
+  const me=$('#me'),d0=$('#d0');const note=streakNote(ok);const bomb=ok&&G.streak%10===0;
   setTimeout(()=>{if(G!==g)return;
     let gain=0,label;
-    if(ok){gain=Math.min(yards,100-G.yard);me.className='spr '+(kind==='run'?'run':'leap');label=kind==='run'?`+${gain} yard run!`:`Pass complete! +${gain}`}
+    if(bomb){gain=Math.min(100-G.yard,Math.max(50,yards));me.className='spr leap';label=`SURPRISE LONG BOMB! +${gain}`}
+    else if(ok){gain=Math.min(yards,100-G.yard);me.className='spr '+(kind==='run'?'run':'leap');label=kind==='run'?`+${gain} yard run!`:`Pass complete! +${gain}`}
     else if(kind==='run'){gain=-Math.min(R(1,3),G.yard-1);label=gain?`Stopped short! ${gain} yards`:'No gain';}
     else{gain=0;label='Incomplete';throwIncomplete()}
     const ny=G.yard+gain;
     if(ok||kind==='run'){at(me,ny-(ny>=100?-4:1.6));at(d0,ny+(ny>=100?-2:.9));at($('#d1'),ny+(ny>=100?-6:3.5));at($('#d2'),ny+(ny>=100?-9:6));camera(Math.min(ny,96))}
     G.gained+=gain;
     setTimeout(()=>{if(G!==g)return;me.className='spr';
-      if(ny>=100)return touchdown();
+      if(ny>=100)return scorePoints(7,'TOUCHDOWN!',`${bomb?'A surprise long bomb for a touchdown!':'Touchdown!'} +7 points.`,note);
       if(!ok&&kind==='run'){me.classList.add('hit');d0.classList.add('hit');setTimeout(()=>d0.classList.remove('hit'),500)}
       G.yard=ny;
+      if(!ok&&G.wrongRow>=2&&Math.random()<.5){G.wrongRow=0;flash('FUMBLE!','red');return setTimeout(()=>{if(G===g)oppScores(pick([3,7]),'FUMBLE!','Oops, a fumble!')},900)}
       let msg,earn=ok?Math.max(1,gain):0;
-      if(G.yard>=G.fd){G.down=1;G.fd=Math.min(100,G.yard+10);earn+=10;flash('FIRST DOWN!','gold');whistle();msg=`${label} That's a first down!`}
+      if(G.yard>=G.fd){G.down=1;G.fd=Math.min(100,G.yard+10);earn+=10;flash(bomb?'LONG BOMB!':'FIRST DOWN!','gold');whistle();msg=`${label} That's a first down!${bomb?' 10 right in a row earned a surprise long pass!':''}`}
       else{G.down++;
-        if(G.down>4)return turnover();
+        if(G.down>4)return oppScores(3,'TURNOVER ON DOWNS','You didn’t make it on 4th down, and they kicked a field goal.');
         flash(label,ok?'':'red');msg=`${label} ${ord(G.down)} & ${G.fd>=100?'Goal':G.fd-G.yard}.`}
       if(earn){G.coins+=earn;S.coins+=earn;S.coinsEarned+=earn;msg+=` +${earn} coins.`;save();renderBar()}
       updateBoard();place(false);
@@ -1305,8 +1332,8 @@ function throwIncomplete(){const st=$('#stage'),me=$('#me').getBoundingClientRec
   setTimeout(()=>{b.animate([{opacity:1},{opacity:0}],{duration:500,fill:'forwards'});setTimeout(()=>b.remove(),520)},1100);
   $('#d1').classList.add('leap');setTimeout(()=>$('#d1').classList.remove('leap'),1100)}
 function confetti(cols){const c=document.createElement('div');c.className='confetti';for(let i=0;i<80;i++){const e=document.createElement('i');e.style.left=Math.random()*100+'%';e.style.background=cols[i%cols.length];e.style.animationDuration=(1.6+Math.random()*1.6)+'s';e.style.animationDelay=Math.random()*.6+'s';c.appendChild(e)}document.body.appendChild(c);setTimeout(()=>c.remove(),4200)}
-function logGame(won){S.played++;S.log.unshift({at:Date.now(),team:G.T.id,round:G.round,won,plays:G.plays,right:G.right,wrong:G.wrong,yards:G.gained});if(S.log.length>200)S.log.length=200}
-function touchdown(){const T=G.T,round=G.round;G.yard=100;$('#me').className='spr dance';flash('TOUCHDOWN!','gold');$('#ptsme').textContent='7';sfx.win();whistle();if(!reduce)confetti([ME.p,ME.o,'#ffffff','#ffc93c']);
+function logGame(won){S.played++;S.log.unshift({at:Date.now(),team:G.T.id,round:G.round,won,plays:G.plays,right:G.right,wrong:G.wrong,yards:G.gained,score:`${G.me}–${G.opp}`});if(S.log.length>200)S.log.length=200}
+function winGame(why){const T=G.T,round=G.round;
   let first,card,title,extra='';const perfect=G.wrong===0;const bonus=(round!=null?100:50)+(perfect?25:0);G.coins+=bonus;S.coins+=bonus;S.coinsEarned+=bonus;
   if(round!=null){first=!S.pcards[round];S.pcards[round]=(S.pcards[round]||0)+1;if(!S.pwon.includes(round))S.pwon.push(round);
     card=sportsCard(T,S.pcards[round],true,{round});title=first?`${PLAYOFFS[round].r} won!`:`Another ${PLAYOFFS[round].r} win!`;
@@ -1315,14 +1342,14 @@ function touchdown(){const T=G.T,round=G.round;G.yard=100;$('#me').className='sp
     card=sportsCard(T,S.cards[k],true,{slot:0});title=first?`New card: ${T.roster[0].name}!`:`Another ${T.roster[0].name} card!`}
   S.wins++;S.unopened=(S.unopened||0)+1;logGame(true);save();renderBar();
   const nt=nextTeam(),nr=nextRound();const up=nt?`Next up: the ${nt.city} ${nt.name}.`:nr?`Next up: the ${nr.r} against the ${nr.T.city} ${nr.T.name}.`:'';
-  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="eyebrow">Final: ${ME.name} 7, ${T.name} 0</div><h2>${title}</h2>
+  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="eyebrow">Final: ${ME.name} ${G.me}, ${T.name} ${G.opp}</div><h2>${title}</h2>
     <div class="showcase reveal-in">${card}</div>${extra}
-    <p class="note">Touchdown drive: ${G.plays} plays, ${G.gained} yards, ${G.right} of ${G.plays} right${perfect?'. <b>A perfect drive!</b>':''}. You earned <b>${G.coins} coins</b> this game (touchdown bonus ${bonus}). ${first?up:''}</p>
+    <p class="note">${why} You won ${G.me}–${G.opp}! ${G.plays} plays, ${G.gained} yards, ${G.right} of ${G.plays} right${perfect?'. <b>A perfect drive!</b>':''}. You earned <b>${G.coins} coins</b> this game (touchdown bonus ${bonus}). ${first?up:''}</p>
     <div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="pack">Open your reward pack!</button><button class="btn blue" data-act="shop">Card shop</button><button class="btn blue" data-act="binder">See binder</button><button class="btn" data-act="home">Locker room</button></div>`,
     {pack:()=>{G=null;renderShop();show('shop');buyPack(PACKS[0],true)},shop:()=>{closeModal();G=null;renderShop();show('shop')},binder:()=>{closeModal();G=null;renderBinder();show('binder')},home:()=>{closeModal();G=null;renderHome();show('home')}},!!extra)},1900)}
-function turnover(){const T=G.T;updateBoard();flash('TURNOVER ON DOWNS','red');whistle();logGame(false);save();$('#d0').classList.add('dance');
-  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="art" style="width:150px;height:150px">${fig(T,false,T.roster[0])}</div><h2>The ${T.name} hold!</h2>
-    <p class="note">You ran out of downs on ${spotText(G.yard).replace('Ball on ','')}, so no card this time. You gained ${G.gained} yards, got ${G.right} of ${G.plays} right and earned ${G.coins} coins. Try again!</p>
+function loseGame(){const T=G.T;updateBoard();logGame(false);save();
+  const gT=G;setTimeout(()=>{if(G!==gT)return;modal(`<div class="art" style="width:150px;height:150px">${fig(T,false,T.roster[0])}</div><h2>The ${T.name} won this one!</h2>
+    <p class="note">Final score: ${ME.name} ${G.me}, ${T.name} ${G.opp}. Great effort! You got ${G.right} of ${G.plays} right and earned ${G.coins} coins. Ready for a rematch?</p>
     <div class="row"><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="again">Play again</button><button class="btn" data-act="home">Locker room</button></div>`,
     {again:()=>startGame(T.id,G.round),home:()=>{closeModal();G=null;renderHome();show('home')}})},1600)}
 
@@ -1565,7 +1592,7 @@ function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.redu
       <div class="mans"><span class="gave">Answered <b>${m.given}</b></span><span class="right">Correct <b>${m.kind==='num'?comma(m.answer)+(m.unit||''):m.answer}</b></span>${m.tries?`<span class="tries">${m.tries} practice tr${m.tries>1?'ies':'y'}</span>`:''}</div></div>`).join('')}</div>${list.length>shown.length?`<p class="note">Showing the newest ${shown.length} of ${list.length}.</p>`:''}`
     :`<p class="note">${RF==='need'?(S.missed.length?'Nothing left to practice. Every missed question has been learned!':'No missed questions yet. Questions to practice from your games will show up here.'):'Nothing here yet.'}</p>`}</div>
   <div class="panel"><h3 class="rh">Recent games</h3>${S.log.length?`<div class="tablewrap"><table class="blog"><thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Plays</th><th class="r">Yards or score</th><th class="r">Right</th></tr></thead><tbody>
-    ${S.log.slice(0,30).map(l=>{const T=teamOf(l.team);return`<tr><td>${new Date(l.at).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td><td>${T.city} ${T.name}${l.round!=null?` · ${PLAYOFFS[l.round].r}`:''}${l.sport==='hockey'?' · Hockey':''}</td><td><span class="pill ${l.won?'ok':'lost'}">${l.won?(l.sport==='hockey'?'Won '+l.score:'Won 7–0'):'Good try'}</span></td><td class="r">${l.plays}</td><td class="r">${l.sport==='hockey'?l.score:l.yards}</td><td class="r">${l.right}/${l.plays}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="note">No games yet.</p>'}</div>`;
+    ${S.log.slice(0,30).map(l=>{const T=teamOf(l.team);return`<tr><td>${new Date(l.at).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td><td>${T.city} ${T.name}${l.round!=null?` · ${PLAYOFFS[l.round].r}`:''}${l.sport==='hockey'?' · Hockey':''}</td><td><span class="pill ${l.won?'ok':'lost'}">${l.won?'Won '+(l.score||'7–0'):'Good try'}</span></td><td class="r">${l.plays}</td><td class="r">${l.sport==='hockey'?l.score:l.yards}</td><td class="r">${l.right}/${l.plays}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="note">No games yet.</p>'}</div>`;
   $('#back3').onclick=()=>{renderHome();show('home')};if($('#practice'))$('#practice').onclick=startReview;
   document.querySelectorAll('#v-report .seg button').forEach(b=>b.onclick=()=>{RF=b.dataset.f;renderReport()})}
 function refreshView(){if(RV)return;if(G){return}const v=VIEWS.find(n=>!$('#v-'+n).hidden)||'home';({home:renderHome,binder:renderBinder,report:renderReport,shop:renderShop}[v]||renderHome)();renderBar()}
