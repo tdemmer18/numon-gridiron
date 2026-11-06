@@ -14,7 +14,8 @@ A football math game for a kid in grades 3–4, played as a home-screen web app 
 | `index.html` | The game: HTML, CSS and the main JS (football, cards, shop, saving). Edit it directly. |
 | `hockey.js` | Hockey mode: 31 made-up teams in NHL cities, rink game (first to 5 goals), hockey figures (`hfig`), hockey promos, hockey binder. Shares the main script's globals. |
 | `editions.js` | Editions: binder completion, the move-up flow (with the real-prize message for Owen), past-edition binder tabs, and trading 3 extra copies for a missing card. |
-| `learn.js` | Learn lessons (`LESSONS`), `lessonFor(question)`, the in-question **Learn how** button and the **Learn math** library. |
+| `lessons.js` | All 40 lessons, written for ages 8–10, each with a picture (`vis`), a one-line hook and a tip. Picture helpers are the `lv*` functions. |
+| `learn.js` | `lessonFor(question)` (picks the lesson for a question), the in-question **Learn how** button and the **Learn math** library. |
 | `parent.html` | Read-only parent dashboard. Signs in with the parent account and live-reads the kid's save. |
 | `cloud.js` | ES module. Loads the Firebase SDK (v10.12.2 from gstatic), exposes `window.FB`, fires `fb-ready`. |
 | `firebase-config.js` | Firebase web config (public by design; data is protected by the rules). |

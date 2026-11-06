@@ -12,8 +12,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<script src="firebase-config.js?v=202611052246"></script>
-<script type="module" src="cloud.js?v=202611052246"></script>
+<script src="firebase-config.js?v=202611052255"></script>
+<script type="module" src="cloud.js?v=202611052255"></script>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{-webkit-text-size-adjust:100%}button{-webkit-tap-highlight-color:transparent}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -380,6 +380,29 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
 .lsec ol{margin:0;padding-left:22px;display:grid;gap:3px;font-weight:600}
 .lex{background:#e8f6ec;border:2px solid #b5e2c3}.lex p{margin:2px 0;font-weight:700}
 .lans{margin-top:4px;font-size:18px}.lans b{font-family:var(--display);font-weight:400;font-size:22px;color:var(--good)}
+.lhook{margin:0;font-size:18px;font-weight:800;color:#7a3fd0;line-height:1.35}
+.lpic{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff;border-radius:12px;padding:10px;margin:4px 0 8px;overflow-x:auto}
+.ltip{background:#fff3c4;border:2px dashed #f2b705;border-radius:14px;padding:10px 14px;font-weight:700}
+.ltip b{font-family:var(--display);font-weight:400;color:#c2570a;font-size:18px}
+.lvbar{display:flex;align-items:center;gap:10px;width:100%;max-width:420px}.lvbar svg{flex:1}.lvbar b{font-family:var(--display);font-weight:400;font-size:18px;white-space:nowrap}
+.lvrow{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+.lvcap{display:flex;flex-direction:column;align-items:center;gap:2px}.lvcap b{font-family:var(--display);font-weight:400;font-size:20px}
+.lvchart{border-collapse:collapse;font-variant-numeric:tabular-nums;margin:2px 0}
+.lvchart th{font-size:12px;font-weight:800;color:var(--ink-2);padding:4px 8px;border-bottom:2px solid var(--line)}
+.lvchart td{font-family:var(--display);font-size:26px;text-align:center;padding:2px 8px;min-width:40px}
+.lvchart .hl{background:#fff1e8;color:var(--accent)}
+.lvbm{width:100%;max-width:420px;display:flex;flex-direction:column;gap:4px}
+.lvbm .w{text-align:center;font-family:var(--display);font-size:18px;border:2px solid var(--ink);border-radius:8px;padding:4px;background:#e6efff}
+.lvbm .p{display:flex;gap:4px}.lvbm .p span{text-align:center;font-family:var(--display);font-size:20px;border:2px solid var(--ink);border-radius:8px;padding:6px;background:#e8f6ec}
+.lvbm .p .q{background:#fff1e8;color:var(--accent)}
+.lvbig{font-family:var(--display);font-size:clamp(20px,4vw,30px);text-align:center;line-height:1.4}.lvbig s{color:#b7bfd6}.lvbig u{color:var(--good);text-decoration-thickness:3px}
+.lvsteps{display:grid;gap:6px;width:100%;max-width:420px}
+.lvsteps div{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper-2);border-radius:10px;padding:6px 12px}
+.lvsteps span{font-family:var(--display);font-size:20px}.lvsteps b{font-size:14px;color:var(--ink-2)}
+.lvsteps div:last-child{background:#e8f6ec}.lvsteps div:last-child span{color:var(--good)}
+.lvpairs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.lvpairs span{font-family:var(--display);font-size:20px;background:#e6efff;border-radius:999px;padding:4px 14px}.lvpairs b{color:var(--blue);font-weight:400}
+.lvword{font-size:18px;font-weight:700;line-height:1.6;max-width:460px}.lvword mark{background:#ffe08a;border-radius:4px;padding:0 3px}.lvword u{text-decoration-color:var(--accent);text-decoration-thickness:3px}
+.lvnote{font-weight:700;margin:0;max-width:200px}
 .libgrp h3{font-size:20px;margin:6px 0}
 .libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;width:100%}
 .libbtn{background:var(--paper-2);border-radius:12px;padding:10px 12px;font-weight:800;text-align:left;border:2px solid transparent}
@@ -1576,9 +1599,10 @@ renderHome();show('home');renderSync();connectCloud();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 </script>
-<script src="learn.js?v=202611052246"></script>
-<script src="hockey.js?v=202611052246"></script>
-<script src="editions.js?v=202611052246"></script>
+<script src="learn.js?v=202611052255"></script>
+<script src="lessons.js?v=202611052256"></script>
+<script src="hockey.js?v=202611052255"></script>
+<script src="editions.js?v=202611052255"></script>
 
 </body>
 </html>
