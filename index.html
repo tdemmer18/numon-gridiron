@@ -499,6 +499,38 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;l
   .vsmark{font-size:28px}.vs h3{font-size:18px}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sheet{padding:12px 10px 12px 30px}.sheet::before{left:5px}.book{padding:10px}
 }
+/* progress report */
+#v-report{display:flex;flex-direction:column;gap:14px}
+#v-report .panel>.rh,#v-report .head .rh{margin:0 0 10px}
+.rsum{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px;align-items:center;margin-top:14px}
+.ringbox{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--paper-2);border-radius:18px;padding:14px;text-align:center;height:100%;justify-content:center}
+.ringbox b{display:block;font-family:var(--display);font-weight:400;font-size:22px}.ringbox span{font-size:13px;font-weight:800;color:var(--ink-2)}
+.kpis4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kpis4 .kpi{padding:10px 12px;gap:4px}
+.kih{display:flex;align-items:center;gap:8px;min-width:0}.kih>span:last-child{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);line-height:1.2}
+.ki{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:var(--kc);background:color-mix(in srgb,var(--kc) 15%,#fff)}.ki svg{width:18px;height:18px}
+.kpis4 .kpi b{font-size:30px}.kpis4 .kpi em{font-size:12px;line-height:1.25}
+.meters2{gap:6px 28px}
+.meter{margin-bottom:14px}
+.meter .mt{height:14px;border-radius:8px}.meter .mt i{border-radius:8px}
+.m-great .mt i{background:var(--good)}.m-good .mt i{background:#e0a400}.m-work .mt i{background:var(--accent)}
+.mtag{display:inline-block;font-size:11px;font-weight:800;padding:0 8px;border-radius:999px;margin-right:4px;color:#fff;background:#9aa6bd}
+.m-great .mtag{background:var(--good)}.m-good .mtag{background:#e0a400}.m-work .mtag{background:var(--accent)}
+.wk{width:100%}
+.wkbars{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;height:150px;align-items:end;border-bottom:2px solid var(--line);padding-bottom:0}
+.wkcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;position:relative}
+.wkb{width:min(44px,80%);background:var(--blue);border-radius:8px 8px 3px 3px;min-height:2px}.wkb.today{background:var(--accent)}
+.wkv{font-family:var(--display);font-size:15px;color:var(--ink);min-height:18px}
+.wkd{position:absolute;bottom:-22px;font-size:12px;font-weight:800;color:var(--ink-2)}
+.wk .note{margin-top:28px!important}
+#v-report .mlist{align-items:stretch;gap:12px}
+#v-report .mi{gap:8px;padding:12px 14px}
+#v-report .mans{margin-top:auto;padding-top:6px;border-top:1px dashed var(--line)}
+#v-report .blog thead th{background:var(--paper-2)}
+#v-report .blog tbody tr:nth-child(even) td{background:#f7f9fd}
+#v-report .blog td{padding:9px 8px}
+@media (max-width:980px){.rsum{grid-template-columns:1fr}.ringbox{flex-direction:row;justify-content:center;gap:18px;text-align:left}.ringbox svg{width:120px;height:120px}}
+@media (max-width:560px){.kpis4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* home layout */
 #v-home{display:flex;flex-direction:column;gap:14px}
 #v-home>.dailyban,#v-home>.edban{width:100%}
@@ -1590,22 +1622,45 @@ function rvDone(){const r=RV;RV=null;Q=null;if(r.fixed)sfx.win();
   modal(`<div class="eyebrow">Film study done</div><h2>You learned ${r.fixed} of ${r.ids.length}</h2><p class="note">${r.fixed===r.ids.length?'Every one of them!':'The rest stay on your list for next time.'}</p>
    <div class="row">${needPractice().length?'<button class="btn blue" data-act="more">Practice more</button>':''}<button class="btn" data-act="report">See report</button><button class="btn go" style="font-size:20px;padding:12px 22px" data-act="home">Locker room</button></div>`,
    {more:startReview,report:()=>{closeModal();renderReport();show('report')},home:()=>{closeModal();renderHome();show('home')}})}
-function meter(label,c,n){const p=n?Math.round(c/n*100):null;return`<div class="meter"><div class="ml"><span>${label}</span><b>${p===null?'—':p+'%'}</b></div><div class="mt" title="${label}: ${c} of ${n} right"><i style="width:${p||0}%"></i></div><small>${n?`${c} of ${n} right`:'Not tried yet'}</small></div>`}
+function meter(label,c,n){const p=n?Math.round(c/n*100):null;const k=p===null?'none':p>=80?'great':p>=60?'good':'work';const tag={great:'Great!',good:'Good',work:'Keep practicing',none:'Not tried yet'}[k];
+  return`<div class="meter m-${k}"><div class="ml"><span>${label}</span><b>${p===null?'—':p+'%'}</b></div><div class="mt" title="${label}: ${c} of ${n} right"><i style="width:${p||0}%"></i></div><small><span class="mtag">${tag}</span>${n?` ${c} of ${n} right`:''}</small></div>`}
+const RICON={card:'<rect x="5" y="3" width="14" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2"/>',
+  puck:'<ellipse cx="12" cy="10" rx="8" ry="4" fill="currentColor"/><path d="M4 10v4c0 2.2 3.6 4 8 4s8-1.8 8-4v-4" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+  coin:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4" stroke="currentColor" stroke-width="1.8" fill="none"/>',
+  trophy:'<path d="M7 3h10v5a5 5 0 0 1-10 0zM7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 13v4M8 21h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+  bolt:'<path d="M13 2L5 13h6l-1 9 8-12h-6z" fill="currentColor"/>',
+  flame:'<path d="M12 2c1 4 6 5 6 11a6 6 0 0 1-12 0c0-3 2-4 2.5-6.5 1 1.2 1.5 2.3 2 3.5 1.5-2.5 1.8-5 1.5-8z" fill="currentColor"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'};
+const rkpi=(ic,col,label,val,sub)=>`<div class="kpi"><div class="kih"><span class="ki" style="--kc:${col}"><svg viewBox="0 0 24 24" aria-hidden="true">${RICON[ic]}</svg></span><span>${label}</span></div><b>${val}</b>${sub?`<em>${sub}</em>`:''}</div>`;
+function ringSVG(pct){const r=52,C=2*Math.PI*r,v=pct==null?0:pct,col=pct==null?'#c3cbe0':pct>=80?'var(--good)':pct>=60?'#e0a400':'var(--accent)';
+  return`<svg viewBox="0 0 140 140" width="150" height="150" role="img" aria-label="Questions right: ${pct==null?'none yet':pct+'%'}"><circle cx="70" cy="70" r="${r}" fill="none" stroke="#e3e8f3" stroke-width="16"/>
+    <circle cx="70" cy="70" r="${r}" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="round" stroke-dasharray="${C*v/100} ${C}" transform="rotate(-90 70 70)"/>
+    <text x="70" y="72" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="32" fill="var(--ink)">${pct==null?'—':pct+'%'}</text><text x="70" y="94" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="12" fill="var(--ink-2)">RIGHT</text></svg>`}
+function weekChart(){const days=[];const t=new Date();for(let i=6;i>=0;i--){const d=new Date(t);d.setDate(t.getDate()-i);days.push(d)}
+  const key=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const tot={};for(const l of S.log||[]){const k=key(new Date(l.at));tot[k]=(tot[k]||0)+(l.plays||0)}
+  const vals=days.map(d=>tot[key(d)]||0),mx=Math.max(1,...vals),sumv=vals.reduce((a,b)=>a+b,0);
+  return`<div class="wk"><div class="wkbars">${days.map((d,i)=>`<div class="wkcol" title="${d.toLocaleDateString([],{weekday:'long'})}: ${vals[i]} questions"><span class="wkv">${vals[i]||''}</span><div class="wkb ${key(d)===key(t)?'today':''}" style="height:${vals[i]?Math.max(6,vals[i]/mx*100):2}%"></div><span class="wkd">${d.toLocaleDateString([],{weekday:'short'})}</span></div>`).join('')}</div>
+    <p class="note" style="margin:6px 0 0;font-size:13px">${sumv} question${sumv===1?'':'s'} answered in games this week.</p></div>`}
+
 function renderReport(){const st=S.stats,n=st.n.reduce((a,b)=>a+b,0),c=st.c.reduce((a,b)=>a+b,0);
   const need=needPractice(),learned=S.missed.filter(m=>m.mastered),list=RF==='need'?need:RF==='learned'?learned:S.missed,shown=list.slice(0,60);
   const g3n=st.n.slice(1,4).reduce((a,b)=>a+b,0),g3c=st.c.slice(1,4).reduce((a,b)=>a+b,0),g4n=st.n.slice(4,7).reduce((a,b)=>a+b,0),g4c=st.c.slice(4,7).reduce((a,b)=>a+b,0),g5n=st.n.slice(7).reduce((a,b)=>a+b,0),g5c=st.c.slice(7).reduce((a,b)=>a+b,0);
+  const acc=n?Math.round(c/n*100):null;
   $('#v-report').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back3">← Locker room</button><h2>Progress report</h2></div>
     <p class="note" style="margin:6px 0 0" id="synctxt">${syncText()}</p>
-    <div class="kpis">
-      <div class="kpi"><span>Football cards</span><b>${cardCount()}<small>/${CARD_TOTAL}</small></b><em>${EDITIONS[edOf('football')]} edition · Grade ${gradeOf('football')}</em></div>
-      <div class="kpi"><span>Hockey cards</span><b>${typeof hCount==='function'?hCount():0}<small>/${typeof HCARD_TOTAL!=='undefined'?HCARD_TOTAL:105}</small></b><em>${EDITIONS[edOf('hockey')]} edition · Grade ${gradeOf('hockey')}</em></div>
-      <div class="kpi"><span>Coins earned</span><b>${comma(S.coinsEarned||0)}</b><em>${comma(S.coins)} to spend</em></div>
-      <div class="kpi"><span>Games won</span><b>${S.wins}<small>/${S.played}</small></b></div>
-      <div class="kpi"><span>Questions right</span><b>${n?Math.round(c/n*100)+'%':'—'}</b><em>${c} of ${n}</em></div>
-      <div class="kpi"><span>Top difficulty</span><b>Lv ${S.bestLevel}</b><em>${LEVELS[S.bestLevel]}</em></div>
-      <div class="kpi"><span>Best streak</span><b>${S.bestStreak}</b><em>in a row</em></div>
-      <div class="kpi"><span>Days played</span><b>${S.days.length}</b><em>${streak()} day streak</em></div>
-    </div></div>
+    <div class="rsum"><div class="ringbox">${ringSVG(acc)}<div><b>${comma(c)} of ${comma(n)}</b><span>questions right</span></div></div>
+    <div class="kpis4">
+      ${rkpi('card','#2f6fe0','Football cards',`${cardCount()}<small>/${CARD_TOTAL}</small>`,`${EDITIONS[edOf('football')]} · Grade ${gradeOf('football')}`)}
+      ${rkpi('puck','#16214a','Hockey cards',`${typeof hCount==='function'?hCount():0}<small>/${typeof HCARD_TOTAL!=='undefined'?HCARD_TOTAL:105}</small>`,`${EDITIONS[edOf('hockey')]} · Grade ${gradeOf('hockey')}`)}
+      ${rkpi('trophy','#e0a400','Games won',`${S.wins}<small>/${S.played}</small>`,S.played?`${Math.round(S.wins/S.played*100)}% of games`:'')}
+      ${rkpi('coin','#c88a00','Coins earned',comma(S.coinsEarned||0),`${comma(S.coins)} to spend`)}
+      ${rkpi('bolt','#7a3fd0','Top difficulty',`Lv ${S.bestLevel}`,LEVELS[S.bestLevel])}
+      ${rkpi('flame','#ff6a1f','Best streak',S.bestStreak,'right in a row')}
+      ${rkpi('cal','#1f9d55','Days played',S.days.length,`${streak()} day streak now`)}
+      ${rkpi('card','#c2459a','To practice',need.length,`${learned.length} learned`)}
+    </div></div></div>
+  <div class="panel"><h3 class="rh">Last 7 days</h3>${weekChart()}</div>
   <div class="panel"><h3 class="rh">Accuracy by difficulty</h3><div class="meters2"><div>${meter('Grade 3 overall',g3c,g3n)}${[1,2,3].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div><div>${meter('Grade 4 overall',g4c,g4n)}${[4,5,6].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div>${g5Open()||g5n?`<div>${meter('Grade 5 overall',g5c,g5n)}${[7,8,9].map(i=>meter(`Level ${i} · ${LEVELS[i]}`,st.c[i],st.n[i])).join('')}</div>`:''}</div></div>
   <div class="panel"><div class="head"><h3 class="rh" style="margin:0">Missed questions</h3>
     <div class="seg" role="group" aria-label="Filter missed questions">${[['need',`To practice (${need.length})`],['learned',`Learned (${learned.length})`],['all',`All (${S.missed.length})`]].map(([k,l])=>`<button data-f="${k}" class="${RF===k?'on':''}" aria-pressed="${RF===k}">${l}</button>`).join('')}</div>
