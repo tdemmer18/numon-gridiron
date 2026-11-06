@@ -12,21 +12,28 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .toast b{display:block;font-family:var(--display);font-weight:400;font-size:20px;line-height:1.1;color:#ffc93c}.toast span{font-weight:700;font-size:14px}
 @keyframes toastin{from{transform:translateY(-30px);opacity:0}}
 .medal{flex:none;width:52px;height:52px}
-.trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
-.badge{display:flex;gap:10px;align-items:center;background:var(--paper-2);border-radius:14px;padding:10px;min-width:0}
+#v-trophies{display:flex;flex-direction:column;gap:14px}
+#v-trophies h3{margin:0}
+.trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:12px}
+.badge{display:flex;gap:12px;align-items:center;background:var(--paper-2);border-radius:14px;padding:12px;min-width:0;min-height:88px;border:2px solid transparent}
+.badge>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .badge.got{background:#fff6d6;border:2px solid #f2b705}
 .badge.locked .medal{filter:grayscale(1);opacity:.45}
 .badge b{display:block;font-family:var(--display);font-weight:400;font-size:17px;line-height:1.1}
 .badge small{display:block;font-size:12px;font-weight:700;color:var(--ink-2);line-height:1.25}
-.bprog{height:7px;border-radius:4px;background:#d3daec;margin-top:4px;overflow:hidden}.bprog i{display:block;height:100%;background:var(--blue)}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;max-width:420px}
+.bprog{height:7px;border-radius:4px;background:#d3daec;margin-top:4px;overflow:hidden;width:100%}.bprog i{display:block;height:100%;background:var(--blue)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%}
 .cal .dh{font-size:12px;font-weight:800;color:var(--ink-2);text-align:center}
 .cal .d{aspect-ratio:1;border-radius:10px;background:var(--paper-2);display:grid;place-items:center;font-weight:800;font-size:14px;color:var(--ink-2)}
 .cal .d.on{background:linear-gradient(#ffd34a,#ff9a1f);color:#3a2600}
 .cal .d.today{outline:3px solid var(--accent);outline-offset:-3px}
 .cal .d.future{opacity:.35}
-.miles{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.mile{flex:1;min-width:120px;border-radius:14px;padding:10px;background:var(--paper-2);text-align:center;font-weight:800}
+.miles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.stk{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:24px;align-items:start;margin-top:14px}
+.stk h3{font-size:18px}
+.stk-top{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+@media (max-width:720px){.stk{grid-template-columns:1fr}.miles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mile{border-radius:14px;padding:12px 8px;background:var(--paper-2);text-align:center;font-weight:800;display:flex;flex-direction:column;gap:4px;justify-content:center;min-height:104px;border:2px solid transparent}
 .mile.done{background:#e8f6ec;border:2px solid #b5e2c3}.mile b{display:block;font-family:var(--display);font-weight:400;font-size:26px}
 .streakbig{font-family:var(--display);font-size:56px;line-height:1;color:var(--accent)}
 .stchip{display:flex;align-items:center;gap:5px;font-weight:800;font-size:14px;background:#fff1e8;border-radius:999px;padding:4px 10px;color:#b2410c}
@@ -108,10 +115,10 @@ function calendarHTML(){const set=new Set(S.days||[]);const t=new Date();const s
   return`<div class="cal">${h}</div>`}
 function renderTrophies(){ensureX();const n=streak(),got=BADGES.filter(b=>S.badges[b.id]).length,st=streakStart();
   $('#v-trophies').innerHTML=`<div class="panel"><div class="head"><button class="btn" id="back9">← Locker room</button><h2>Trophies & streak</h2><button class="btn blue" id="tostick" style="font-size:16px;padding:8px 14px;margin-left:auto">Make a sticker sheet</button></div></div>
-  <div class="panel"><div class="head"><div><div class="eyebrow">Daily streak</div><div class="streakbig">${n} day${n===1?'':'s'}</div><p class="note" style="margin:4px 0 0">Play a game or practice at least once a day to keep your streak going. Best ever: ${Math.max(n,S.ev.bestDays||0)} days.</p></div></div>
-    <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;align-items:flex-start">${calendarHTML()}<div style="flex:1;min-width:220px"><h3 style="font-size:18px">Streak rewards</h3>
+  <div class="panel"><div class="stk-top"><div><div class="eyebrow">Daily streak</div><div class="streakbig">${n} day${n===1?'':'s'}</div></div><p class="note" style="margin:0 0 6px;flex:1;min-width:220px">Play a game or practice at least once a day to keep your streak going. Best ever: ${Math.max(n,S.ev.bestDays||0)} days.</p></div>
+    <div class="stk"><div><h3 style="margin-bottom:8px">Last 5 weeks</h3>${calendarHTML()}</div><div><h3>Streak rewards</h3>
       <div class="miles">${STREAK_MILES.map(([d,p])=>{const done=st&&S.streakAward[d]===st;return`<div class="mile ${done?'done':''}"><b>${d} days</b>${p} free pack${p>1?'s':''}<br><small>${done?'✓ Earned this streak':n>=d?'Earned!':`${d-n} more day${d-n===1?'':'s'}`}</small></div>`}).join('')}</div></div></div></div>
-  <div class="panel"><h3 style="font-size:22px">Badges <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${BADGES.length}</small></h3><p class="note" style="margin:2px 0 0">Each new badge earns 20 coins.</p>
+  <div class="panel"><h3 style="font-size:22px;display:flex;align-items:baseline;gap:8px">Badges <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">${got} of ${BADGES.length}</small></h3><p class="note" style="margin:2px 0 0">Each new badge earns 20 coins.</p>
     <div class="trophy-grid">${BADGES.map(b=>{let v=0;try{v=b.val()||0}catch(e){}const has=!!S.badges[b.id];const pct=Math.min(100,Math.round(v/b.goal*100));
       return`<div class="badge ${has?'got':'locked'}">${medal(b.sym,has)}<div style="min-width:0"><b>${b.name}</b><small>${b.desc}</small>${has?'<small style="color:var(--good)">✓ Earned</small>':b.goal>1?`<div class="bprog"><i style="width:${pct}%"></i></div><small>${comma(Math.min(v,b.goal))} / ${comma(b.goal)}</small>`:''}</div></div>`}).join('')}</div></div>`;
   $('#back9').onclick=()=>{renderHome();show('home')};$('#tostick').onclick=stickerMenu}
